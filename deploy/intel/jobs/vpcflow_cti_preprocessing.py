@@ -4,18 +4,21 @@ import os
 sirens_home = spark.conf.get("sirens.home", None)
 if sirens_home is not None:
   os.chdir(sirens_home)
-
-
-
-# COMMAND ----------
-import dlt
+import databricks_sirens.fix_package_import
 
 # COMMAND ----------
+
 from databricks.sirens.utils.schema_utils import Schemas
+from databricks.sirens.utils.global_config import ConfigReader
 from databricks.sirens.modules import get_modules
+from databricks.sirens.utils.base_utils import BaseUtils
+from databricks.sirens.logging import get_logger
+logger = get_logger('threat_collection: '+os.path.basename(BaseUtils.get_notebook_path()))
 module = get_modules()
+logger.info("executing")
 
 # COMMAND ----------
+
 database = spark.conf.get('intel.database', Schemas.get_schema(module=module.THREAT_INTEL).name)
 
 # COMMAND ----------
@@ -25,72 +28,81 @@ interval_days  = int(spark.conf.get('vpcflow.threat.intel.lookback.interval_days
 
 # COMMAND ----------
 
+#@dlt.table(spark_conf={'pipelines.trigger.interval': '1 hour'})
+
+# COMMAND ----------
+
+from pyspark.sql import functions as F
+
 def flow_summary(tablename):
-    return spark.sql(f'''
-        SELECT 
-            accountName,
-            accountId,
-            region,
-            protocol,
-            pktDstAddr,
-            flowDirection,
-            collect_set(action) as actions,
-            collect_set(dstPort) as dstPorts,
-            SUM(count) AS count,
-            MIN(date) AS first_seen,
-            MAX(date) AS last_seen,
-            COUNT(DISTINCT date) AS num_days,
-            collect_set(srcAddr) as srcAddrs,
-            COLLECT_SET(pktDstAddr_asn.as_org) AS dstAsns,
-            COLLECT_SET(pktDstAddr_geo.country_code) AS dstCountryCodes,
-            COLLECT_SET(pktDstAddr_geo.city) AS dstCities,
-            array_distinct(flatten(collect_set(transform(tcpFlags, flag -> cast(flag as int))))) AS tcpFlags,
-            SUM(bytes) as bytes,
-            SUM(packets) as packets
-        FROM
-            {tablename}
-        WHERE
-            date > current_date - {interval_days} AND 
-            hour_ingestTimestamp > current_timestamp - INTERVAL {interval_hours} HOUR
-        GROUP BY 1,2,3,4,5,6
-    ''')
-
-@dlt.view()
-def ip_threat_intel():
-    return spark.read.table(f'{database}.curated_c2_ips')
-
-@dlt.view()
-def metacluster_flows():
-    return flow_summary(f'{database}.metacluster_flow_egress_summarized')
-
-@dlt.view()
-def nat_flows():
-    return flow_summary(f'{database}.nat_flow_egress_summarized')
-
-@dlt.view()
-def vpc_flows():
-    return flow_summary(f'{database}.vpc_flow_egress_summarized')
-
-@dlt.table(spark_conf={'pipelines.trigger.interval': '1 hour'})
-def metacluster_flow_egress_threat_intel_events():
-    cti = dlt.read('ip_threat_intel')
-    vpcflow = dlt.read('metacluster_flows')
-    return (
-        vpcflow.join(cti, on=(vpcflow.pktDstAddr == cti.ip))
+    df = spark.table(tablename)
+    current_date = F.current_date()
+    current_timestamp = F.current_timestamp()
+    return df.filter(
+        (F.col("date") > current_date - F.expr(f"{interval_days}")) &
+        (F.col("hour_ingestTimestamp") > current_timestamp - F.expr(f"INTERVAL {interval_hours} HOUR"))
+    ).groupBy(
+        "accountName", "accountId", "region", "protocol", "pktDstAddr", "flowDirection"
+    ).agg(
+        F.collect_set("action").alias("actions"),
+        F.collect_set("dstPort").alias("dstPorts"),
+        F.sum("count").alias("count"),
+        F.min("date").alias("first_seen"),
+        F.max("date").alias("last_seen"),
+        F.countDistinct("date").alias("num_days"),
+        F.collect_set("srcAddr").alias("srcAddrs"),
+        F.collect_set("pktDstAddr_asn.as_org").alias("dstAsns"),
+        F.collect_set("pktDstAddr_geo.country_code").alias("dstCountryCodes"),
+        F.collect_set("pktDstAddr_geo.city").alias("dstCities"),
+        F.array_distinct(F.flatten(F.collect_set(F.expr("transform(tcpFlags, flag -> cast(flag as int))")))).alias("tcpFlags"),
+        F.sum("bytes").alias("bytes"),
+        F.sum("packets").alias("packets")
     )
 
-@dlt.table(spark_conf={'pipelines.trigger.interval': '1 hour'})
-def nat_flow_egress_threat_intel_events():
-    cti = dlt.read('ip_threat_intel')
-    vpcflow = dlt.read('nat_flows')
-    return (
-        vpcflow.join(cti, on=(vpcflow.pktDstAddr == cti.ip))
-    )
+# COMMAND ----------
 
-@dlt.table(spark_conf={'pipelines.trigger.interval': '1 hour'})
-def vpc_flow_egress_threat_intel_events():
-    cti = dlt.read('ip_threat_intel')
-    vpcflow = dlt.read('vpc_flows')
-    return (
-        vpcflow.join(cti, on=(vpcflow.pktDstAddr == cti.ip))
-    )
+ip_threat_intel_df = spark.read.table(f'{database}.curated_c2_ips')
+metacluster_flows_df = flow_summary(f'{database}.metacluster_flow_egress_summarized')
+nat_flows_df = flow_summary(f'{database}.nat_flow_egress_summarized')
+vpc_flows_df = flow_summary(f'{database}.vpc_flow_egress_summarized')
+
+# COMMAND ----------
+
+TABLE = 'metacluster_flow_egress_threat_intel_events'
+checkpoint_dir = os.path.join(ConfigReader.get_config_key(ConfigReader.read(), "default", 'scratch_dir'), "checkpoints", database, "threat_intel", TABLE)
+
+metacluster_flow_egress_threat_intel_events_df = metacluster_flows_df.join(ip_threat_intel_df, on=(metacluster_flows_df.pktDstAddr == ip_threat_intel_df.ip))
+
+query = (metacluster_flow_egress_threat_intel_events_df.writeStream
+    .option("checkpointLocation", checkpoint_dir)
+    .trigger(once=True)
+    .toTable(f'{database}.{TABLE}')
+)
+
+# COMMAND ----------
+
+TABLE = 'nat_flow_egress_threat_intel_events'
+checkpoint_dir = os.path.join(ConfigReader.get_config_key(ConfigReader.read(), "default", 'scratch_dir'), "checkpoints", database, "threat_intel", TABLE)
+
+nat_flow_egress_threat_intel_events_df = nat_flows_df.join(ip_threat_intel_df, on=(nat_flows_df.pktDstAddr == ip_threat_intel_df.ip))
+
+query = (nat_flow_egress_threat_intel_events_df.writeStream
+    .option("checkpointLocation", checkpoint_dir)
+    .trigger(once=True)
+    .toTable(f'{database}.{TABLE}')
+)
+
+# COMMAND ----------
+
+TABLE = 'vpc_flow_egress_threat_intel_events'
+checkpoint_dir = os.path.join(ConfigReader.get_config_key(ConfigReader.read(), "default", 'scratch_dir'), "checkpoints", database, "threat_intel", TABLE)
+
+vpc_flow_egress_threat_intel_events_df =  vpc_flows_df.join(ip_threat_intel_df, on=(vpc_flows_df.pktDstAddr == ip_threat_intel_df.ip))
+
+query = (vpc_flow_egress_threat_intel_events_df.writeStream
+    .option("checkpointLocation", checkpoint_dir)
+    .trigger(once=True)
+    .toTable(f'{database}.{TABLE}')
+)
+query.awaitTermination()
+logger.info("completed")

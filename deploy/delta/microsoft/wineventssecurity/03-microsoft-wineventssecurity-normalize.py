@@ -1,0 +1,95 @@
+# Databricks notebook source
+# DBTITLE 1,Ensure we can read yaml files
+# MAGIC %pip install pyyaml inflection
+
+# COMMAND ----------
+
+# DBTITLE 1,Setup Widgets
+dbutils.widgets.text("database", '', label="database")
+dbutils.widgets.text("target_database", '', label="target database")
+dbutils.widgets.text("source", '',label="source")
+dbutils.widgets.text("sourcetype", '',label="sourcetype")
+
+# COMMAND ----------
+
+# DBTITLE 1,Read Widgets
+source=dbutils.widgets.get("source")
+sourcetype=dbutils.widgets.get("sourcetype")
+database=dbutils.widgets.get("database")
+target_database=dbutils.widgets.get("target_database")
+
+if source == '' or sourcetype == '' or database == '':
+    raise Exception('please pass parameters to multi-task job, or fill out notebook widget values')
+
+import databricks
+import os
+databricks.__path__.append(os.path.abspath("../../../../databricks"))
+
+# COMMAND ----------
+# DBTITLE 1,Set working directory to Sirens home
+import os
+
+sirens_home = spark.conf.get("sirens.home", None)
+
+if sirens_home is not None:
+  os.chdir(sirens_home)
+
+# COMMAND ----------
+
+# DBTITLE 1,Imports
+import json
+from databricks.sirens.datasource import DataSource
+from databricks.sirens.utils.base_utils import *
+from databricks.sirens import connectors
+from databricks.sirens import normalize
+from databricks.sirens.enrichments import Enrichment
+from databricks.sirens.expectations import Expectations
+from databricks.sirens.logging import get_logger
+logger = get_logger(__name__)
+
+
+# COMMAND ----------
+
+# DBTITLE 1,Create an Instance of DataSource and read config
+dataSourceObj = DataSource(spark, database, source, sourcetype, target_database=target_database)
+config = dataSourceObj.read()
+logger.info(f"working on: {config.get('input').get('sourcetype')} in {config.get('input').get('streamType')} mode")
+
+# COMMAND ----------
+
+# DBTITLE 1,create delta reader/writer objects
+delta_reader = connectors.Reader('readDelta', spark, dataSourceObj)
+delta_writer = connectors.Writer('writeDelta', spark, dataSourceObj)
+
+# COMMAND ----------
+
+# DBTITLE 1,Read bronze delta table, and step through event_type transforms into silver cim tables
+normalizer = normalize.Normalizer(spark, dataSourceObj)
+
+# Read silver delta table
+silver_df = delta_reader.read(dataSourceObj.silver_table_name)
+
+try:
+    table_tranformations = config.get("transforms").get("silver").get("event_type")
+
+    for et in table_tranformations:
+        target_table = et.get("target_table")
+        framework = dataSourceObj.get_framework(target_table=target_table)
+    
+        # filter events as defined in event_type filter
+        df = normalizer.filter_frame(df=silver_df, target_table=target_table)
+    
+        # transform events as defined in event_type transforms
+        df = normalizer.transform_frame(df=df, target_table=target_table)
+        df = Enrichment(dataSourceObj).add_stage(df, 'silver')
+    
+        table_name = target_table
+        # add framework suffix to table name if required.
+        if 'ocsf' in framework:
+            table_name = f"{table_name}_{framework}"
+        
+        delta_writer.write(df, table_name)
+
+except AttributeError as exc:
+    logger.info(f"pipeline_run_id={self.pipeline_run_id} message=No CIM transformations found")
+    pass

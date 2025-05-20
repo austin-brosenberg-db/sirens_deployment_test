@@ -9,15 +9,10 @@ from pathlib import Path
 sirens_home = spark.conf.get("sirens.home", None)
 if sirens_home is not None:
   os.chdir(sirens_home)
-
-
+import databricks_sirens.fix_package_import
 
 DNS_RESOLVER_PARALLELISM = int(spark.conf.get('dns.resolver.parallelism', '50'))
 DNS_RESOLVER_TIMEOUT_SEC = int(spark.conf.get('dns.resolver.timeout_sec', '3'))
-
-# COMMAND ----------
-
-import dlt
 
 # COMMAND ----------
 
@@ -30,9 +25,19 @@ from databricks.sirens.utils.schema_utils import Schemas
 from databricks.sirens.utils.global_config import ConfigReader
 from databricks.sirens.exceptions import SirensConfigException
 from databricks.sirens.modules import get_modules
+from databricks.sirens.utils.base_utils import BaseUtils
+from databricks.sirens.logging import get_logger
 module = get_modules()
+logger = get_logger('threat_collection: '+os.path.basename(BaseUtils.get_notebook_path()))
+logger.info("executing")
 
 # COMMAND ----------
+
+sirens_home = "/Workspace/Repos/derek.king@databricks.com/databricks-sirens/"
+spark.conf.set("sirens.home", '/Workspace/Repos/derek.king@databricks.com/databricks-sirens/')
+
+# COMMAND ----------
+
 database = spark.conf.get('intel.database', Schemas.get_schema(module=module.THREAT_INTEL).name)
 
 maxmind_loc = ConfigReader.get_config_key(ConfigReader.read(), "schema:threat_intel", "maxmind_db_location")
@@ -65,43 +70,36 @@ else:
 
 # COMMAND ----------
 
-cloud_ranges_records = spark.sql(f'''
-    WITH most_recent AS (
-        SELECT
-            provider, 
-            MAX(date) as date
-        FROM
-            {database}.cloud_ranges
-        GROUP BY 1
+def get_cloud_ranges():
+    from pyspark.sql import functions as F
+
+    # Create DataFrame for the cloud_ranges table
+    cloud_ranges_df = spark.table(f"{database}.cloud_ranges")
+
+    # Create the most_recent DataFrame
+    most_recent_df = cloud_ranges_df.groupBy("provider").agg(F.max("date").alias("date"))
+
+    # Join the cloud_ranges_df with most_recent_df
+    joined_df = cloud_ranges_df.alias("r").join(
+        most_recent_df.alias("m"),
+        (cloud_ranges_df["provider"] == most_recent_df["provider"]) & (cloud_ranges_df["date"] == most_recent_df["date"])
     )
-    SELECT 
-        r.ip_prefix,
-        r.provider,
-        r.region,
-        r.service
-    FROM
-        {database}.cloud_ranges r 
-            JOIN most_recent m 
-                ON (r.provider=m.provider AND r.date=m.date)
-    WHERE
-        type = 4
-    ''').collect()
+
+    # Filter by type and select required columns
+    return joined_df.filter(joined_df["type"] == 4).select("r.ip_prefix", "r.provider", "r.region", "r.service").collect()
+
+cloud_ranges_records = get_cloud_ranges()
 
 
 # COMMAND ----------
 
-asn_enricher = ASNEnrichment(
-  spark.sparkContext, 
-  asn_db, 
-  ip_column_name_or_expr=None,
-  use_dbfs_directly=True
-)
-
 geo_enricher = GeoIPEnrichment(
-  spark.sparkContext, 
   city_db, 
-  ip_column_name_or_expr=None,
-  use_dbfs_directly=True
+  ip_column_name_or_expr='geo'
+)
+asn_enricher = ASNEnrichment(
+    asn_db,
+    ip_column_name_or_expr=None
 )
 
 dns_enricher = DnsResolutionEnrichment(
@@ -134,195 +132,120 @@ cdn_enricher = CdnEnrichment(
     dest_column_name=None
 )
 
-spark.udf.register('geo_info', geo_enricher.create_pandas_udf_function())
-spark.udf.register('asn_info', asn_enricher.create_pandas_udf_function())
-spark.udf.register('rdns_resolve', rdns_enricher.create_pandas_udf_function())
-spark.udf.register('dns_resolve', dns_enricher.create_pandas_udf_function())
-spark.udf.register('tld_extract', tldextract_enricher.create_pandas_udf_function())
-spark.udf.register('cloud_ranges', cloud_ranges_enrichment.create_pandas_udf_function())
-spark.udf.register('cdn_extract', cdn_enricher.create_pandas_udf_function())
+geo_info = geo_enricher.create_pandas_udf_function()
+asn_info = asn_enricher.create_pandas_udf_function()
+
+rdns_resolve = rdns_enricher.create_pandas_udf_function()
+dns_resolve = dns_enricher.create_pandas_udf_function()
+tld_extract = tldextract_enricher.create_pandas_udf_function()
+cloud_ranges = cloud_ranges_enrichment.create_pandas_udf_function()
+cdn_extract = cdn_enricher.create_pandas_udf_function()
 
 # COMMAND ----------
 
 def enrich(df):
-    df.createOrReplaceTempView('intel')
-    results = spark.sql('''
-        WITH with_domain AS (
-            SELECT 
-                *,
-                CASE 
-                    WHEN `type` = 'domain'
-                        THEN indicator
-                    WHEN (`type` = 'url' AND indicator NOT RLIKE 'https?://\\\\d{1,3}\\\\.\\\\d{1,3}\\\\.\\\\d{1,3}\\\\.\\\\d{1,3}' AND indicator RLIKE 'https?://([^/]+)' )
-                        THEN REGEXP_EXTRACT(indicator, 'https?://([^/]+)', 1)
-                    ELSE
-                        NULL
-                END as _domain            
-            FROM 
-                intel
-        ),
-        with_ips AS (
-            SELECT
-                *,
-                CASE 
-                    WHEN _domain IS NOT NULL 
-                        THEN dns_resolve(_domain)
-                    WHEN `type` = 'ip' 
-                        THEN array(indicator)
-                    WHEN `type` = 'url' AND indicator RLIKE 'https?://\\\\d{1,3}\\\\.\\\\d{1,3}\\\\.\\\\d{1,3}\\\\.\\\\d{1,3}'
-                        THEN array(REGEXP_EXTRACT(indicator, 'https?://(\\\\d{1,3}\\\\.\\\\d{1,3}\\\\.\\\\d{1,3}\\\\.\\\\d{1,3})', 1))
-                    ELSE
-                        array()
-                END as _ips
-            FROM
-                with_domain
-        ),
-        tld_cdn_extracted AS (
-            SELECT
-                *,
-                tld_extract(_domain) as _domain_tld,
-                cdn_extract(_domain) as _domain_cdn
-            FROM
-                with_ips
-        ),
-        domain_enriched AS (
-            SELECT 
-                *,
-                named_struct(
-                  'suffix', _domain_tld.suffix,
-                  'registered_domain', _domain_tld.registered_domain,
-                  'subdomain', _domain_tld.subdomain,
-                  'cdn_name', _domain_cdn.cdn_name,
-                  'cdn_pattern', _domain_cdn.cdn_pattern
-                ) AS domain_enrichment
-            FROM 
-                tld_cdn_extracted
-        ),
-        exploded AS (
-            SELECT 
-                *,
-                explode_outer(_ips) as _ip 
-            FROM 
-                domain_enriched
-        ),
-        ip_enriched AS (
-            SELECT 
-                *,
-                geo_info(_ip) AS _geo,
-                asn_info(_ip) AS _asn,
-                rdns_resolve(_ip) as _rdns,
-                cloud_ranges(_ip) as _cloud_ranges
-            FROM 
-                exploded
-        ),
-        cdn_enriched AS (
-            SELECT
-                *,
-                cdn_extract(_rdns) as _rdns_cdn
-            FROM
-                ip_enriched
-        ),
-        formatted AS (
-            SELECT 
-                named_struct(
-                    'ip', _ip,
-                    'rdns', _rdns,
-                    'asn', _asn.as_number,
-                    'asname', _asn.as_org,
-                    'country', _geo.country,
-                    'city', _geo.city,
-                    'latitude', _geo.latitude,
-                    'longitude', _geo.longitude,
-                    'cloud_prefix', _cloud_ranges.ip_prefix,
-                    'cloud_provider', _cloud_ranges.provider,
-                    'cloud_service', _cloud_ranges.service,
-                    'cloud_region', _cloud_ranges.region,
-                    'cdn_name', _rdns_cdn.cdn_name,
-                    'cdn_pattern', _rdns_cdn.cdn_pattern
-                ) as _ip_enrichment_item,
-                *
-            FROM 
-               cdn_enriched
-        )
-        SELECT * 
-        FROM 
-            formatted
-    ''')
+      from pyspark.sql.functions import expr, when, array, explode_outer, regexp_extract
 
-    return results
-    
+      # Define the initial transformations
+      with_domain = df.withColumn("_domain", 
+                              when(df['type'] == 'domain', df.indicator)
+                              .when((df['type'] == 'url') & (~df.indicator.rlike('https?://\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}')) & (df.indicator.rlike('https?://([^/]+)')), 
+                                    regexp_extract(df.indicator, 'https?://([^/]+)', 1))
+                              .otherwise(None))
+
+      # Apply DNS resolution and handle IPs
+      with_ips = with_domain.withColumn("_ips", 
+                                    when(with_domain["_domain"].isNotNull(), dns_resolve("_domain"))
+                                    .when(df['type'] == 'ip', array(df.indicator))
+                                    .when((df['type'] == 'url') & (df.indicator.rlike('https?://\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}')), 
+                                          array(regexp_extract(df.indicator, 'https?://(\\d{1,3}\\.\\d{1,3}\\.\\d{1,3}\\.\\d{1,3})', 1)))
+                                    .otherwise(array()))
+
+      # Extract TLD and CDN information
+      tld_cdn_extracted = with_ips.withColumn("_domain_tld", tld_extract("_domain"))\
+                              .withColumn("_domain_cdn", cdn_extract("_domain"))
+
+      # Enrich domain information
+      domain_enriched = tld_cdn_extracted.withColumn("domain_enrichment", 
+                                                expr("named_struct('suffix', _domain_tld.suffix, 'registered_domain', _domain_tld.registered_domain, 'subdomain', _domain_tld.subdomain, 'cdn_name', _domain_cdn.cdn_name, 'cdn_pattern', _domain_cdn.cdn_pattern)"))
+
+      # Explode IPs for further enrichment
+      exploded = domain_enriched.withColumn("_ip", explode_outer("_ips"))
+
+      # Enrich IP information
+      ip_enriched = exploded.withColumn("_geo", geo_info("_ip"))\
+                        .withColumn("_asn", asn_info("_ip"))\
+                        .withColumn("_rdns", rdns_resolve("_ip"))\
+                        .withColumn("_cloud_ranges", cloud_ranges("_ip"))
+
+      # Enrich CDN information based on rDNS
+      cdn_enriched = ip_enriched.withColumn("_rdns_cdn", cdn_extract("_rdns"))
+
+      # Format the final output
+      formatted = cdn_enriched.withColumn("_ip_enrichment_item", 
+                                          expr("named_struct('ip', _ip, 'rdns', _rdns, 'asn', _asn.as_number, 'asname', _asn.as_org, 'country', _geo.country, 'city', _geo.city, 'latitude', _geo.latitude, 'longitude', _geo.longitude, 'cloud_prefix', _cloud_ranges.ip_prefix, 'cloud_provider', _cloud_ranges.provider, 'cloud_service', _cloud_ranges.service, 'cloud_region', _cloud_ranges.region, 'cdn_name', _rdns_cdn.cdn_name, 'cdn_pattern', _rdns_cdn.cdn_pattern)"))
+
+      return formatted
 
 # COMMAND ----------
 
-@dlt.table()
-def intelligence_enriched():
-    df = dlt.readStream('intelligence_staging')
-    return enrich(df)
+TABLE='intelligence_enriched'
+checkpoint_dir = os.path.join(ConfigReader.get_config_key(ConfigReader.read(), "default", 'scratch_dir'), "checkpoints", database, "threat_intel", TABLE)
+
+# Read the stream from the 'intelligence_staging' Delta table
+enriched_df = enrich(spark.readStream.table(f"{database}.staging"))
+query = (enriched_df.writeStream
+        .option("checkpointLocation", checkpoint_dir)
+        .trigger(once=True)
+        .toTable(f'{database}.{TABLE}')
+    )
+query.awaitTermination()
 
 # COMMAND ----------
 
-@dlt.table(spark_conf={'pipelines.trigger.interval': '5 minutes'})
-def intelligence():
-    spark.conf.set("spark.sql.mapKeyDedupPolicy","LAST_WIN")
-    return spark.sql('''
-        with unexploded AS (
-            SELECT
-                indicator,
-                type,
-                indicator_type,
-                source,
-                source_locator,
-                tlp,
-                tags,
-                TO_JSON(flags) as flags, 
-                TO_JSON(context) as context, 
-                date_first, 
-                date_last, 
-                _collection_ts,
-                _raw_record,
-                FIRST(domain_enrichment) as domain_enrichment,
-                FILTER(collect_set(_ip_enrichment_item), e -> e.ip IS NOT NULL) as ip_enrichment
-            FROM 
-                LIVE.intelligence_enriched
-            GROUP BY 1,2,3,4,5,6,7,8,9,10,11,12,13
-        ),
-        final AS (
-            SELECT
-                indicator,
-                type,
-                indicator_type,
-                source,
-                source_locator,
-                tlp,
-                tags,
-                FROM_JSON(flags, 'map<string,string>') as flags,
-                FROM_JSON(context, 'map<string,string>') as context,
-                date_first,
-                date_last,
-                ip_enrichment,
-                domain_enrichment,
-                _collection_ts as collection_ts,
-                _raw_record as raw_record
-            FROM
-                unexploded
-        )
-        SELECT 
-            indicator,
-            type,
-            COUNT(1) as count,
-            collect_set(indicator_type) as indicator_types,
-            collect_set(source) as sources,
-            collect_set(source || ':' || source_locator) as source_locator,
-            collect_set(tlp) as tlps,
-            array_distinct(flatten(collect_set(tags))) as tags,
-            aggregate(collect_list(context), FROM_JSON('{}', 'map<string,string>'), (acc, context) -> map_concat(acc, context)) as context,
-            MIN(date_first) as date_first,
-            MAX(date_last) as date_last,
-            array_distinct(flatten(collect_set(ip_enrichment))) as ip_enrichment,
-            FIRST(domain_enrichment) as domain_enrichment,
-            MIN(collection_ts) as min_collection_ts,
-            MAX(collection_ts) as max_collection_ts
-        FROM 
-            final
-        GROUP BY 1,2
-    ''')
+from pyspark.sql import functions as F
+from pyspark.sql.types import StringType, MapType
+spark.conf.set("spark.sql.mapKeyDedupPolicy","LAST_WIN")
+
+# Read the enriched intelligence data
+df = spark.read.table(f"{database}.intelligence_enriched")
+
+# Unexploded DataFrame
+unexploded = df.groupBy(
+    "indicator", "type", "indicator_type", "source", "source_locator", "tlp", "tags",
+    F.to_json("flags").alias("flags"), F.to_json("context").alias("context"),
+    "date_first", "date_last", "_collection_ts", "_raw_record"
+).agg(
+    F.first("domain_enrichment").alias("domain_enrichment"),
+    F.expr("filter(collect_set(_ip_enrichment_item), e -> e.ip IS NOT NULL)").alias("ip_enrichment")
+)
+
+# Final DataFrame
+final = unexploded.select(
+    "indicator", "type", "indicator_type", "source", "source_locator", "tlp", "tags",
+    F.from_json("flags", MapType(StringType(), StringType())).alias("flags"),
+    F.from_json("context", MapType(StringType(), StringType())).alias("context"),
+    "date_first", "date_last", "ip_enrichment", "domain_enrichment",
+    F.col("_collection_ts").alias("collection_ts"),
+    F.col("_raw_record").alias("raw_record")
+)
+
+# Aggregated DataFrame
+aggregated = final.groupBy("indicator", "type").agg(
+    F.count("*").alias("count"),
+    F.collect_set("indicator_type").alias("indicator_types"),
+    F.collect_set(F.concat_ws(":", "source", "source_locator")).alias("source_locator"),
+    F.collect_set("tlp").alias("tlps"),
+    F.array_distinct(F.flatten(F.collect_set("tags"))).alias("tags"),
+    F.expr("aggregate(collect_list(context), cast(map() as map<string,string>), (acc, context) -> map_concat(acc, context))").alias("context"),
+    F.min("date_first").alias("date_first"),
+    F.max("date_last").alias("date_last"),
+    F.array_distinct(F.flatten(F.collect_set("ip_enrichment"))).alias("ip_enrichment"),
+    F.first("domain_enrichment").alias("domain_enrichment"),
+    F.min("collection_ts").alias("min_collection_ts"),
+    F.max("collection_ts").alias("max_collection_ts")
+)
+
+# COMMAND ----------
+
+aggregated.write.mode("overwrite").saveAsTable(f"{database}.intelligence")
