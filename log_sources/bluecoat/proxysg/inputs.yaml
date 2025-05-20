@@ -1,0 +1,149 @@
+config:
+  version: 1.0
+  updated: 2022-09-27
+  author: Derek King
+  description: Bluecoat ProxySG logs (W3C ELFF format)
+input:
+  source: bluecoat
+  sourcetype: proxysg
+  parser: bluecoat_proxy_sg_w3c
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/bluecoat/proxysg
+  rawSchemaFile: schema.json
+  host: proxysg_01
+  connector:
+    name: autoloader
+    options:
+      cloudFiles.format: csv
+      #cloudFiles.schemaEvolutionMode: addNewColumns
+      cloudFiles.schemaLocation: dbfs:/FileStore/sirens_dev/schemas/bluecoat_proxy_sg
+      sep: " "
+      header: false
+      comment: "#"
+  streamType: streaming
+transforms:
+  bronze:
+    meta:
+      timestamp_column: "_c0"
+  silver:
+    event_type:
+     - target_table: web
+       filter: _sourcetype = "proxysg"
+       fields:
+        - _event_date:
+            action: copy
+        - _event_time:
+            action: copy
+        - _sourcetype:
+            action: copy
+        - _source:
+            action: copy
+        - dvc_hostname:
+            action: copy
+        - event_type:
+            action: add
+            type: literal
+            value: HTTPsession
+        - event_sub_type:
+            action: alias
+            value: sc_filter_result
+        - event_message:
+            action: add
+            type: literal
+            value: Web Resource Request
+        - event_original_result:
+            action: alias
+            value: s_action
+        - event_result:
+            action: add
+            type: expression
+            value: case when (s_action == "ALLOWED" or s_action == "TUNNELLED" or s_action == "TCP_" or s_action == "TCP_AUTH_HIT" or s_action == "TCP_AUTH_REDIRECT" or s_action == "TCP_HIT" or s_action == "TCP_MEM_HIT" or s_action == "TCP_POLICY_REDIRECT" or s_action == "TCP_REFRESH_HIT" or s_action == "TCP_RESCAN_HIT" or s_action == "TCP_SPLASHED" or s_action == "TCP_TUNNELLED" or s_action == "UDP_" or s_action == "UDP_HIT" or s_action == "UDP_OBJ") then "Success" when (s_action == "DENIED" or s_action == "FAILED" or s_action == "LICENSE_EXPIRED" or s_action == "TCP_AUTH_MISS" or s_action == "TCP_DENIED" or s_action == "TCP_ERR_MISS" or s_action == "TCP_DENIED" or s_action == "TCP_ERR_MISS" or s_action == "TCP_LOOP" or s_action == "TCP_MISS" or s_action == "TCP_NC_MISS" or s_action == "TCP_PARTIAL_MISS" or s_action == "TCP_PARTIAL_MISS" or s_action == "TCP_REFRESH_MISS" or s_action == "UDP_MISS_NOFETCH") then "Failure" else "unknown" end
+        - event_schema_file:
+            action: add
+            type: literal
+            value: web
+        - event_severity:
+            action: add
+            type: literal
+            value: Informational
+        - url:
+            action: add
+            type: expression
+            value: concat(cs_uri_scheme, '://', cs_host, cs_uri_path, case when cs_uri_query != "-" then cs_uri_query else "" end)
+        - url_category:
+            action: add
+            type: expression
+            value: case when (cs_categories != "-") then cs_categories else 'unknown' end
+        - http_request_method:
+            action: alias
+            value: cs_method
+        - http_status_code:
+            action: alias
+            value: sc_status
+        - http_content_type:
+            action: alias
+            value: rs_Content_Type
+        - http_content_format:
+            action: alias
+            value: rs_Content_Type
+        - http_referrer:
+            action: alias
+            value: cs_Referer
+        - http_user_agent:
+            action: alias
+            value: cs_User_Agent
+        - network_duration:
+            action: alias
+            value: time_taken
+        - src_ip:
+            action: alias
+            value: s_ip
+        - dest_ip:
+            action: alias
+            value: c_ip
+        - src_port:
+            action: add
+            type: literal
+            value: unknown
+        - dest_port:
+            action: alias
+            value: cs_uri_port
+        - dest_user_name:
+            action: alias
+            value: cs_username
+        - dst:
+            action: alias
+            value: dvc_hostname
+        - network_session_id:
+            action: add
+            type: expression
+            value: concat_ws("_", c_ip, cs_uri_port, s_ip)
+        - network_bytes:
+            action: add
+            type: expression
+            value: (cs_bytes + sc_bytes)
+        - src:
+            action: alias
+            value: s_ip
+        - src_bytes:
+            action: alias
+            value: cs_bytes
+        - dest_bytes:
+            action: alias
+            value: sc_bytes
+        - network_application: 
+            action: alias
+            value: cs_uri_scheme
+        - threat_id:
+            action: alias
+            value: x_virus_id
+        - threat_name:
+            action: alias
+            value: x_bluecoat_application_name
+        - event_product:
+            action: add
+            type: literal
+            value: proxysg
+        - event_vendor:
+            action: add
+            type: literal
+            value: bluecoat

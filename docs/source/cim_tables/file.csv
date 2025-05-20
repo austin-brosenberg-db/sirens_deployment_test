@@ -1,0 +1,41 @@
+FieldName,Data Type,Type,Description,Allowed Values,Example
+_event_date,date,mandatory,The date of the original event,,2022-11-28
+_event_time,timestamp,mandatory,The timestamp of the original event,,
+_source,string,mandatory,The source of the data ingested,,
+_sourcetype,string,mandatory,The sourcetype of data ingested,,
+acting_process_command_line,string,recommended,The command line used to execute the process,,evil-winrm -i 192.168.1.100
+acting_process_guid,string,optional,The globally unique id of the acting process,,{a23eae89-b357-5903-0000-002005eb0700}
+acting_process_id,bigint,recommended,The process id of the acting process,,13220
+acting_process_name,string,recommended,The name of the acting process,,C:\Windows\explorer.exe
+actor_user_id,string,optional,The unique id of the actor,,S-1-5-18
+actor_user_name,string,recommended,The username that initiated the event,,contoso\mallory.park
+dest_hostname,string,optional,if the file was transferred over a network this should show the host(s) the data travelled to,,desktop-1024
+event_message,string,recommended,Details of the event either from the record or generated,,
+event_result,string,recommended,The result of the event reported. Normalised to one of the examples,"Success, Failure, Unknown",
+event_schema_file,string,optional,The version of CIM model used to create this dataset. Literal string assigned by the data engineer,,file_v1
+event_severity,string,recommended,"The severity of the event, normalized to one of example","Informational, Low, Medium, High",
+event_type,string,recommended,Describes the operation reported by the event,"FileAccessed, FileCreated, FileModified, FileDeleted, FileRenamed, FileCopied, FileMoved, FolderCreated, FolderDeleted",
+file_source,string,optional,"identification of the source of the file. ie Network, local path",,c:\Users\mallory\temp
+hash,string,optional,alias from best available hash,,
+hash_type,string,optional,The type of hash stored in hash field,,
+http_user_agent,string,optional,The user agent if the activity is remote over http(s),,Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion
+process,string,recommended,alias from acting_process_name,,alias from acting_process_name
+src_file_creation_time,string,optional,The time the source file was created,,2022-11-28 11:34:23
+src_file_extension,string,optional,The source file extension,,"exe, html, gzip"
+src_file_hash_md5,string,optional,The MD5 hash of the src_file_name,,373e7a863a1a345c60edb9e20ec32311
+src_file_hash_sha256,string,optional,The SHA256 hash of the src_file_name,,ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c
+src_file_mime_type,string,optional,"if this file was reported through network inspection, the mime_type may be available.",,"application/x-bzip, application/gzip"
+src_file_name,string,recommended,The full name of the source file,,"a.exe, image.html"
+src_file_path,string,optional,The file path of the source_file_name without the src_file_name part,,C:\Windows\Users\temp\
+src_hostname,string,option,"if the file was transferred over a network path, this should show the host the data was sourced from",,desktop-1023
+src_ip_addr,string,optional,the IP address of the source,,10.10.101.10
+target_file_creation_time,string,optional,The time the target file was created,,2022-11-28 11:34:23
+target_file_extension,string,optional,The target file extension,,"exe, html, gzip"
+target_file_hash_md5,string,optional,The MD5 hash of the target_file_name,,373e7a863a1a345c60edb9e20ec32311
+target_file_hash_sha256,string,optional,The SHA256 hash of the target_file_name,,ef537f25c895bfa782526529a9b63d97aa631564d5d789c2b765448c8635fb6c
+target_file_name,string,recommended,The full name of the target file,,"a.exe, image.html"
+target_file_path,string,optional,The file path of the target_file_name without the target_file_name part,,C:\Windows\Users\temp\
+target_file_size,string,optional,The size in bytes of the target_file_name,,64234
+user,string,optional,alias from actor_user_name,,
+dest,string,mandatory,alias from dest_hostname or dvc_hostname,,
+src,string,optional,"alias from src_hostname/src_ip_addr if over network, or dest if local",,

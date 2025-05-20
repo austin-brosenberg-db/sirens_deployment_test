@@ -1,0 +1,58 @@
+name: directory_traversal
+summary: Possible Directory Traversal
+severity: medium
+source: access_combined
+sourceDetails: 
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <_event_time>
+actor:
+  type: USER
+  domain: <host>
+  id: <user>
+  beliefCompromised: 0.1
+target:
+  type: INFRASTRUCTURE
+  domain: dvc_hostname
+  id: 
+  role: 
+  beliefCompromised: 0.2
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: DISCOVERY
+    techniqueId: T1083
+    technique: File and Directory Discovery
+    subtechniqueId: 
+    subtechnique: 
+observables:
+  ipAddresses:
+  - <host>
+  domains: []
+  fileHashes: []
+  urls:
+  - <path>
+context:
+  who: <user> at <host>
+  path: <path>
+  code: <code>
+filter: |-
+  exists(query_parameters, x -> 
+   lower(x) rlike '(?:(?:\\/|\\\\)?\\.+)+|(?:\\w+\\.\\w{3})+'
+  )
+test_cases:
+- test_name: expected hit
+  expected_result: true
+  expected_summary: Possible Directory Traversal
+  # expected_context: {}
+  test_input:
+    {
+        "path": "/path/to/file?input=..%2F..%2Fdata%2Ftest.xml",
+        "query_parameters": [ "input=../../data/test.xml" ],
+        "_event_time": "2022-01-01 00:00:00",
+        "user": "-",
+        "host": "192.168.1.100",
+        "referer": "http://192.168.1.1/foo.html",
+        "code": 200
+    
+    }

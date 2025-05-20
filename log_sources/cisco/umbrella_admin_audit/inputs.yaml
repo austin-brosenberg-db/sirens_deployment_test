@@ -1,0 +1,28 @@
+config:
+  version: 1.0
+  updated: 2024-09-20
+  author: Garrett R Peternel
+  description: Cisco Umbrella Admin Audit (https://docs.umbrella.com/deployment-umbrella/docs/admin-audit-log-formats)
+input:
+  source: cisco
+  sourcetype: umbrella_admin_audit
+  parser: cisco_umbrella
+  rawPath: s3://<path_to_dir>/ # change me [required]
+  host: umbrella
+  connector:
+    name: autoloader  # json|kafka|csv|txt|autoloader [required]
+    options:
+      cloudFiles.format: text
+      cloudFiles.includeExistingFiles: true
+  streamType: streaming # batch|streaming [required]
+transforms:
+  bronze:
+    meta:
+      timestamp_column: value
+      timestamp_regex: '(\d+-\d+-\d+\s+\d+:\d+:\d+)'
+      timestamp_regex_group: 0
+      timestamp_format: 'yyyy-MM-dd HH:mm:ss'
+  silver:
+    meta:
+      source: cisco
+      sourcetype: umbrella_admin_audit

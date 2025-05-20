@@ -1,0 +1,1 @@
+{"ts":1666025123.084424,"uid":"CAb2keV7JjBPKaMx9","id.orig_h":"10.10.17.101","id.orig_p":62636,"id.resp_h":"10.10.17.1","id.resp_p":53,"proto":"udp","service":"dns","duration":0.22529292106628419,"orig_bytes":45,"resp_bytes":61,"conn_state":"SF","missed_bytes":0,"history":"Dd","orig_pkts":1,"orig_ip_bytes":73,"resp_pkts":1,"resp_ip_bytes":89}

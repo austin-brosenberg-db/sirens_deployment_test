@@ -1,0 +1,60 @@
+name: root_console_login
+summary: Root login at AWS account <userIdentity.accountId> from <sourceIPAddress>
+severity: high
+source: cloudtrail
+sourceDetails: 
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <timestamp>
+actor:
+  type: USER
+  domain: userIdentity.accountId
+  id: userIdentity.arn
+  role: 
+  beliefCompromised: 0.5
+target:
+  type: INFRASTRUCTURE
+  domain: recipientAccountId
+  id: 
+  role: 
+  beliefCompromised: 0.5
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: PRIVILEGE_ESCALATION
+    techniqueId: T1078
+    technique: Valid Accounts
+    subtechniqueId: T1078.004
+    subtechnique: Cloud Accounts
+observables:
+  ipAddresses:
+  - '[ipAddress]'
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  requestorArn: <userIdentity.arn>
+filter: |-
+  userIdentity.type = 'Root'
+  AND eventType != 'AwsServiceEvent'
+  AND userIdentity.invokedBy is null
+  AND eventName = 'ConsoleLogin'
+test_cases:
+- test_name: expected hit
+  expected_result: true
+  expected_summary: Root login at AWS account 1234567890 from 1.2.3.4
+  expected_severity: high
+  # expected_context: {}
+  test_input:
+    {
+      "timestamp": "2022-01-01 00:00:00",
+      "eventName": "ConsoleLogin",
+      "eventType": "_",
+      "userIdentity": {
+          "arn": "arn:aws:iam::123456789012:user/Alice",
+          "accountId": "1234567890",
+          "invokedBy": null,
+          "type": "Root"
+      },
+      "sourceIPAddress": "1.2.3.4"
+    }

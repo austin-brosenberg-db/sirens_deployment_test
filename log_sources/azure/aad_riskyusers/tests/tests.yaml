@@ -1,0 +1,24 @@
+test_cases:
+  - name: aad_riskyusers
+    connector: json
+    sample: AADRiskyUsers.json
+    transforms:
+      bronze:
+        expected_columns: _event_time, _event_date, _ingest_time, _source, _sourcetype, dvc_hostname, _source_file, CorrelationId, Id, IsDeleted, IsProcessing, OperationName, RiskDetail, RiskLastUpdatedDateTime, RiskLevel, RiskState, SourceSystem, TenantId, TimeGenerated, Type, UserDisplayName, UserPrincipalName, _BilledSize, _IsBillable, _rescued_data
+        expected_values:
+          - _source: 'azure'
+          - _sourcetype: 'aad_riskyusers'
+      silver:
+        expected_columns: _event_time, _event_date, _ingest_time, _source, _sourcetype, dvc_hostname, _source_file, CorrelationId, Id, IsDeleted, IsProcessing, OperationName, RiskDetail, RiskLastUpdatedDateTime, RiskLevel, RiskState, SourceSystem, TenantId, TimeGenerated, Type, UserDisplayName, UserPrincipalName, _BilledSize, _IsBillable, _rescued_data, LastName, FirstName, Location
+        expected_values:
+          - dvc_hostname: 'AzureAD'
+          - SourceSystem: 'Azure'
+      normalized:
+        authentication:
+          expected_columns: _event_date, _event_time, _source, _sourcetype, dvc_hostname, email_addr, event_message, event_original_severity, event_product, event_result, event_schema_file, event_severity, event_sub_type, event_type, event_vendor, login_id, logon_guid, target_user_name, user
+          expected_values:
+            - event_type: 'Logon'
+        user_management:
+          expected_columns: _event_date, _event_time, _source, _sourcetype, actor_user_type, dvc_hostname, email_addr, event_message, event_original_severity, event_product, event_result, event_schema_file, event_severity, event_type, event_vendor, user
+          expected_values:
+            - event_product: 'azureAD'

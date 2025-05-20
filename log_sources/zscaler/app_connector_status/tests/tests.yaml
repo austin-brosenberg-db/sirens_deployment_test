@@ -1,0 +1,17 @@
+test_cases:
+  - name: zscaler_users
+    connector: json
+    sample: app_connector_status.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, SessionID
+        expected_values:
+          - _event_date: '2019-07-03'
+          - _sourcetype: 'app_connector_status'
+          - SessionID: '8A64Qwj9zCkfYDGJVoUZ'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, PublicIP, Platform
+        expected_values:
+         - ZEN: 'US-NY-8179'
+         - TotalBytesRx: 10902554
+  

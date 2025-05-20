@@ -1,0 +1,6 @@
+CREATE TABLE {{name}} (
+    {%- for field in fields %}
+    {{field["FieldName"]}} {{field["Data Type"]}}  COMMENT '{{field["Description"]}}'{{ "," if not loop.last else "" }}
+    {%- endfor %}
+)
+COMMENT '{{description}}';

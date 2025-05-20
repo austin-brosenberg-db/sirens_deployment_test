@@ -1,0 +1,153 @@
+config:
+  version: 1.0
+  updated: 2023-02-13
+  author: Derek King
+  description: Corelight Logs
+input:
+  source: corelight
+  sourcetype: json_streaming_ssh
+  parser: corelight
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/corelight_json/json_streaming_ssh.log
+  connector:
+    name: json
+    options:
+  streamType: batch
+transforms:
+  bronze:
+    sourcetype: corelight_ssh
+    meta:
+      timestamp_column: "entries.ts"
+      timestamp_column_type: timestamp
+      host_column: "entries._system_name"
+  silver:
+    event_type:
+      - target_table: authentication
+        filter: _sourcetype = "corelight_ssh"
+        fields:
+        - event_type:
+            action: add
+            type: literal
+            value: Logon
+        - event_message:
+            action: add
+            type: literal
+            value: SSH Authentication
+        - event_result:
+            action: add
+            type: expression
+            value: case when lower(auth_success) == "false" then "Failure" else "Success" end 
+        - event_product:
+            action: add
+            type: literal
+            value: corelight
+        - event_schema_file:
+            action: add
+            type: literal
+            value: authentication
+        - event_severity:
+            action: add
+            type: literal
+            value: Informational
+        - dest:
+            action: alias
+            value: "`id.resp_h`"
+        - dest_hostname:
+            action: add
+            type: literal
+            value: None
+        - dest_ip_addr:
+            action: alias
+            value: "`id.resp_h`"
+        - http_user_agent:
+            action: add
+            type: literal
+            value: None
+        - logon_elevation_token:
+            action: add
+            type: literal
+            value: None
+        - logon_impersonation_level:
+            action: add
+            type: literal
+            value: None
+        - logon_target:
+            action: alias
+            value: "`id.resp_h`"
+        - src:
+            action: alias
+            value: "`id.orig_h`"
+        - src_domain:
+            action: add
+            type: literal
+            value: None
+        - src_geo_city:
+            action: add
+            type: literal
+            value: None
+        - src_geo_country:
+            action: add
+            type: literal
+            value: None
+        - src_geo_lat:
+            action: add
+            type: literal
+            value: None
+        - src_geo_lon:
+            action: add
+            type: literal
+            value: None
+        - src_geo_region:
+            action: add
+            type: literal
+            value: None
+        - src_hostname:
+            action: add
+            type: literal
+            value: None
+        - src_ip_addr:
+            action: alias
+            value: "`id.orig_h`"
+        - src_isp:
+            action: add
+            type: literal
+            value: None
+        - target_app_name:
+            action: alias
+            value: server
+        - target_app_type:
+            action: add
+            type: literal
+            value: Process
+        - target_domain:
+            action: add
+            type: literal
+            value: None
+        - target_hostname:
+            action: add
+            type: literal
+            value: None
+        - target_ip_addr:
+            action: alias
+            value: "`id.resp_h`"
+        - target_session_id:
+            action: add
+            type: literal
+            value: None
+        - target_url:
+            action: add
+            type: literal
+            value: None
+        - target_user_id:
+            action: add
+            type: literal
+            value: None
+        - target_user_name:
+            action: alias
+            value: host_key
+        - target_user_type:
+            action: add
+            type: literal
+            value: None
+        - user:
+            action: alias
+            value: host_key

@@ -1,0 +1,38 @@
+# Databricks notebook source
+# MAGIC %md
+# MAGIC ## Notes:
+# MAGIC This may skip the exception and cause a complete failure if the checkpoint files for specific pipeline is no longer configured correctly (will say something like "ERROR: Some streams terminated before this command could finish!"). </br>
+# MAGIC This can be hard to trace back to a specific pipeline due to the not so informative error message, but a good starting point is to check the detection-notebooks commit history for to see which of these pipelines most recently received an update.</br>
+# MAGIC <b>To test this failure:</b> Comment out the suspected pipeline causing the failure and run this normally in a notebook. If all streams begin to initialize with no error, the commented out pipeline was the cause of failure.</br>
+# MAGIC <b>To fix:</b> run dbutils.fs.rm('/checkpoints/alert_table_checkpoint_{pipeline}', True) on the pipeline causing the failure then try running this again. This should have reset the pipeline's checkpoint.
+
+# COMMAND ----------
+
+pipelines = [
+  {{ pipelines }}
+]
+
+# COMMAND ----------
+
+for pipeline in pipelines:
+  try:
+    checkpoint_prefix = "/checkpoints/alert_table_checkpoint"
+    dbutils.widgets.text("alerts table", "sirens.alerts")
+    
+    spark.sparkContext.setLocalProperty("spark.scheduler.pool", f"pool_{pipeline}")
+    (
+      spark.readStream
+      .option("ignoreChanges", "true")
+      .option("ignoreDeletes", "true")
+      .table(pipeline)
+      .writeStream
+      .option("checkpointLocation", f'{checkpoint_prefix}_{pipeline}')
+      .toTable(dbutils.widgets.get("alerts table"))
+    )
+  except Exception as e:
+    print(f'{pipeline} did not work.  Exception: {e}')
+    continue
+
+# COMMAND ----------
+
+

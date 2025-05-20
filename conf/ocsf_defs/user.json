@@ -1,0 +1,215 @@
+{
+    "name": "user",
+    "version": "0.1",
+    "description": "used to describe the characteristics of a user/person or a security principal",
+    "fields": [
+        {
+            "name": "account",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The user's account or the account associated with the user.",
+            "example": ""
+        },
+        {
+            "name": "uid_alt",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The alternate user identifier. For example, the Active Directory user GUID or AWS user Principal ID.",
+            "example": ""
+        },
+        {
+            "name": "domain",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The domain where the user is defined. For example: the LDAP or Active Directory domain.",
+            "example": ""
+        },
+        {
+            "name": "email_address",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The user's primary email address.",
+            "example": ""
+        },
+        {
+            "name": "full_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The full name of the person, as per the LDAP Common Name attribute (cn).",
+            "example": ""
+        },
+        {
+            "name": "groups",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The administrative groups to which the user belongs.",
+            "example": ""
+        },
+        {
+            "name": "ldap_person",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The additional LDAP attributes that describe a person.",
+            "example": ""
+        },
+        {
+            "name": "name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "the username",
+            "example": ""
+        },
+        {
+            "name": "org",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Organization and org unit related to the user.",
+            "example": ""
+        },
+        {
+            "name": "risk_level",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The risk level, normalized to the caption of the risk_level_id value.",
+            "example": ""
+        },
+        {
+            "name": "risk_level_id",
+            "datatype": "integer",
+            "allowed_values": [
+                0, 1, 2, 3, 4, 99
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The normalized risk level id.",
+            "example": ""
+        },
+        {
+            "name": "risk_score",
+            "datatype": "integer",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The risk score as reported by the event source.",
+            "example": ""
+        },
+        {
+            "name": "type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The type of the user. For example, System, AWS IAM User, etc.",
+            "example": ""
+        },
+        {
+            "name": "type_id",
+            "datatype": "integer",
+            "allowed_values": [
+                0, 1, 2, 3, 99
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The account type identifier.",
+            "example": ""
+        },
+        {
+            "name": "uid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique user identifier.",
+            "example": ""
+        },
+        {
+            "name": "credential_uid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique identifier of the user's credential.",
+            "example": ""
+        }
+    ]
+}

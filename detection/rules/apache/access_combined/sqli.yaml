@@ -1,0 +1,57 @@
+name: sqli
+summary: Possible SQL Injection
+severity: medium
+source: access_combined
+sourceDetails: 
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <_event_time>
+actor:
+  type: USER
+  domain: <host>
+  id: <user>
+  beliefCompromised: 0.1
+target:
+  type: INFRASTRUCTURE
+  domain: <dvc_hostname>
+  id: <dvc_hostname>
+  beliefCompromised: 0.2
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: INITIAL_ACCESS
+    techniqueId: T1190
+    technique: Exploit Public-Facing Application
+    subtechniqueId: 
+    subtechnique: 
+observables:
+  ipAddresses:
+  - <host>
+  domains: []
+  fileHashes: []
+  urls:
+  - <path>
+context:
+  who: <user> at <host>
+  path: <path>
+  code: <code>
+filter: |-
+  exists(query_parameters, x -> 
+   lower(x) rlike '(?:"\\s*or\\s*"?\\d)|(?:"\\s*or\\s*"?\\w)|(?:''\\s*or\\s*''?\\d)|(?:''\\s*or\\s*''?\\w)|(?:\\s*or\\s*?\\w)|(?:\\s*or\\s*?\\d)'
+  )
+test_cases:
+- test_name: expected hit
+  expected_result: true
+  expected_summary: Possible SQL Injection
+  # expected_context: {}
+  test_input:
+    {
+        "dvc_hostname": "192.168.1.100",
+        "path": "/path/to/file?input=foo%22+or+true",
+        "query_parameters": [ "input=foo\" or true" ],
+        "_event_time": "2022-01-01 00:00:00",
+        "user": "-",
+        "host": "192.168.1.100",
+        "referer": "http://192.168.1.1/foo.html",
+        "code": 200    
+    }

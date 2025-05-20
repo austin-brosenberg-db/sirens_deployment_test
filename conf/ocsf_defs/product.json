@@ -1,0 +1,124 @@
+{
+    "name": "product",
+    "version": "0.1",
+    "description": "used to describe characteristics of a software product.",
+    "fields": [
+        {
+            "name": "feature",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The feature that reported the event.",
+            "example": ""
+        },
+        {
+            "name": "lang",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The two letter lower case language codes, as defined by ISO 639-1. ",
+            "example": ""
+        },
+        {
+            "name": "name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The name of the product.",
+            "example": ""
+        },
+        {
+            "name": "path",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The installation path of the product.",
+            "example": ""
+        },
+        {
+            "name": "cpe_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The Common Platform Enumeration (CPE) name as described by (NIST) ",
+            "example": ""
+        },
+        {
+            "name": "url_string",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The URL pointing towards the product.",
+            "example": ""
+        },
+        {
+            "name": "uid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique identifier of the product.",
+            "example": ""
+        },
+        {
+            "name": "vendor_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The name of the vendor of the product.",
+            "example": ""
+        },
+        {
+            "name": "version",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The version of the product, as defined by the event source.",
+            "example": ""
+        }
+    ]
+}

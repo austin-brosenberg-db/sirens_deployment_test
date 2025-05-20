@@ -1,0 +1,456 @@
+config:
+  version: 1.0
+  updated: 2024-10-04
+  author: Li Yu, Derek King
+  description: Process Windows server system logs
+input:
+  source: microsoft
+  sourcetype: wineventssecurity
+  parser: microsoft_wineventssecurity
+  rawPath: s://rawlog_bucket/winserver
+  connector: 
+    name: autoloader
+    options:
+      cloudFiles.format: json
+      cloudFiles.schemaLocation: s3://wineventssecurity/schemaLocation
+  streamType: streaming
+transforms:
+  bronze:
+    meta:
+      timestamp_column: _time
+      timestamp_column_type: timestamp
+  silver:
+    enrichments:
+      - name: windows_eventtypes
+      - name: windows_privileges
+      - name: windows_logontypes
+      - name: windows_signatures_860
+      - name: windows_severities
+      - name: windows_signatures_substatus_850
+      - name: windows_tokenelevationtypes
+    event_type:
+      - target_table: authentication
+        filter: (EventID._VALUE in ('4672', '4624', '4768', '4772'))
+        fields:
+        - _event_date:
+            action: rename
+            value: _event_date
+        - _event_time:
+            action: rename
+            value: _event_time
+        - _source:
+            action: rename
+            value: _source
+        - _sourcetype:
+            action: rename
+            value: _sourcetype
+        - dest:
+            action: alias
+            value: host
+        - dest_hostname:
+            action: alias
+            value: host
+        - dest_ip_addr:
+            action: alias
+            value: EventDataDct.IpAddress
+        - dvc_hostname:
+            action: rename
+            value: dvc_hostname
+        - event_message:
+            action: add
+            type: expression
+            value: lookup_value_udf(event_id, windows_signatures_860)
+        - event_original_severity:
+            action: add
+            type: expression
+            value: lookup_value_udf(lookup_value_udf(Level, windows_eventtypes), windows_severities)
+        - event_product:
+            action: alias
+            value: product_name
+        - event_result:
+            action: add
+            type: expression
+            value: > 
+              CASE WHEN EventID._VALUE IN ('4672', '4624', '4648', '4769') THEN 'Success'
+              WHEN EventID._VALUE IN ('4768') THEN 'Partial'
+              WHEN EventID._VALUE IN ('4772', '4625') THEN 'Failure'
+              END
+        - event_schema_file:
+            action: add
+            type: literal
+            value: "authentication_v0.1.1"
+        - event_severity:
+            action: add
+            type: expression
+            value: lookup_value_udf(lookup_value_udf(Level, windows_eventtypes), windows_severities)
+        - event_sub_type:
+            action: add
+            type: expression
+            value: CASE WHEN EventID._VALUE='4625' THEN lookup_value_udf(Keywords, windows_signatures_substatus_850) WHEN EventID._VALUE='4624' THEN lookup_value_udf(EventDataDct.LogonType, windows_logontypes) END
+        - event_type:
+            action: add
+            type: expression
+            value: lookup_value_udf(Level, windows_eventtypes)
+        - event_vendor:
+            action: add
+            type: literal
+            value: "Microsoft"
+        - logon_elevated_token:
+            action: add
+            type: expression
+            value: lookup_value_list_udf(privilege_id, windows_privileges)
+        - logon_impersonation_level:
+            action: alias
+            value: EventDataDct.ImpersonationLevel
+        - logon_target:
+            action: alias
+            value: EventDataDct.SubjectLogonId
+        - src:
+            action: alias
+            value: EventDataDct.IpAddress
+        - src_domain:
+            action: alias
+            value: EventDataDct.SubjectDomainName
+        - src_ip_addr:
+            action: alias
+            value: EventDataDct.IpAddress
+        - target_app_name:
+            action: alias
+            value: EventDataDct.LogonProcessName
+        - target_app_type:
+            action: alias
+            value: EventDataDct.LogonType
+        - target_domain:
+            action: alias
+            value: EventDataDct.TargetDomainName
+        - target_ip_addr:
+            action: alias
+            value: EventDataDct.IpAddress
+        - target_session_id:
+            action: alias
+            value: EventDataDct.TargetLogonId
+        - target_user_id:
+            action: alias
+            value: EventDataDct.TargetLogonId
+        - target_user_name:
+            action: alias
+            value: user_name
+        - target_user_type:
+            action: alias
+            value: EventDataDct.TargetUserName
+        - user:
+            action: rename
+            value: user
+
+      - target_table: user_management
+        filter: (EventID._VALUE in ('4672', '4624', '4768', '4772', '622','4718','4723','627','4767','671','644','4740','4722','626','4726','4743','647','630','4720','4741','624','645', '4725','629', '4724','628','621','4717'))
+        fields:
+        - _event_date:
+            action: rename
+            value: _event_date
+        - _event_time:
+            action: rename
+            value: _event_time
+        - _source:
+            action: rename
+            value: _source
+        - _sourcetype:
+            action: rename
+            value: _sourcetype
+        - acting_user_id:
+            action: alias
+            value: EventDataDct.SubjectUserSid
+        - actor_user_name:
+            action: alias
+            value: user_name
+        - dvc_hostname:
+            action: rename
+            value: dvc_hostname
+        - event_message:
+            action: add
+            type: expression
+            value: lookup_value_udf(event_id, windows_signatures_860)
+            # value: >
+            #   CASE WHEN EventID._VALUE IN ('4738','4742','646','625','642') THEN 'windows_account_modified' 
+            #   WHEN EventID._VALUE IN ('622','4718') THEN 'windows_security_access_removed' 
+            #   WHEN EventID._VALUE IN ('4723','627') THEN 'windows_account_password_change' 
+            #   WHEN EventID._VALUE IN ('4767','671') THEN 'windows_account_unlocked' 
+            #   WHEN EventID._VALUE IN ('644','4740') THEN 'windows_account_lockout' 
+            #   WHEN EventID._VALUE IN ('4722','626') THEN 'windows_account_enabled' 
+            #   WHEN EventID._VALUE IN ('4726','4743','647','630') THEN 'windows_account_deleted' 
+            #   WHEN EventID._VALUE IN ('4720','4741','624','645') THEN 'windows_account_created' 
+            #   WHEN EventID._VALUE IN ('4725','629') THEN 'windows_account_disabled' 
+            #   WHEN EventID._VALUE IN ('4724','628') THEN 'windows_account_password_set' 
+            #   WHEN EventID._VALUE IN ('621','4717') THEN 'windows_security_access_granted'
+            #   END
+        - event_result:
+            action: add
+            type: expression
+            value: CASE WHEN EventID._VALUE = '4722' THEN 'Failure' ELSE 'Success' END
+        - event_schema_file:
+            action: add
+            type: literal
+            value: "user_management_v0.1.1"
+        - event_severity:
+            action: add
+            type: expression
+            value: lookup_value_udf(lookup_value_udf(Level, windows_eventtypes), windows_severities)
+        - event_type:
+            action: add
+            type: expression
+            value: lookup_value_udf(Level, windows_eventtypes)
+        - src:
+            action: alias
+            value: EventDataDct.IpAddress
+        - src_domain:
+            action: alias
+            value: EventDataDct.SubjectDomainName
+        - target_user_id:
+            action: alias
+            value: EventDataDct.TargetUserSid
+        - target_user_name:
+            action: alias
+            value: user_name
+          
+      - target_table: service
+        filter: (EventID._VALUE in ('7036'))
+        fields:
+        - _event_date:
+            action: rename
+            value: _event_date
+        - _event_time:
+            action: rename
+            value: _event_time
+        - _source:
+            action: rename
+            value: _source
+        - _sourcetype:
+            action: rename
+            value: _sourcetype 
+        - dest:
+            action: alias
+            value: host
+        - dvc_hostname:
+            action: rename
+            value: dvc_hostname
+        - event_message:
+            action: alias
+            value: EventDataDct.param1
+        - event_result:
+            action: add
+            type: literal
+            value: "Success"
+        - event_schema_file:
+            action: add
+            type: literal
+            value: "service_v0.1.1"
+        - event_severity:
+            action: add
+            type: literal
+            value: "Informational"
+        - event_type:
+            action: add
+            type: expression
+            value: CASE WHEN EventDataDct.param2 = 'running' THEN 'ServiceStarted' WHEN EventDataDct.param2 = 'stopped' THEN 'ServiceStopped' END  
+        - process_id:
+            action: rename
+            value: process_id
+        - process_name:
+            action: alias
+            value: process_name
+        - service_name:
+            action: add
+            type: expression
+            value: coalesce(process_name, EventDataDct.param1)
+        - src:
+            action: alias
+            value: Computer
+        - src_hostname:
+            action: alias
+            value: host
+        - user:
+            action: rename
+            value: user
+        - user_id:
+            action: alias
+            value: Security._UserID
+        - user_name:
+            action: alias
+            value: user_name    
+
+      - target_table: process
+        filter: (EventID._VALUE in ('4688', '592', '4689', '593', '4696', '600', '4610', '514', '4611', '515', '4614', '518'))
+        fields:
+        - _event_date:
+            action: rename
+            value: _event_date
+        - _event_time:
+            action: rename
+            value: _event_time
+        - _source:
+            action: rename
+            value: _source
+        - _sourcetype:
+            action: rename
+            value: _sourcetype
+        - acting_process_command_line:
+            action: alias
+            value: EventDataDct.CommandLine
+        - acting_process_file_company:
+            action: add
+            type: literal
+            value: "Microsoft Corporation"
+        - acting_process_file_version:
+            action: alias
+            value: Version
+        - acting_process_guid:
+            action: alias
+            value: process_id
+        - acting_process_integrity_level:
+            action: alias
+            value: EventDataDct.MandatoryLabel
+        - acting_process_name:
+            action: alias
+            value: process_name
+        - acting_process_pid:
+            action: alias
+            value: process_id
+        - acting_process_token_elevation:
+            action: add
+            type: expression
+            value: lookup_value_udf(EventDataDct.TokenElevationType, windows_tokenelevationtypes)
+        - actor_user_id:
+            action: alias
+            value: EventDataDct.SubjectUserSid
+        - actior_user_name:
+            action: alias
+            value: EventDataDct.SubjectUserName
+        - event_message:
+            action: add
+            type: expression
+            value: lookup_value_udf(event_id, windows_signatures_860)
+            # value: >
+            #   CASE WHEN EventID._VALUE IN ('514','4610') THEN 'windows_auth_package' 
+            #   WHEN EventID._VALUE IN ('4689','593') THEN 'windows_process_exit' 
+            #   WHEN EventID._VALUE IN ('4696','600') THEN 'windows_process_token' 
+            #   WHEN EventID._VALUE IN ('4688','592') THEN 'windows_process_new' 
+            #   WHEN EventID._VALUE IN ('4673','577') THEN 'windows_privileged_service_call' 
+            #   WHEN EventID._VALUE IN ('518','4614') THEN 'windows_notification_package' 
+            #   WHEN EventID._VALUE IN ('515','4611') THEN 'windows_logon_process' 
+            #   END
+        - event_schema_file:
+            action: add
+            type: literal
+            value: "process_v0.1.1"
+        - event_severity:
+            action: add
+            type: expression
+            value: lookup_value_udf(lookup_value_udf(Level, windows_eventtypes), windows_severities)
+        - event_type:
+            action: add
+            type: expression
+            value: CASE WHEN EventID._VALUE in ('4688', '4696') THEN 'Process Created' WHEN EventID._VALUE = '4689' THEN 'Process Terminated' END
+        - parent_process_guid:
+            action: alias
+            value: parent_process_id
+        - parent_process_id:
+            action: alias
+            value: parent_process_id
+        - process:
+            action: alias
+            value: EventDataDct.NewProcessName
+        - target_process_command_line:
+            action: alias
+            value: EventDataDct.CommandLine
+        - target_process_guid:
+            action: alias
+            value: EventDataDct.NewProcessID
+        - target_process_id:
+            action: alias
+            value: EventDataDct.NewProcessID
+        - target_process_name:
+            action: alias
+            value: EventDataDct.NewProcessName
+        - target_user_id:
+            action: alias
+            value: EventDataDct.TargetUserSid
+        - target_user_name:
+            action: alias
+            value: EventDataDct.TargetUserName
+
+      - target_table: file
+        filter: (EventID._VALUE in ('4674','578','4658','562','4656','560'))
+        fields:
+        - _event_date:
+            action: rename
+            value: _event_date
+        - _event_time:
+            action: rename
+            value: _event_time
+        - _source:
+            action: rename
+            value: _source
+        - _sourcetype:
+            action: rename
+            value: _sourcetype
+        - acting_process_command_line:
+            action: alias
+            value: EventDataDct.CommandLine
+        - acting_process_guid:
+            action: alias
+            value: process_id
+        - acting_process_id:
+            action: alias
+            value: process_id
+        - acting_process_name:
+            action: alias
+            value: process_name
+        - actor_user_id:
+            action: alias
+            value: EventDataDct.SubjectUserSid
+        - actor_user_name:
+            action: alias
+            value: EventDataDct.SubjectUserName
+        - dest_hostname:
+            action: alias
+            value: Computer
+        - event_message:
+            action: add
+            type: expression
+            value: lookup_value_udf(event_id, windows_signatures_860)
+            # value: >
+            #   CASE WHEN EventID._VALUE IN ('4674','578') THEN 'windows_privileged_object_operation' 
+            #   WHEN EventID._VALUE IN ('4658','562') THEN 'windows_handle_closed' 
+            #   WHEN EventID._VALUE IN ('4656','560') THEN 'windows_object_open' END
+        - event_schema_file:
+            action: add
+            type: literal
+            value: "file_v1"
+        - event_severity:
+            action: add
+            type: expression
+            value: lookup_value_udf(lookup_value_udf(Level, windows_eventtypes), windows_severities)
+        - event_type:
+            action: add
+            type: expression
+            value: CASE WHEN EventID._VALUE = '4674' THEN 'Privilege Exercised' WHEN EventID._VALUE = '4689' THEN 'Process Terminated' END
+        - file_source:
+            action: alias
+            value: file_path
+        - process:
+            action: alias
+            value: process_name
+        - src_file_name:
+            action: alias
+            value: EventDataDct.ObjectName
+        - src_file_path:
+            action: alias
+            value: EventDataDct.ObjectName
+        - target_file_name:
+            action: alias
+            value: EventDataDct.Objectname
+        - target_file_path:
+            action: alias
+            value: EventDataDct.Objectname
+
+    

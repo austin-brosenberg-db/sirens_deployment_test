@@ -1,0 +1,21 @@
+test_cases:
+  - name: cisco_umbrella_dns
+    connector: txt
+    sample: cisco_umbrella_dns_logs.txt
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time,  _source, _source_file, _sourcetype, dvc_hostname, value
+        expected_values:
+          - _source: 'cisco'
+          - _sourcetype: 'umbrella_dns'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, raw_timestamp, most_granular_identity, identities, internal_ip, external_ip, action, query_type, response_code, domain, categories, most_granular_identity_type, identity_type, blocked_categories
+        expected_values:
+          - dvc_hostname: 'umbrella'
+          - action: 'Allowed'
+      normalized:
+        dns:
+          expected_columns: _event_date ,_event_time, _source, _sourcetype, dest, dest_ip_addr, dns_query, dns_query_type, dns_query_type_name, dns_response_code, dns_response_name, dvc_hostname, event_result, event_schema_file, event_severity, event_type, src, src_ip_addr
+          expected_values:
+            - event_schema_file: 'dns_v0.1'
+            - event_type: 'Query'

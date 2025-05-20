@@ -1,0 +1,2 @@
+transformation: |
+  SELECT * FROM {{input_table}} WHERE _event_date > CURRENT_DATE - 1

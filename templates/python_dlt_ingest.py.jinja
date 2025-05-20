@@ -1,0 +1,78 @@
+# Databricks notebook source
+# DBTITLE 1,Install Sirens on the DLT cluster
+# MAGIC %pip install pyyaml inflection {spark.conf.get('sirens_wheel', '')} --force-reinstall
+
+# COMMAND ----------
+# DBTITLE 1,Set working directory to Sirens home
+import os
+
+sirens_home = spark.conf.get("sirens.home", None)
+
+if sirens_home is not None:
+  os.chdir(sirens_home)
+
+# COMMAND ----------
+import dlt
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+from databricks.sirens.datasource import DataSource
+from databricks.sirens import connectors
+from databricks.sirens import parsers
+from databricks.sirens.enrichments import Enrichment
+from databricks.sirens.logging import get_logger
+logger = get_logger(__name__)
+
+# COMMAND ----------
+# DBTITLE 1,Data sources to consume and pipeline settings
+input_source = {{input_source}}
+
+# COMMAND ----------
+source = input_source.get("source")
+sourcetype = input_source.get("sourcetype")
+database = input_source.get("database")
+
+# COMMAND --------
+dataSourceObj = DataSource(spark, database, source, sourcetype)
+config = dataSourceObj.read()
+table_name = dataSourceObj.bronze_table_name
+table_config = dataSourceObj.get_table_config(table_name)
+
+# build spark_conf and table_properties based on table_config
+spark_conf = {conf: str(table_config[key]) for conf,key in [
+    ("pipelines.trigger.interval","trigger_interval")
+] if table_config.get(key)}
+
+table_properties = {conf: str(table_config[key]) for conf,key in [
+    ("pipelines.autoOptimize.managed","dlt_auto_optimize_managed"),
+    ("delta.autoOptimize.optimizeWrite","optimize_write"),
+    ("delta.autoOptimize.autoCompact","auto_compact")
+] if table_config.get(key)}
+table_properties["pipelines.autoOptimize.zOrderCols"] = ",".join(table_config.get("zorder_cols", []))
+
+# COMMAND ----------
+@dlt.table(
+        name = table_name,
+        comment="bronze table",
+        spark_conf=spark_conf,
+        partition_cols=table_config.get("partition_cols", []),
+        table_properties=table_properties
+    )
+def read_bronze():
+    # Read bronze to DataFrame
+    try:
+        connector_mod = connectors.get(config.get("input").get("connector").get("name"))
+        df = connectors.Reader(connector_mod, spark, dataSourceObj).read()
+    except Exception as exc:
+        raise Exception(f"{exc}")
+    # Parse Bronze Data Source 
+    try:
+        log_parser = parsers.Parse(plugin=config.get("input").get("parser"), spark=spark)
+    except TypeError as exc:
+        raise Exception(f"parser Error: {exc}")
+    else:
+        df = log_parser.toBronze(df, dataSourceObj)
+        df = Enrichment(dataSourceObj).add_stage(df, 'bronze')
+        
+    return df
+
+

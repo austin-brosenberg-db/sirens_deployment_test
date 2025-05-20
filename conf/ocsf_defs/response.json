@@ -1,0 +1,98 @@
+{
+    "name": "response",
+    "version": "0.1",
+    "description": "describes characteristics of an API request.",
+    "fields": [
+        {
+            "name": "containers",
+            "datatype": "array",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "When working with containerized applications, the set of containers which write to the standard the output of a particular logging driver. ",
+            "example": ""
+        },
+        {
+            "name": "data",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The additional data that is associated with the api request.",
+            "example": ""
+        },
+        {
+            "name": "error",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Error Code",
+            "example": ""
+        },
+        {
+            "name": "error_message",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Error Message",
+            "example": ""
+        },
+        {
+            "name": "flags",
+            "datatype": "array",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The list of communication flags, normalized to the captions of the flag_ids values.",
+            "example": ""
+        },
+        {
+            "name": "message",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The description of the event/finding, as defined by the source.",
+            "example": ""
+        },
+        {
+            "name": "code",
+            "datatype": "integer",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The numeric response sent to a request.",
+            "example": ""
+        }
+    ]
+}

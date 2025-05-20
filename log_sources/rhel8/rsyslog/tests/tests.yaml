@@ -1,0 +1,16 @@
+test_cases:
+  - name: rhel8_rsyslog
+    connector: txt
+    sample: rhel8_rsyslog_sample.txt
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, value
+        expected_values:
+          - _source: 'rhel8'
+          - _sourcetype: 'rsyslog'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, priority_value, program, pid, message
+        expected_values:
+          - priority_value: 38
+          - program: 'systemd-logind'
+          - pid: 1211

@@ -1,0 +1,93 @@
+name: suspicious_mfa_pushes
+summary: <alternateId> received suspicious MFA push activity within the 1 hour window of <hour_timestamp>
+severity: medium
+source: okta_mfa
+sourceDetails: <oktaURL>
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <hour_timestamp>
+actor:
+  type: HOST
+  domain: Public Internet
+  id: <ipAddresses>
+  beliefCompromised: 0.1
+target:
+  type: USER
+  domain: <oktaURL>
+  id: <alternateId>
+  beliefCompromised: 0.1
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: CREDENTIAL_ACCESS
+    techniqueId: T1621
+    technique: Multi-Factor Authentication Request Generation
+observables:
+  ipAddresses: <ipAddresses>
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  Okta URL: <oktaURL>
+  User: <alternateId>
+  Denied Pushes: <denied_pushes>
+  Hanging Pushes: <hanging_pushes>
+  Approved Pushes: <approved_pushes>
+  Overall Pushes: <pushes>
+  Pushes From a New IP: <first_ip_push_occurrences>
+  ipAddresses: <ipAddresses>
+  userAgents: <userAgents>
+filter: |-
+  denied_pushes >= 3
+  OR hanging_pushes >= 10
+  OR pushes >= 20
+  OR (first_ip_push_occurrences >= 1 AND (hanging_pushes >= 2 OR denied_pushes >= 2 OR pushes >= 5))
+test_cases:
+- test_name: 'expected hit'
+  expected_result: true
+  expected_summary: 'first.last@example.com received suspicious MFA push activity within the 1 hour window of 2022-01-01 00:00:00'
+  expected_severity: medium
+  expected_context:
+    {
+      "Okta URL": "okta.example.com",
+      'User': 'first.last@example.com',
+      'Denied Pushes': '5',
+      'Hanging Pushes': '0',
+      'Approved Pushes': '0',
+      'Overall Pushes': '5',
+      'Pushes From a New IP': '3',
+      "ipAddresses": "[1.2.3.4, 4.5.6.7]",
+      "userAgents": "[chrome, oktaVerify]",
+    }
+  test_input:
+    {
+      'alternateId': 'first.last@example.com',
+      'eventType': 'user.mfa.okta_verify.deny_push',
+      'oktaURL': 'okta.example.com',
+      'count': 3,
+      'ipAddresses': ["1.2.3.4","4.5.6.7"],
+      'userAgents': ["chrome","oktaVerify"],
+      'hour_timestamp': "2022-01-01 00:00:00",
+      "denied_pushes": 5,
+      "pushes": 5,
+      "approved_pushes": 0,
+      "hanging_pushes": 0,
+      "first_ip_push_occurrences": 3
+    }
+- test_name: 'expected miss'
+  expected_result: false
+  test_input:
+    {
+      'alternateId': 'first.last@example.com',
+      'eventType': 'user.mfa.okta_verify.deny_push',
+      'oktaURL': 'okta.example.com',
+      'count': 2,
+      'ipAddresses': ["1.2.3.4","4.5.6.7"],
+      'hour_timestamp': "2022-01-01 00:00:00",
+      'userAgents': ["chrome","oktaVerify"],
+      "denied_pushes": 0,
+      "approved_pushes": 5,
+      "pushes": 5,
+      "hanging_pushes": 0,
+      "first_ip_push_occurrences": 0
+    }

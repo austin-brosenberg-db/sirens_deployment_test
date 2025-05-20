@@ -1,0 +1,19 @@
+config:
+  version: 1.0
+  updated: 2024-02-26
+  author: Derek King, Li Yu
+  description: Linux Auditd enriched logs
+input:
+  source: linux
+  sourcetype: auditd_enriched
+  parser: linux_audit
+  rawPath: dbfs:/tmp/li_yu/linux_audit_d
+  connector:
+    name: txt
+    options:
+  streamType: batch
+transforms:
+  bronze:
+    meta:
+      timestamp_column: "record.msg_dt"
+      timestamp_format: "yyyy/MM/dd HH:mm:ss"

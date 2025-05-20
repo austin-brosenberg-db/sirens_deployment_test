@@ -1,0 +1,65 @@
+# Databricks notebook source
+# DBTITLE 1,Set working directory to Sirens home
+import os
+
+sirens_home = spark.conf.get("sirens.home", None)
+
+if sirens_home is not None:
+  os.chdir(sirens_home)
+
+# COMMAND ----------
+import dlt
+from databricks.sirens.detection import *
+from databricks.sirens import config_reader
+import yaml
+
+# COMMAND ----------
+
+source = spark.conf.get('source', '{{ source }}')
+sourcetype = spark.conf.get('sourcetype', '{{ sourcetype }}')
+sirens_env = spark.conf.get('sirens_env', '')
+pipeline_yaml = '{{ pipeline_name }}'
+
+# COMMAND ----------
+
+detectionObj = config_reader.Detection(source, sourcetype, sirens_env)
+pipeline_config, ruleset = detectionObj.load_pipeline(pipeline_yaml)
+
+# COMMAND ----------
+spark_conf = {}
+streamType = pipeline_config.get('streamType', 'streaming')
+if streamType != 'streaming':
+  spark_conf["pipelines.trigger.interval"] = pipeline_config['interval']
+
+if pipeline_config.get("dlt_read", False) is True:
+  read_method = dlt.readStream if pipeline_config.get("streamType") == "streaming" else dlt.read
+else:
+  read_method = spark.readStream.table if pipeline_config.get("streamType") == "streaming" else spark.read.table
+
+input_table = pipeline_config['input_table']
+if pipeline_config.get('dlt_read') is True and '.' in input_table:
+  input_table = input_table.split('.')[1]
+
+pipeline_name = pipeline_config['name']
+
+# COMMAND ----------
+
+@dlt.table(name=pipeline_name, spark_conf=spark_conf)
+def pipeline_table():
+  if 'dedup_on' in pipeline_config.keys():
+    dedup_on = {'columns': pipeline_config['dedup_on'], 'df': spark.table(pipeline_config['output_table'])}
+  else:
+    dedup_on = None
+
+  df = read_method(input_table)
+  if pipeline_config.get('filter'):
+    df = df.filter(pipeline_config.get('filter'))
+
+  detector = Detector(
+    df=df,
+    module_name=pipeline_name,
+    detection_rules=ruleset,
+    dedup_on=dedup_on,
+    spark=spark
+  )
+  return detector.detect()

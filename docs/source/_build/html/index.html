@@ -1,0 +1,442 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="Introduction" href="sirens_user_guide.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>Sirens by Databricks</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=46bbebfe" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="#"><div class="brand">Sirens by Databricks</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon no-toc" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="#">
+  
+  
+  <span class="sidebar-brand-text">Sirens by Databricks</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#data-ingestion">Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#enrichments">Enrichments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#transformations">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#aggregation-tables">Aggregation Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#global-configuration-files">Global Configuration files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#log-source-configuration">Log Source Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#detections">Detections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#alerts">Alerts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#action-framework">Action Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#threat-hunting-framework">Threat Hunting Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#common-information-model-schemas">Common Information Model Schemas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#functions">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#sirens-cli-reference">Sirens CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#known-limitations">Known Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#faqs">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#developers-guide">Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contributing.html">Contributing</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">databricks</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of databricks</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="databricks.html">databricks package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of databricks package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="databricks.sirens.html">databricks.sirens package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of databricks.sirens package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.actions.html">databricks.sirens.actions package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.cjp.html">databricks.sirens.cjp package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5 has-children"><a class="reference internal" href="databricks.sirens.cjp.cjlib.html">databricks.sirens.cjp.cjlib package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp.cjlib package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.exceptions.html">databricks.sirens.cjp.cjlib.exceptions package</a></li>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.pollers.html">databricks.sirens.cjp.cjlib.pollers package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.connectors.html">databricks.sirens.connectors package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.detection.html">databricks.sirens.detection package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of databricks.sirens.detection package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.detection.alert.html">databricks.sirens.detection.alert package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.detection.rule.html">databricks.sirens.detection.rule package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.features.html">databricks.sirens.features package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.internal.html">databricks.sirens.internal package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.parsers.html">databricks.sirens.parsers package</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of databricks.sirens.parsers package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.parsers.internal.html">databricks.sirens.parsers.internal package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.udfs.html">databricks.sirens.udfs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.utils.html">databricks.sirens.utils package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.validators.html">databricks.sirens.validators package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon no-toc" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="sirens-documentation">
+<h1>Sirens Documentation<a class="headerlink" href="#sirens-documentation" title="Link to this heading">#</a></h1>
+<a class="reference internal image-reference" href="https://github.com/lipyeowlim/public/raw/main/img/logo/databricks_cyber_logo_v1.png"><img alt="Banner Logo" src="https://github.com/lipyeowlim/public/raw/main/img/logo/databricks_cyber_logo_v1.png" style="width: 600px;" /></a>
+<a class="reference external image-reference" href="https://docs.databricks.com/release-notes/runtime/10.4ml.html"><img alt="https://img.shields.io/badge/DBR-10.4ML-red?logo=databricks&amp;style=for-the-badge" src="https://img.shields.io/badge/DBR-10.4ML-red?logo=databricks&amp;style=for-the-badge" /></a>
+<a class="reference external image-reference" href="https://cloud.google.com/databricks"><img alt="https://img.shields.io/badge/CLOUD-ALL-blue?logo=googlecloud&amp;style=for-the-badge" src="https://img.shields.io/badge/CLOUD-ALL-blue?logo=googlecloud&amp;style=for-the-badge" /></a>
+<a class="reference external image-reference" href="https://databricks.com/try-databricks"><img alt="https://img.shields.io/badge/POC-10_days-green?style=for-the-badge" src="https://img.shields.io/badge/POC-10_days-green?style=for-the-badge" /></a>
+</section>
+<section id="welcome-to-project-sirens">
+<h1>Welcome to Project Sirens<a class="headerlink" href="#welcome-to-project-sirens" title="Link to this heading">#</a></h1>
+<p class="linemarker linemarker-15">Sirens is a coherent suite of Databricks assets (notebooks log_sources.) to
+accelerate building your Databricks Lakehouse for Security Operations. The
+project includes assets that cover the following capabilities:</p>
+<ul class="simple">
+<li><p class="linemarker linemarker-19">pipelines (streaming, batch, Delta Live Tables)</p></li>
+<li><p class="linemarker linemarker-20">notebooks</p></li>
+<li><p class="linemarker linemarker-21">connectors to various security appliances and data sources</p></li>
+<li><p class="linemarker linemarker-22">detections</p></li>
+<li><p class="linemarker linemarker-23">hunting queries</p></li>
+<li><p class="linemarker linemarker-24">AI/ML models</p></li>
+</ul>
+<p class="linemarker linemarker-26">Sirens uses a code generation framework to manage the suite of Databricks assets and includes the ability to deploy those assets to multiple workspaces in multiple regions and multiple cloud environments.</p>
+<p class="linemarker linemarker-28">Contact Author: <a class="reference external" href="mailto:derek&#46;king&#37;&#52;&#48;databricks&#46;com">derek<span>&#46;</span>king<span>&#64;</span>databricks<span>&#46;</span>com</a></p>
+<hr class="docutils" />
+<section id="quickstart-guide">
+<h2>Quickstart Guide<a class="headerlink" href="#quickstart-guide" title="Link to this heading">#</a></h2>
+<p class="linemarker linemarker-35">If you just want to try out the sirens system in a Databricks workspace without any additional customization in terms of target database names log_sources.:</p>
+<ol class="arabic simple">
+<li><p class="linemarker linemarker-37">Ensure you have git integration setup in the workspace (see <a class="reference external" href="https://docs.databricks.com/repos/index.html">Git integration with Databricks Repos</a>) and you are in the <code class="docutils literal notranslate"><span class="pre">Data</span> <span class="pre">Science</span> <span class="pre">and</span> <span class="pre">Engineering</span></code> persona.</p></li>
+<li><p class="linemarker linemarker-38">Clone this repo to the workspace</p></li>
+<li><p class="linemarker linemarker-39">Switch to the <code class="docutils literal notranslate"><span class="pre">test_drive</span></code> branch.</p>
+<ul class="simple">
+<li><p class="linemarker linemarker-41">The <code class="docutils literal notranslate"><span class="pre">deploy/delta/okta/oktaIM2_log/</span></code> folder will contain a generic version of the generated notebooks for the okta data source. The notebooks will (1) load a sample okta data set into a <code class="docutils literal notranslate"><span class="pre">bronze</span></code> table, (2) transform the <code class="docutils literal notranslate"><span class="pre">bronze</span></code> table to <code class="docutils literal notranslate"><span class="pre">silver</span></code> table, (3) normalize the <code class="docutils literal notranslate"><span class="pre">silver</span></code> table to two tables (<code class="docutils literal notranslate"><span class="pre">authentication</span></code>, <code class="docutils literal notranslate"><span class="pre">user_management</span></code>) in the common data model, and (4) run a few sample queries on the generated tables.</p></li>
+<li><p class="linemarker linemarker-42">The <code class="docutils literal notranslate"><span class="pre">log_sources/okta/oktaIM2_log/</span></code> folder will contain the configuration yaml file relevant to the okta data source.</p></li>
+<li><p class="linemarker linemarker-43">The <code class="docutils literal notranslate"><span class="pre">log_sources/okta/oktaIM2_log/samples</span></code> folder will contain one or more sample okta data files.</p></li>
+</ul>
+</li>
+<li><p class="linemarker linemarker-45">Run the <code class="docutils literal notranslate"><span class="pre">RUNME.py</span></code> notebook. The notebook will create a multi-task job for running all the notebooks. To actually run the multi-task job, you will set the <code class="docutils literal notranslate"><span class="pre">run_job</span></code> dropdown widget to <code class="docutils literal notranslate"><span class="pre">True</span></code>. If you do not have the right permissions to run the multi-task job, you can, alternatively, run each of the notebooks in <code class="docutils literal notranslate"><span class="pre">deploy/okta/oktaIM2_log/</span></code> in the sequence of the prefix number.</p></li>
+<li><p class="linemarker linemarker-47">Open the <code class="docutils literal notranslate"><span class="pre">04-analytics.py</span></code> notebook, click <code class="docutils literal notranslate"><span class="pre">Run</span> <span class="pre">all</span></code> if you have not run it, and inspect the query results. Alternatively, go to the <code class="docutils literal notranslate"><span class="pre">Data</span></code> tab in the sidebar, navigate to the <code class="docutils literal notranslate"><span class="pre">hive_metastore</span></code>, search for the <code class="docutils literal notranslate"><span class="pre">sirens_test_drive</span></code> database, and inspect the tables that were created.</p></li>
+</ol>
+<p class="linemarker linemarker-49">If you want to customize or further build on the sirens system, follow the deployment and development guide in the next section.</p>
+</section>
+<hr class="docutils" />
+<section id="deployment-guide">
+<h2>Deployment Guide<a class="headerlink" href="#deployment-guide" title="Link to this heading">#</a></h2>
+<p class="linemarker linemarker-56">The Sirens philosophy is to manage all configurations and deployed notebooks
+as code using git processes for version control. It is crucial that the
+actual deployed notebooks are versioned controlled to facilitate operational
+debugging and troubleshooting.</p>
+<section id="initial-deployment">
+<h3>Initial Deployment<a class="headerlink" href="#initial-deployment" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p class="linemarker linemarker-64">Fork this repo in your organization’s github/gitlab (henceforth <code class="docutils literal notranslate"><span class="pre">my-sirens</span></code> repo) &amp; set the upstream to the original sirens repo <a class="reference external" href="https://docs.github.com/en/get-started/quickstart/fork-a-repo">Fork a repo - GitHub Docs</a> ). This ensures that any configurations and generated files will be in your organization’s git environment along with the proper access controls. The <code class="docutils literal notranslate"><span class="pre">my-sirens</span></code> repo will be a private repo in your organization.</p></li>
+<li><p class="linemarker linemarker-65">Clone the <code class="docutils literal notranslate"><span class="pre">my-sirens</span></code> repo to your laptop or local development environment.</p></li>
+<li><p class="linemarker linemarker-66">Create a Python virtual environment <code class="docutils literal notranslate"><span class="pre">python3</span> <span class="pre">-m</span> <span class="pre">venv</span> <span class="pre">.</span></code></p></li>
+<li><p class="linemarker linemarker-67">Activate the virtual environment <code class="docutils literal notranslate"><span class="pre">source</span> <span class="pre">bin/activate</span></code></p></li>
+<li><p class="linemarker linemarker-68">Install the Sirens wheel provided to you <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">databricks_sirens-0.4.0-py3-none-any.whl</span></code></p></li>
+<li><p class="linemarker linemarker-69">Install dependencies by running <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements_dev.txt</span></code></p></li>
+<li><p class="linemarker linemarker-70">Create a deployment branch <code class="docutils literal notranslate"><span class="pre">deploy_v1</span></code>.</p></li>
+<li><p class="linemarker linemarker-71">Edit the config files (sirens.config and log_sources/… ) to setup the data sources for the pipeline and the location of the raw data in cloud storage (the <code class="docutils literal notranslate"><span class="pre">rawPath</span></code> in each data source’s <code class="docutils literal notranslate"><span class="pre">inputs.yaml</span></code> ).</p></li>
+<li><p class="linemarker linemarker-72">Run <code class="docutils literal notranslate"><span class="pre">sirens</span> <span class="pre">generate_notebooks</span></code> to generate the notebooks (the generated files will reside in the deploy folder.</p></li>
+<li><p class="linemarker linemarker-73">Commit the config files and generated notebooks to the <code class="docutils literal notranslate"><span class="pre">deploy_v1</span></code> branch and push to the <code class="docutils literal notranslate"><span class="pre">my-sirens</span></code> origin</p></li>
+<li><p class="linemarker linemarker-74">[The following steps in Databricks can be automated via CLI/API.] Create the git repo integration to <code class="docutils literal notranslate"><span class="pre">my-sirens</span></code> repo in your Databricks workspace</p></li>
+<li><p class="linemarker linemarker-75">Navigate to the <code class="docutils literal notranslate"><span class="pre">my-sirens</span></code> repo in your Databricks workspace and set the branch to <code class="docutils literal notranslate"><span class="pre">deploy_v1</span></code></p></li>
+<li><p class="linemarker linemarker-76">Setup the DLT pipeline or Multi-task jobs using generated notebooks in the deploy folder of the <code class="docutils literal notranslate"><span class="pre">my-sirens</span></code> repo (<code class="docutils literal notranslate"><span class="pre">deploy_v1</span></code> branch) – This step can be automated via CLI in the future.</p></li>
+</ol>
+</section>
+<section id="redeployment-after-a-configuration-change">
+<h3>Redeployment after a configuration change<a class="headerlink" href="#redeployment-after-a-configuration-change" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-81">Examples of configuration change include adding/removing a data source or
+tweaking the notebook logic. Note that you will manage the config files and
+generated notebooks as code using standard git processes.</p>
+<ol class="arabic simple">
+<li><p class="linemarker linemarker-85">Edit the config files or template files or source code to incorporate the change. (You are free to use a separate branch if you like)</p></li>
+<li><p class="linemarker linemarker-86">Run <code class="docutils literal notranslate"><span class="pre">sirens</span> <span class="pre">generate_notebooks</span></code> to generate the notebooks (the generated files will reside in the deploy folder</p></li>
+<li><p class="linemarker linemarker-87">Commit the config files and generated notebooks to the <code class="docutils literal notranslate"><span class="pre">deploy_v1</span></code> branch (or you can use a separate branch) and push to the <code class="docutils literal notranslate"><span class="pre">my-sirens</span></code> repo</p></li>
+<li><p class="linemarker linemarker-88">[The following steps in Databricks can be automated via CLI/API.]  Navigate to the <code class="docutils literal notranslate"><span class="pre">my-sirens</span></code> repo in each of your Databricks workspace and “pull” the branch <code class="docutils literal notranslate"><span class="pre">deploy_v1</span></code> for the latest changes</p></li>
+<li><p class="linemarker linemarker-89">Restart the DLT pipeline or Multi-task jobs if you are using DLT pipeline or Multi-task jobs in continuous processing or streaming mode, so that the latest notebooks and config files will be picked up. Batch or scheduled jobs should pick up the latest notebooks and config files automatically on the next scheduled run.</p></li>
+</ol>
+</section>
+<section id="unity-catalog">
+<h3>Unity Catalog<a class="headerlink" href="#unity-catalog" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-94">To use Sirens with Unity Catalog, please begin by following the instructions for getting started: <a class="reference external" href="https://docs.databricks.com/data-governance/unity-catalog/get-started.html">AWS</a> | <a class="reference external" href="https://learn.microsoft.com/en-us/azure/databricks/data-governance/unity-catalog/get-started">Azure</a> | <a class="reference external" href="https://docs.gcp.databricks.com/data-governance/unity-catalog/get-started.html">GCP</a>.</p>
+<p class="linemarker linemarker-96">The user or service principal running the Sirens pipelines will need to have the necessary
+permissions to create and write to tables in the target catalog and schema in Unity Catalog.</p>
+<p class="linemarker linemarker-99">You will also need to configure external storage locations for loading raw data into your ingest pipelines.</p>
+<p class="linemarker linemarker-101">When configuring the target database you need to use the catalog name plus the schema (aka “database”) name, for example <cite>main.sirens</cite> otherwise it will default to <cite>hive_metastore.sirens</cite>.</p>
+</section>
+<section id="sirens-upgrade-workflow">
+<h3>Sirens upgrade workflow<a class="headerlink" href="#sirens-upgrade-workflow" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-106">There is a chance that after you have deployed sirens, a new
+version of the Sirens is released. The following steps walk you
+through the upgrade process assuming you have not made substantial changes to
+the source code or the template files AND you do want to upgrade to that new
+version.</p>
+<ol class="arabic simple">
+<li><p class="linemarker linemarker-112">Sync the version of Sirens you want using the appropriate git commands (<a class="reference external" href="https://docs.github.com/en/pull-requests/collaborating-with-pull-requests/working-with-forks/syncing-a-fork">Syncing a fork - GitHub Docs</a> ). This will update <code class="docutils literal notranslate"><span class="pre">my-sirens</span></code> repo (main branch) with the latest changes.</p></li>
+<li><p class="linemarker linemarker-113">Rebase/merge to the <code class="docutils literal notranslate"><span class="pre">deploy_v1</span></code> branch or create a new branch as needed.</p></li>
+<li><p class="linemarker linemarker-114">Repeat the above deployment steps to generate notebooks and deploy to Databricks workspace</p></li>
+</ol>
+</section>
+</section>
+<hr class="docutils" />
+<section id="development-guide">
+<h2>Development Guide<a class="headerlink" href="#development-guide" title="Link to this heading">#</a></h2>
+<section id="running-tests-wip">
+<h3>Running tests (WIP)<a class="headerlink" href="#running-tests-wip" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-124">To run the provided integration or smoke tests:</p>
+<ol class="arabic simple">
+<li><p class="linemarker linemarker-126">Clone the repo (either the original or the clone) to your laptop</p></li>
+<li><p class="linemarker linemarker-127">Change directory to the root directory of the repo</p></li>
+<li><p class="linemarker linemarker-128">Ensure you have installed the required packages using <code class="docutils literal notranslate"><span class="pre">pip3</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements_dev.txt</span></code></p></li>
+<li><p class="linemarker linemarker-129">Run <code class="docutils literal notranslate"><span class="pre">pytest</span></code> (This currently is broken and will be fixed soon)</p></li>
+</ol>
+<p class="linemarker linemarker-131">To get coverage report:</p>
+<ol class="arabic simple">
+<li><p class="linemarker linemarker-133"><code class="docutils literal notranslate"><span class="pre">coverage</span> <span class="pre">run</span> <span class="pre">-m</span> <span class="pre">pytest</span></code></p></li>
+<li><p class="linemarker linemarker-134"><code class="docutils literal notranslate"><span class="pre">coverage</span> <span class="pre">report</span> <span class="pre">-m</span></code></p></li>
+</ol>
+</section>
+<section id="test-driven-development-workflow-wip">
+<h3>Test-driven development workflow (WIP)<a class="headerlink" href="#test-driven-development-workflow-wip" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-139">Sirens is based on a code generation framework that is controlled by a
+top-level configuration file <code class="docutils literal notranslate"><span class="pre">sirens.config</span></code>. For generating simple
+notebooks, there is a the jinja2 source template file in the <code class="docutils literal notranslate"><span class="pre">templates/</span></code> folder. The actual generation logic reside in the files in the <code class="docutils literal notranslate"><span class="pre">src/</span></code> folder.</p>
+<p class="linemarker linemarker-143">Here are guidelines on how to develop and add a new output
+notebook to sirens following a <a class="reference external" href="https://en.wikipedia.org/wiki/Test-driven_development">test-driven development paradigm</a>.</p>
+<ol class="arabic simple">
+<li><p class="linemarker linemarker-146">First develop and test the new feature as a notebook (or DLT notebook) in a Databricks workspace. The rest of the steps are performed in your local development environment (e.g., your laptop).</p></li>
+<li><p class="linemarker linemarker-147">Create a new branch and prefix the branch name with your name.</p></li>
+<li><p class="linemarker linemarker-148">Create a new test case in the <code class="docutils literal notranslate"><span class="pre">tests/</span></code> folder using the notebook you developed and tested. The provided <code class="docutils literal notranslate"><span class="pre">smoke01</span></code> test will be a good example of how to create a test case.</p></li>
+<li><p class="linemarker linemarker-149">Decide how you would like to generate the code for your notebook. Most notebooks can be templatized using Jinja2 syntax and generated as a simple notebook - see the code generation logic in <code class="docutils literal notranslate"><span class="pre">src/controller.py</span></code>.</p></li>
+<li><p class="linemarker linemarker-150">Use the test case you created earlier to drive the development and testing.</p></li>
+<li><p class="linemarker linemarker-151">Ensure that running <code class="docutils literal notranslate"><span class="pre">pytest</span></code> at the repo root directory passes.</p></li>
+<li><p class="linemarker linemarker-152">Push your branch to the origin and open a pull request.</p></li>
+<li><p class="linemarker linemarker-153">Solicit code reviews for the pull request</p></li>
+<li><p class="linemarker linemarker-154">Once the pull request is approved, ask the contact author to merge the code into main.</p></li>
+<li><p class="linemarker linemarker-155">Optionally update the <code class="docutils literal notranslate"><span class="pre">test_drive</span></code> branch.</p></li>
+</ol>
+<div class="toctree-wrapper compound">
+</div>
+</section>
+</section>
+</section>
+<section id="indices-and-tables">
+<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading">#</a></h1>
+<ul class="simple">
+<li><p class="linemarker linemarker-23"><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p class="linemarker linemarker-24"><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p class="linemarker linemarker-25"><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="sirens_user_guide.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">Introduction</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Derek King
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer no-toc">
+      
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>

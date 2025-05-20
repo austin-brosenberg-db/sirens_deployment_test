@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_ssl
+    connector: json
+    sample: ssl_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_ssl'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, server_name, id.resp_h, cert_chain_fps, _write_ts, subject, curve, id.orig_h, ts, issuer, id.orig_p, _path, sni_matches_cert, version, client_cert_chain_fps, cipher, resumed, id.resp_p, uid, established, ssl_history, _system_name
+        expected_values:
+          - id.resp_h: '102.164.208.44'
+          - curve: 'x25519'
+          - subject: 'O=Internet Widgits Pty Ltd,ST=Some-State,C=AU'

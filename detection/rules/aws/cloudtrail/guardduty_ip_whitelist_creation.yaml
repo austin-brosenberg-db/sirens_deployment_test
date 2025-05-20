@@ -1,0 +1,57 @@
+name: guardduty_ip_whitelist_creation
+summary: AWS account <userIdentity.accountId> from <sourceIPAddress> created IP whitelist excluded from Guardduty
+severity: high
+source: cloudtrail
+sourceDetails: 
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <timestamp>
+actor:
+  type: USER
+  domain: userIdentity.accountId
+  id: userIdentity.arn
+  role: 
+  beliefCompromised: 0.5
+target:
+  type: INFRASTRUCTURE
+  domain: recipientAccountId
+  id: 
+  role: 
+  beliefCompromised: 0.5
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: DEFENSE_EVASION
+    techniqueId: T1562
+    technique: Impair Defenses
+    subtechniqueId: T1562.006
+    subtechnique: Indicator Blocking
+observables:
+  ipAddresses:
+  - '[ipAddress]'
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  requestorArn: <userIdentity.arn>
+filter: |-
+  eventSource = 'guardduty.amazonaws.com' AND 
+  eventName = 'CreateIPSet'
+test_cases:
+- test_name: expected hit
+  expected_result: true
+  expected_summary: AWS account 1234567890 from 1.2.3.4 created IP whitelist excluded from Guardduty
+  expected_severity: high
+  # expected_context: {}
+  test_input: 
+    {
+        "eventSource": "guardduty.amazonaws.com",
+        "eventName": "CreateIPSet",
+        "timestamp": "2022-01-01 00:00:00",
+        "userIdentity": {
+          "arn": "arn:aws:iam::123456789012:user/Alice",
+          "accountId": "1234567890",
+        },
+        "sourceIPAddress": "1.2.3.4"
+
+    }

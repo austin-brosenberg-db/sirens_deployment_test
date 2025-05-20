@@ -1,0 +1,34 @@
+connection:
+  server: <ip|FQDN>
+  auth_token: <use_only_for_testing>
+  token:
+    scope: <cyber_analytics_scope>
+    key: <splunk_soar_token>
+  ratelimit:
+    max_calls: 100
+    period_seconds: 86400
+  max_timeout_seconds: 10
+  retries: 3
+  verify_ssl: False
+# splunkSoar_key -> DF.col mapping
+# lit(<VALUE>) for literal values to pass to SOAR
+container:
+    NAME: name
+    LABEL: lit('events')
+    SOURCE_DATA_IDENTIFIER: uuid
+artifact:
+    DESCRIPTION: summary
+    KILL_CHAIN: attacks.killchain.stage
+    TYPE: lit('[]')
+    LABEL: lit('event')
+    NAME: name
+    RUN_AUTOMATION: lit('False')
+    SEVERITY: severity
+    TAGS: lit('[]')
+    SOURCE_DATA_IDENTIFIER: uuid
+    START_TIME: _event_time
+    DATA: context
+    CEF:
+      fileHash: target.type
+      fileSize: target.filesize
+      externalId: attacks.mitre.subtechnique

@@ -1,0 +1,937 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="databricks.sirens.features package" href="databricks.sirens.features.html" /><link rel="prev" title="databricks.sirens.detection.alert package" href="databricks.sirens.detection.alert.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>databricks.sirens.detection.rule package - Sirens by Databricks</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=46bbebfe" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Sirens by Databricks</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Sirens by Databricks</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#data-ingestion">Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#enrichments">Enrichments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#transformations">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#aggregation-tables">Aggregation Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#global-configuration-files">Global Configuration files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#log-source-configuration">Log Source Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#detections">Detections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#alerts">Alerts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#action-framework">Action Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#threat-hunting-framework">Threat Hunting Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#common-information-model-schemas">Common Information Model Schemas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#functions">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#sirens-cli-reference">Sirens CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#known-limitations">Known Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#faqs">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#developers-guide">Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contributing.html">Contributing</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">databricks</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of databricks</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="databricks.html">databricks package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of databricks package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 current has-children"><a class="reference internal" href="databricks.sirens.html">databricks.sirens package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of databricks.sirens package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.actions.html">databricks.sirens.actions package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.cjp.html">databricks.sirens.cjp package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5 has-children"><a class="reference internal" href="databricks.sirens.cjp.cjlib.html">databricks.sirens.cjp.cjlib package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp.cjlib package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.exceptions.html">databricks.sirens.cjp.cjlib.exceptions package</a></li>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.pollers.html">databricks.sirens.cjp.cjlib.pollers package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.connectors.html">databricks.sirens.connectors package</a></li>
+<li class="toctree-l4 current has-children"><a class="reference internal" href="databricks.sirens.detection.html">databricks.sirens.detection package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of databricks.sirens.detection package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.detection.alert.html">databricks.sirens.detection.alert package</a></li>
+<li class="toctree-l5 current current-page"><a class="current reference internal" href="#">databricks.sirens.detection.rule package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.features.html">databricks.sirens.features package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.internal.html">databricks.sirens.internal package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.parsers.html">databricks.sirens.parsers package</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of databricks.sirens.parsers package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.parsers.internal.html">databricks.sirens.parsers.internal package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.udfs.html">databricks.sirens.udfs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.utils.html">databricks.sirens.utils package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.validators.html">databricks.sirens.validators package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="databricks-sirens-detection-rule-package">
+<h1>databricks.sirens.detection.rule package<a class="headerlink" href="#databricks-sirens-detection-rule-package" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-databricks.sirens.detection.rule.detection_ruleset">
+<span id="databricks-sirens-detection-rule-detection-ruleset-module"></span><h2>databricks.sirens.detection.rule.detection_ruleset module<a class="headerlink" href="#module-databricks.sirens.detection.rule.detection_ruleset" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.detection.rule.detection_ruleset.</span></span><span class="sig-name descname"><span class="pre">DetectionRuleset</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">rules</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">rule collection set</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.add_rules">
+<span class="sig-name descname"><span class="pre">add_rules</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">rules</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.add_rules" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.as_list">
+<span class="sig-name descname"><span class="pre">as_list</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.as_list" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.disable_rule">
+<span class="sig-name descname"><span class="pre">disable_rule</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">rule_names</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.disable_rule" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.dump_yaml">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">dump_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ruleset</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outfile</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.dump_yaml" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.from_yaml">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">from_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">yaml_str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.from_yaml" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.load_yaml">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">load_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">glob_or_list</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">alertClass</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">schema_fields</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">env</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">''</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.load_yaml" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.to_yaml">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_yaml</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">ruleset</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.to_yaml" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.detection.rule.rule_entity">
+<span id="databricks-sirens-detection-rule-rule-entity-module"></span><h2>databricks.sirens.detection.rule.rule_entity module<a class="headerlink" href="#module-databricks.sirens.detection.rule.rule_entity" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.AlertClass">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.detection.rule.rule_entity.</span></span><span class="sig-name descname"><span class="pre">AlertClass</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.AlertClass" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.AlertClass.ALERT">
+<span class="sig-name descname"><span class="pre">ALERT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.AlertClass.ALERT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.AlertClass.CORRELATION">
+<span class="sig-name descname"><span class="pre">CORRELATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.AlertClass.CORRELATION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.AlertClass.HEARTBEAT">
+<span class="sig-name descname"><span class="pre">HEARTBEAT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.AlertClass.HEARTBEAT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.AlertClass.INFO">
+<span class="sig-name descname"><span class="pre">INFO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.AlertClass.INFO" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.AlertClass.UNDEFINED">
+<span class="sig-name descname"><span class="pre">UNDEFINED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.AlertClass.UNDEFINED" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.EntityType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.detection.rule.rule_entity.</span></span><span class="sig-name descname"><span class="pre">EntityType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.EntityType" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.EntityType.APPLICATION">
+<span class="sig-name descname"><span class="pre">APPLICATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.EntityType.APPLICATION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.EntityType.HOST">
+<span class="sig-name descname"><span class="pre">HOST</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.EntityType.HOST" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.EntityType.INFRASTRUCTURE">
+<span class="sig-name descname"><span class="pre">INFRASTRUCTURE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.EntityType.INFRASTRUCTURE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.EntityType.UNDEFINED">
+<span class="sig-name descname"><span class="pre">UNDEFINED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.EntityType.UNDEFINED" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.EntityType.USER">
+<span class="sig-name descname"><span class="pre">USER</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.EntityType.USER" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.EntityType.USER_GROUP">
+<span class="sig-name descname"><span class="pre">USER_GROUP</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.EntityType.USER_GROUP" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.KillchainStage">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.detection.rule.rule_entity.</span></span><span class="sig-name descname"><span class="pre">KillchainStage</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.KillchainStage.ACTIONS_ON_OBJECTIVES">
+<span class="sig-name descname"><span class="pre">ACTIONS_ON_OBJECTIVES</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.ACTIONS_ON_OBJECTIVES" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.KillchainStage.COMMAND_AND_CONTROL">
+<span class="sig-name descname"><span class="pre">COMMAND_AND_CONTROL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.COMMAND_AND_CONTROL" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.KillchainStage.DELIVERY">
+<span class="sig-name descname"><span class="pre">DELIVERY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.DELIVERY" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.KillchainStage.EXPLOITATION">
+<span class="sig-name descname"><span class="pre">EXPLOITATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.EXPLOITATION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.KillchainStage.INSTALLATION">
+<span class="sig-name descname"><span class="pre">INSTALLATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.INSTALLATION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.KillchainStage.RECONNAISSANCE">
+<span class="sig-name descname"><span class="pre">RECONNAISSANCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.RECONNAISSANCE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.KillchainStage.UNDEFINED">
+<span class="sig-name descname"><span class="pre">UNDEFINED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.UNDEFINED" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.KillchainStage.WEAPONIZATION">
+<span class="sig-name descname"><span class="pre">WEAPONIZATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.WEAPONIZATION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.detection.rule.rule_entity.</span></span><span class="sig-name descname"><span class="pre">MitreEnterpriseTactic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.COLLECTION">
+<span class="sig-name descname"><span class="pre">COLLECTION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">9</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.COLLECTION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.COMMAND_AND_CONTROL">
+<span class="sig-name descname"><span class="pre">COMMAND_AND_CONTROL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">11</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.COMMAND_AND_CONTROL" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.CREDENTIAL_ACCESS">
+<span class="sig-name descname"><span class="pre">CREDENTIAL_ACCESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">6</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.CREDENTIAL_ACCESS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.DEFENSE_EVASION">
+<span class="sig-name descname"><span class="pre">DEFENSE_EVASION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.DEFENSE_EVASION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.DISCOVERY">
+<span class="sig-name descname"><span class="pre">DISCOVERY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">7</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.DISCOVERY" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.EXECUTION">
+<span class="sig-name descname"><span class="pre">EXECUTION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.EXECUTION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.EXFILTRATION">
+<span class="sig-name descname"><span class="pre">EXFILTRATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">10</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.EXFILTRATION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.IMPACT">
+<span class="sig-name descname"><span class="pre">IMPACT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">40</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.IMPACT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.INITIAL_ACCESS">
+<span class="sig-name descname"><span class="pre">INITIAL_ACCESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.INITIAL_ACCESS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.LATERAL_MOVEMENT">
+<span class="sig-name descname"><span class="pre">LATERAL_MOVEMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">8</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.LATERAL_MOVEMENT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.PERSISTENCE">
+<span class="sig-name descname"><span class="pre">PERSISTENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.PERSISTENCE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.PRIVILEGE_ESCALATION">
+<span class="sig-name descname"><span class="pre">PRIVILEGE_ESCALATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.PRIVILEGE_ESCALATION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.RECONNAISSANCE">
+<span class="sig-name descname"><span class="pre">RECONNAISSANCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">43</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.RECONNAISSANCE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.RESOURCE_DEVELOPMENT">
+<span class="sig-name descname"><span class="pre">RESOURCE_DEVELOPMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">42</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.RESOURCE_DEVELOPMENT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.UNDEFINED">
+<span class="sig-name descname"><span class="pre">UNDEFINED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.UNDEFINED" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.detection.rule.rule_entity.</span></span><span class="sig-name descname"><span class="pre">MitreICSTactic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic.COLLECTION">
+<span class="sig-name descname"><span class="pre">COLLECTION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">100</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.COLLECTION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic.COMMAND_AND_CONTROL">
+<span class="sig-name descname"><span class="pre">COMMAND_AND_CONTROL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">101</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.COMMAND_AND_CONTROL" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic.DISCOVERY">
+<span class="sig-name descname"><span class="pre">DISCOVERY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">102</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.DISCOVERY" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic.EVASION">
+<span class="sig-name descname"><span class="pre">EVASION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">103</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.EVASION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic.EXECUTION">
+<span class="sig-name descname"><span class="pre">EXECUTION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">104</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.EXECUTION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic.IMPACT">
+<span class="sig-name descname"><span class="pre">IMPACT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">105</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.IMPACT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic.IMPAIR_PROCESS_CONTROL">
+<span class="sig-name descname"><span class="pre">IMPAIR_PROCESS_CONTROL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">106</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.IMPAIR_PROCESS_CONTROL" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic.INHIBIT_RESPONSE_FUNCTION">
+<span class="sig-name descname"><span class="pre">INHIBIT_RESPONSE_FUNCTION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">107</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.INHIBIT_RESPONSE_FUNCTION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic.INITIAL_ACCESS">
+<span class="sig-name descname"><span class="pre">INITIAL_ACCESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">108</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.INITIAL_ACCESS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic.LATERAL_MOVEMENT">
+<span class="sig-name descname"><span class="pre">LATERAL_MOVEMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">109</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.LATERAL_MOVEMENT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic.PERSISTENCE">
+<span class="sig-name descname"><span class="pre">PERSISTENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">110</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.PERSISTENCE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic.PRIVILEGE_ESCALATION">
+<span class="sig-name descname"><span class="pre">PRIVILEGE_ESCALATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">111</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.PRIVILEGE_ESCALATION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreICSTactic.UNDEFINED">
+<span class="sig-name descname"><span class="pre">UNDEFINED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.UNDEFINED" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.detection.rule.rule_entity.</span></span><span class="sig-name descname"><span class="pre">MitreMobileTactic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.COLLECTION">
+<span class="sig-name descname"><span class="pre">COLLECTION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">35</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.COLLECTION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.COMMAND_AND_CONTROL">
+<span class="sig-name descname"><span class="pre">COMMAND_AND_CONTROL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">37</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.COMMAND_AND_CONTROL" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.CREDENTIAL_ACCESS">
+<span class="sig-name descname"><span class="pre">CREDENTIAL_ACCESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">31</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.CREDENTIAL_ACCESS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.DEFENSE_EVASION">
+<span class="sig-name descname"><span class="pre">DEFENSE_EVASION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">30</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.DEFENSE_EVASION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.DISCOVERY">
+<span class="sig-name descname"><span class="pre">DISCOVERY</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">32</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.DISCOVERY" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.EXECUTION">
+<span class="sig-name descname"><span class="pre">EXECUTION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">41</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.EXECUTION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.EXFILTRATION">
+<span class="sig-name descname"><span class="pre">EXFILTRATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">36</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.EXFILTRATION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.IMPACT">
+<span class="sig-name descname"><span class="pre">IMPACT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">34</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.IMPACT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.INITIAL_ACCESS">
+<span class="sig-name descname"><span class="pre">INITIAL_ACCESS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">27</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.INITIAL_ACCESS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.LATERAL_MOVEMENT">
+<span class="sig-name descname"><span class="pre">LATERAL_MOVEMENT</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">33</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.LATERAL_MOVEMENT" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.NETWORK_EFFECTS">
+<span class="sig-name descname"><span class="pre">NETWORK_EFFECTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">38</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.NETWORK_EFFECTS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.PERSISTENCE">
+<span class="sig-name descname"><span class="pre">PERSISTENCE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">28</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.PERSISTENCE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.PRIVILEGE_ESCALATION">
+<span class="sig-name descname"><span class="pre">PRIVILEGE_ESCALATION</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">29</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.PRIVILEGE_ESCALATION" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.REMOTE_SERVICE_EFFECTS">
+<span class="sig-name descname"><span class="pre">REMOTE_SERVICE_EFFECTS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">39</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.REMOTE_SERVICE_EFFECTS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.UNDEFINED">
+<span class="sig-name descname"><span class="pre">UNDEFINED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.UNDEFINED" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.detection.rule.rule_entity.</span></span><span class="sig-name descname"><span class="pre">MitreTaxonomyType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType.ENTERPRISE">
+<span class="sig-name descname"><span class="pre">ENTERPRISE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType.ENTERPRISE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType.ICS">
+<span class="sig-name descname"><span class="pre">ICS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType.ICS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType.MOBILE">
+<span class="sig-name descname"><span class="pre">MOBILE</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType.MOBILE" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.RuleEntity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.detection.rule.rule_entity.</span></span><span class="sig-name descname"><span class="pre">RuleEntity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.RuleEntity.convert_mutable">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convert_mutable</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity.convert_mutable" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.RuleEntity.convert_struct">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convert_struct</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">vals</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity.convert_struct" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.RuleEntity.convert_val">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">convert_val</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">val</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity.convert_val" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.RuleEntity.get_collect_fields">
+<span class="sig-name descname"><span class="pre">get_collect_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">rule</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity.get_collect_fields" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.RuleEntity.parse_sevent_sequence">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">parse_sevent_sequence</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_sequence</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">seen_events</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity.parse_sevent_sequence" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.RuleEntity.sequential_filtering">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">sequential_filtering</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sequences</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_id</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity.sequential_filtering" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.Serverity">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.detection.rule.rule_entity.</span></span><span class="sig-name descname"><span class="pre">Serverity</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.Serverity" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">IntEnum</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.Serverity.CRITICAL">
+<span class="sig-name descname"><span class="pre">CRITICAL</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">5</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.Serverity.CRITICAL" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.Serverity.HIGH">
+<span class="sig-name descname"><span class="pre">HIGH</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">4</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.Serverity.HIGH" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.Serverity.INFO">
+<span class="sig-name descname"><span class="pre">INFO</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">1</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.Serverity.INFO" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.Serverity.LOW">
+<span class="sig-name descname"><span class="pre">LOW</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">2</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.Serverity.LOW" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.Serverity.MEDIUM">
+<span class="sig-name descname"><span class="pre">MEDIUM</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">3</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.Serverity.MEDIUM" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.detection.rule.rule_entity.Serverity.UNDEFINED">
+<span class="sig-name descname"><span class="pre">UNDEFINED</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">0</span></em><a class="headerlink" href="#databricks.sirens.detection.rule.rule_entity.Serverity.UNDEFINED" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.detection.rule">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-databricks.sirens.detection.rule" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="databricks.sirens.features.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">databricks.sirens.features package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="databricks.sirens.detection.alert.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">databricks.sirens.detection.alert package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Derek King
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">databricks.sirens.detection.rule package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-databricks.sirens.detection.rule.detection_ruleset">databricks.sirens.detection.rule.detection_ruleset module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.add_rules"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.add_rules()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.as_list"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.as_list()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.disable_rule"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.disable_rule()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.dump_yaml"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.dump_yaml()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.from_yaml"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.from_yaml()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.load_yaml"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.load_yaml()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.to_yaml"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.to_yaml()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.detection.rule.rule_entity">databricks.sirens.detection.rule.rule_entity module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.AlertClass"><code class="docutils literal notranslate"><span class="pre">AlertClass</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.AlertClass.ALERT"><code class="docutils literal notranslate"><span class="pre">AlertClass.ALERT</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.AlertClass.CORRELATION"><code class="docutils literal notranslate"><span class="pre">AlertClass.CORRELATION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.AlertClass.HEARTBEAT"><code class="docutils literal notranslate"><span class="pre">AlertClass.HEARTBEAT</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.AlertClass.INFO"><code class="docutils literal notranslate"><span class="pre">AlertClass.INFO</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.AlertClass.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">AlertClass.UNDEFINED</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.EntityType"><code class="docutils literal notranslate"><span class="pre">EntityType</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.EntityType.APPLICATION"><code class="docutils literal notranslate"><span class="pre">EntityType.APPLICATION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.EntityType.HOST"><code class="docutils literal notranslate"><span class="pre">EntityType.HOST</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.EntityType.INFRASTRUCTURE"><code class="docutils literal notranslate"><span class="pre">EntityType.INFRASTRUCTURE</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.EntityType.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">EntityType.UNDEFINED</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.EntityType.USER"><code class="docutils literal notranslate"><span class="pre">EntityType.USER</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.EntityType.USER_GROUP"><code class="docutils literal notranslate"><span class="pre">EntityType.USER_GROUP</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage"><code class="docutils literal notranslate"><span class="pre">KillchainStage</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.ACTIONS_ON_OBJECTIVES"><code class="docutils literal notranslate"><span class="pre">KillchainStage.ACTIONS_ON_OBJECTIVES</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.COMMAND_AND_CONTROL"><code class="docutils literal notranslate"><span class="pre">KillchainStage.COMMAND_AND_CONTROL</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.DELIVERY"><code class="docutils literal notranslate"><span class="pre">KillchainStage.DELIVERY</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.EXPLOITATION"><code class="docutils literal notranslate"><span class="pre">KillchainStage.EXPLOITATION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.INSTALLATION"><code class="docutils literal notranslate"><span class="pre">KillchainStage.INSTALLATION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.RECONNAISSANCE"><code class="docutils literal notranslate"><span class="pre">KillchainStage.RECONNAISSANCE</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">KillchainStage.UNDEFINED</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.KillchainStage.WEAPONIZATION"><code class="docutils literal notranslate"><span class="pre">KillchainStage.WEAPONIZATION</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.COLLECTION"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.COLLECTION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.COMMAND_AND_CONTROL"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.COMMAND_AND_CONTROL</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.CREDENTIAL_ACCESS"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.CREDENTIAL_ACCESS</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.DEFENSE_EVASION"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.DEFENSE_EVASION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.DISCOVERY"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.DISCOVERY</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.EXECUTION"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.EXECUTION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.EXFILTRATION"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.EXFILTRATION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.IMPACT"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.IMPACT</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.INITIAL_ACCESS"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.INITIAL_ACCESS</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.LATERAL_MOVEMENT"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.LATERAL_MOVEMENT</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.PERSISTENCE"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.PERSISTENCE</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.PRIVILEGE_ESCALATION"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.PRIVILEGE_ESCALATION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.RECONNAISSANCE"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.RECONNAISSANCE</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.RESOURCE_DEVELOPMENT"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.RESOURCE_DEVELOPMENT</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.UNDEFINED</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.COLLECTION"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.COLLECTION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.COMMAND_AND_CONTROL"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.COMMAND_AND_CONTROL</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.DISCOVERY"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.DISCOVERY</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.EVASION"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.EVASION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.EXECUTION"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.EXECUTION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.IMPACT"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.IMPACT</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.IMPAIR_PROCESS_CONTROL"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.IMPAIR_PROCESS_CONTROL</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.INHIBIT_RESPONSE_FUNCTION"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.INHIBIT_RESPONSE_FUNCTION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.INITIAL_ACCESS"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.INITIAL_ACCESS</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.LATERAL_MOVEMENT"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.LATERAL_MOVEMENT</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.PERSISTENCE"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.PERSISTENCE</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.PRIVILEGE_ESCALATION"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.PRIVILEGE_ESCALATION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.UNDEFINED</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.COLLECTION"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.COLLECTION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.COMMAND_AND_CONTROL"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.COMMAND_AND_CONTROL</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.CREDENTIAL_ACCESS"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.CREDENTIAL_ACCESS</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.DEFENSE_EVASION"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.DEFENSE_EVASION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.DISCOVERY"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.DISCOVERY</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.EXECUTION"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.EXECUTION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.EXFILTRATION"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.EXFILTRATION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.IMPACT"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.IMPACT</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.INITIAL_ACCESS"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.INITIAL_ACCESS</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.LATERAL_MOVEMENT"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.LATERAL_MOVEMENT</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.NETWORK_EFFECTS"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.NETWORK_EFFECTS</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.PERSISTENCE"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.PERSISTENCE</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.PRIVILEGE_ESCALATION"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.PRIVILEGE_ESCALATION</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.REMOTE_SERVICE_EFFECTS"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.REMOTE_SERVICE_EFFECTS</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.UNDEFINED</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType"><code class="docutils literal notranslate"><span class="pre">MitreTaxonomyType</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType.ENTERPRISE"><code class="docutils literal notranslate"><span class="pre">MitreTaxonomyType.ENTERPRISE</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType.ICS"><code class="docutils literal notranslate"><span class="pre">MitreTaxonomyType.ICS</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType.MOBILE"><code class="docutils literal notranslate"><span class="pre">MitreTaxonomyType.MOBILE</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity"><code class="docutils literal notranslate"><span class="pre">RuleEntity</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity.convert_mutable"><code class="docutils literal notranslate"><span class="pre">RuleEntity.convert_mutable()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity.convert_struct"><code class="docutils literal notranslate"><span class="pre">RuleEntity.convert_struct()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity.convert_val"><code class="docutils literal notranslate"><span class="pre">RuleEntity.convert_val()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity.get_collect_fields"><code class="docutils literal notranslate"><span class="pre">RuleEntity.get_collect_fields()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity.parse_sevent_sequence"><code class="docutils literal notranslate"><span class="pre">RuleEntity.parse_sevent_sequence()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.RuleEntity.sequential_filtering"><code class="docutils literal notranslate"><span class="pre">RuleEntity.sequential_filtering()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.Serverity"><code class="docutils literal notranslate"><span class="pre">Serverity</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.Serverity.CRITICAL"><code class="docutils literal notranslate"><span class="pre">Serverity.CRITICAL</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.Serverity.HIGH"><code class="docutils literal notranslate"><span class="pre">Serverity.HIGH</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.Serverity.INFO"><code class="docutils literal notranslate"><span class="pre">Serverity.INFO</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.Serverity.LOW"><code class="docutils literal notranslate"><span class="pre">Serverity.LOW</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.Serverity.MEDIUM"><code class="docutils literal notranslate"><span class="pre">Serverity.MEDIUM</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.rule.rule_entity.Serverity.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">Serverity.UNDEFINED</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.detection.rule">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>

@@ -1,0 +1,70 @@
+name: db_removed_from_security_grp
+summary: Removed security group in RDS from <userName> at <sourceIPAddress>
+severity: high
+source: cloudtrail
+sourceDetails: 
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <timestamp>
+actor:
+  type: USER
+  domain: userIdentity.accountId
+  id: userIdentity.arn
+  role: 
+  beliefCompromised: 0.5
+target:
+  type: INFRASTRUCTURE
+  domain: recipientAccountId
+  id: 
+  role: 
+  beliefCompromised: 0.5
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: DEFENSE_EVASION
+    techniqueId: T1562
+    technique: Impair Defenses
+    subtechniqueId: T1562.007
+    subtechnique: Disable or Modify Cloud Firewall
+observables:
+  ipAddresses:
+  - '[ipAddress]'
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  dBInstanceIdentifier: <requestParameters.dBInstanceIdentifier>
+  recipientAccountId: <recipientAccountId>
+  requestorArn: <userIdentity.arn>
+  securityGroups: <requestParameters.securityGroups>
+filter: |-
+  eventSource = 'rds.amazonaws.com'
+  and eventName = 'ModifyEventSubscription'
+  and requestParameters.sourcetype = 'DBInstance'
+  and requestParameters.eventCategory= 'Configuration change'
+  and requestParameters.eventID = 'RDS-EVENT-0010'
+test_cases:
+- test_name: expected hit
+  expected_result: true
+  expected_summary: Removed security group in RDS from Alice at 1.2.3.4
+  expected_severity: high
+  # expected_context: {}
+  test_input:
+    {
+      "eventName": "ModifyEventSubscription",
+      "eventSource": "rds.amazonaws.com",
+      "requestParameters": {
+          "sourcetype": "DBInstance",
+          "eventCategory": "Configuration change",
+          "eventID": "RDS-EVENT-0010",
+          "dBInstanceIdentifier": "test-instance", 
+          "securityGroups": "sg-123456"
+      },
+      "recipientAccountId": "123456789012",
+      "timestamp": "2022-01-01 00:00:00",
+      "userIdentity": {
+        "arn": "arn:aws:iam::123456789012:user/Alice"
+      },
+      "sourceIPAddress": "1.2.3.4",
+      "userName": "Alice"
+    }

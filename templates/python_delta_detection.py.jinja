@@ -1,0 +1,64 @@
+# Databricks notebook source
+# MAGIC %pip install pyyaml inflection
+
+# COMMAND ----------
+
+dbutils.widgets.text("source", '{{ source }}', label="source")
+dbutils.widgets.text("pipeline_name", '{{ pipeline_name }}', label="pipeline_name")
+
+# COMMAND ----------
+
+source = dbutils.widgets.get("source")
+pipeline_name = dbutils.widgets.get("pipeline_name")
+
+if '' in (source, pipeline_name):
+    raise Exception('please pass parameters to multi-task job, or fill out notebook widget values')
+
+# COMMAND ----------
+# DBTITLE 1,Set working directory to Sirens home
+import os
+
+sirens_home = spark.conf.get("sirens.home", None)
+
+if sirens_home is not None:
+  os.chdir(sirens_home)
+
+# COMMAND ----------
+
+from databricks.sirens.detection import *
+from databricks.sirens import config_reader
+import yaml
+
+# COMMAND ----------
+
+detectionObj = config_reader.Detection(source, pipeline_name)
+pipeline_config, ruleset = detectionObj.load_pipeline(pipeline_name)
+
+# COMMAND ----------
+
+from databricks.sirens.transformers import SparkSQLTransformer
+
+output_table = pipeline_config['output_table']
+
+if pipeline_config.get("transformation_sql"):
+  df = spark.sql(pipeline_config['transformation_sql'])
+elif pipeline_config.get("input_table"):
+  input_table = pipeline_config['input_table']
+  read_method = spark.readStream.table if pipeline_config.get("streamType") == "streaming" else spark.read.table
+  df = (
+    read_method(input_table)
+    .filter(pipeline_config['filter'])
+  )
+if not df:
+  raise Exception("No input dataframe found. `input_table` or `transformation` must be specified.")
+
+# COMMAND ----------
+detector = Detector(
+  output_table=output_table,
+  detection_rules=ruleset,
+  dedup_on=pipeline_config.get('dedup_on')
+)
+
+pipeline = Pipeline(module_name=pipeline_config['name'], df=df, spark=spark)
+pipeline.add_detector(detector)
+pipeline.start()

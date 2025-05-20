@@ -1,0 +1,1197 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="databricks.sirens.parsers.internal package" href="databricks.sirens.parsers.internal.html" /><link rel="prev" title="databricks.sirens.internal package" href="databricks.sirens.internal.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>databricks.sirens.parsers package - Sirens by Databricks</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=46bbebfe" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Sirens by Databricks</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Sirens by Databricks</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#data-ingestion">Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#enrichments">Enrichments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#transformations">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#aggregation-tables">Aggregation Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#global-configuration-files">Global Configuration files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#log-source-configuration">Log Source Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#detections">Detections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#alerts">Alerts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#action-framework">Action Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#threat-hunting-framework">Threat Hunting Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#common-information-model-schemas">Common Information Model Schemas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#functions">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#sirens-cli-reference">Sirens CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#known-limitations">Known Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#faqs">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#developers-guide">Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contributing.html">Contributing</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">databricks</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of databricks</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="databricks.html">databricks package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of databricks package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 current has-children"><a class="reference internal" href="databricks.sirens.html">databricks.sirens package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of databricks.sirens package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.actions.html">databricks.sirens.actions package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.cjp.html">databricks.sirens.cjp package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5 has-children"><a class="reference internal" href="databricks.sirens.cjp.cjlib.html">databricks.sirens.cjp.cjlib package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp.cjlib package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.exceptions.html">databricks.sirens.cjp.cjlib.exceptions package</a></li>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.pollers.html">databricks.sirens.cjp.cjlib.pollers package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.connectors.html">databricks.sirens.connectors package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.detection.html">databricks.sirens.detection package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of databricks.sirens.detection package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.detection.alert.html">databricks.sirens.detection.alert package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.detection.rule.html">databricks.sirens.detection.rule package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.features.html">databricks.sirens.features package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.internal.html">databricks.sirens.internal package</a></li>
+<li class="toctree-l4 current has-children current-page"><a class="current reference internal" href="#">databricks.sirens.parsers package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of databricks.sirens.parsers package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.parsers.internal.html">databricks.sirens.parsers.internal package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.udfs.html">databricks.sirens.udfs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.utils.html">databricks.sirens.utils package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.validators.html">databricks.sirens.validators package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="databricks-sirens-parsers-package">
+<h1>databricks.sirens.parsers package<a class="headerlink" href="#databricks-sirens-parsers-package" title="Link to this heading">#</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="databricks.sirens.parsers.internal.html">databricks.sirens.parsers.internal package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.parsers.internal.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.parsers.internal.html#module-databricks.sirens.parsers.internal.base">databricks.sirens.parsers.internal.base module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseCsvSource"><code class="docutils literal notranslate"><span class="pre">BaseCsvSource</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseCsvSource.parse"><code class="docutils literal notranslate"><span class="pre">BaseCsvSource.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseDataSource"><code class="docutils literal notranslate"><span class="pre">BaseDataSource</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseDataSource.load"><code class="docutils literal notranslate"><span class="pre">BaseDataSource.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseDataSource.name"><code class="docutils literal notranslate"><span class="pre">BaseDataSource.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseDataSource.normalize"><code class="docutils literal notranslate"><span class="pre">BaseDataSource.normalize()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseDataSource.parse"><code class="docutils literal notranslate"><span class="pre">BaseDataSource.parse()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseDataSource.partial_parsing"><code class="docutils literal notranslate"><span class="pre">BaseDataSource.partial_parsing()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseDataSource.supports_partial_parsing"><code class="docutils literal notranslate"><span class="pre">BaseDataSource.supports_partial_parsing()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseJsonSource"><code class="docutils literal notranslate"><span class="pre">BaseJsonSource</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseJsonSource.parse"><code class="docutils literal notranslate"><span class="pre">BaseJsonSource.parse()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseStructuredSource"><code class="docutils literal notranslate"><span class="pre">BaseStructuredSource</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseStructuredSource.get_schema"><code class="docutils literal notranslate"><span class="pre">BaseStructuredSource.get_schema()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseStructuredSource.load"><code class="docutils literal notranslate"><span class="pre">BaseStructuredSource.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseStructuredSource.normalize"><code class="docutils literal notranslate"><span class="pre">BaseStructuredSource.normalize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseTextSource"><code class="docutils literal notranslate"><span class="pre">BaseTextSource</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseTextSource.load"><code class="docutils literal notranslate"><span class="pre">BaseTextSource.load()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.BaseTextSource.normalize"><code class="docutils literal notranslate"><span class="pre">BaseTextSource.normalize()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.DataField"><code class="docutils literal notranslate"><span class="pre">DataField</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.DataField.default"><code class="docutils literal notranslate"><span class="pre">DataField.default</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.DataField.description"><code class="docutils literal notranslate"><span class="pre">DataField.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.DataField.final_name"><code class="docutils literal notranslate"><span class="pre">DataField.final_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.DataField.final_type"><code class="docutils literal notranslate"><span class="pre">DataField.final_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.DataField.get_final_type_string"><code class="docutils literal notranslate"><span class="pre">DataField.get_final_type_string()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.DataField.get_transform"><code class="docutils literal notranslate"><span class="pre">DataField.get_transform()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.DataField.is_source_field"><code class="docutils literal notranslate"><span class="pre">DataField.is_source_field</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.DataField.name"><code class="docutils literal notranslate"><span class="pre">DataField.name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.DataField.snake_case_name"><code class="docutils literal notranslate"><span class="pre">DataField.snake_case_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.DataField.source_name"><code class="docutils literal notranslate"><span class="pre">DataField.source_name</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.DataField.source_type"><code class="docutils literal notranslate"><span class="pre">DataField.source_type</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.DataField.transform"><code class="docutils literal notranslate"><span class="pre">DataField.transform</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.SourceTable"><code class="docutils literal notranslate"><span class="pre">SourceTable</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.SourceTable.category"><code class="docutils literal notranslate"><span class="pre">SourceTable.category</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.SourceTable.description"><code class="docutils literal notranslate"><span class="pre">SourceTable.description</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.SourceTable.from_mapping"><code class="docutils literal notranslate"><span class="pre">SourceTable.from_mapping()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.SourceTable.normalize_dataframe"><code class="docutils literal notranslate"><span class="pre">SourceTable.normalize_dataframe()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.SourceTable.source_fields"><code class="docutils literal notranslate"><span class="pre">SourceTable.source_fields</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.SourceTable.source_schema"><code class="docutils literal notranslate"><span class="pre">SourceTable.source_schema</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.SourceTable.specification"><code class="docutils literal notranslate"><span class="pre">SourceTable.specification</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.base.SourceTable.transformations"><code class="docutils literal notranslate"><span class="pre">SourceTable.transformations</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.parsers.internal.html#module-databricks.sirens.parsers.internal.common">databricks.sirens.parsers.internal.common module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.bulk_rename_columns"><code class="docutils literal notranslate"><span class="pre">bulk_rename_columns()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.create_list_column_parser"><code class="docutils literal notranslate"><span class="pre">create_list_column_parser()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.extract_json"><code class="docutils literal notranslate"><span class="pre">extract_json()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.get_spark_type"><code class="docutils literal notranslate"><span class="pre">get_spark_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.get_spark_type_for_data_type"><code class="docutils literal notranslate"><span class="pre">get_spark_type_for_data_type()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.maybe_convert_int"><code class="docutils literal notranslate"><span class="pre">maybe_convert_int()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.maybe_convert_int_ms_to_timestamp"><code class="docutils literal notranslate"><span class="pre">maybe_convert_int_ms_to_timestamp()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.normalize_dataframe"><code class="docutils literal notranslate"><span class="pre">normalize_dataframe()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.normalize_name"><code class="docutils literal notranslate"><span class="pre">normalize_name()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.parse_list_value"><code class="docutils literal notranslate"><span class="pre">parse_list_value()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.timestamp_col_from_double_string"><code class="docutils literal notranslate"><span class="pre">timestamp_col_from_double_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.timestamp_col_from_long_milliseconds"><code class="docutils literal notranslate"><span class="pre">timestamp_col_from_long_milliseconds()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.timestamp_col_from_long_seconds"><code class="docutils literal notranslate"><span class="pre">timestamp_col_from_long_seconds()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.timestamp_col_from_long_string"><code class="docutils literal notranslate"><span class="pre">timestamp_col_from_long_string()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.common.timestamp_col_from_utc_long"><code class="docutils literal notranslate"><span class="pre">timestamp_col_from_utc_long()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.parsers.internal.html#module-databricks.sirens.parsers.internal.crowdstrike_fields">databricks.sirens.parsers.internal.crowdstrike_fields module</a></li>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.parsers.internal.html#module-databricks.sirens.parsers.internal.crowdstrike_schemas">databricks.sirens.parsers.internal.crowdstrike_schemas module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.crowdstrike_schemas.get_crowdstrike_schema"><code class="docutils literal notranslate"><span class="pre">get_crowdstrike_schema()</span></code></a></li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.parsers.internal.html#databricks.sirens.parsers.internal.crowdstrike_schemas.supported_crowdstrike_schemas"><code class="docutils literal notranslate"><span class="pre">supported_crowdstrike_schemas()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.parsers.internal.html#module-databricks.sirens.parsers.internal">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-databricks.sirens.parsers.akamai">
+<span id="databricks-sirens-parsers-akamai-module"></span><h2>databricks.sirens.parsers.akamai module<a class="headerlink" href="#module-databricks.sirens.parsers.akamai" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.akamai.Parse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.akamai.</span></span><span class="sig-name descname"><span class="pre">Parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.akamai.Parse" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">Datasource specific. Responsible for event timestamp extraction to _raw_time, and providing
+a flattened DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.akamai.Parse.add_url_decode_fields">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_url_decode_fields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">col_name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.akamai.Parse.add_url_decode_fields" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.akamai.Parse.toBronze">
+<span class="sig-name descname"><span class="pre">toBronze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.akamai.Parse.toBronze" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">extract an event timestamp and augment raw data with the required metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Incoming DataFrame</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource config object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe with event_timestamp, metadata and a partition column (_event_date)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.akamai.Parse.toSilver">
+<span class="sig-name descname"><span class="pre">toSilver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.akamai.Parse.toSilver" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Use specific domain knowledge to create columns that can be transformed using sql expressions downstream</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Dataframe already processed for metadata (toSilver).</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>flattened DataFrame ready for normalization transformations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.parsers.apache_access_combined">
+<span id="databricks-sirens-parsers-apache-access-combined-module"></span><h2>databricks.sirens.parsers.apache_access_combined module<a class="headerlink" href="#module-databricks.sirens.parsers.apache_access_combined" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.apache_access_combined.Parse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.apache_access_combined.</span></span><span class="sig-name descname"><span class="pre">Parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.apache_access_combined.Parse" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">Datasource specific. Responsible for event timestamp extraction to _raw_time, and providing
+a flattened DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.apache_access_combined.Parse.toBronze">
+<span class="sig-name descname"><span class="pre">toBronze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.apache_access_combined.Parse.toBronze" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">extract an event timestamp and augment raw data with the required metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Incoming DataFrame</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource config object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe with event_timestamp, metadata and a partition column (_event_date)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.apache_access_combined.Parse.toSilver">
+<span class="sig-name descname"><span class="pre">toSilver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.apache_access_combined.Parse.toSilver" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Use specific domain knowledge to create columns that can be transformed using sql expressions downstream</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Dataframe already processed for metadata (toBronze).</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>flattened DataFrame ready for normalization transformations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.parsers.aws_cloudtrail">
+<span id="databricks-sirens-parsers-aws-cloudtrail-module"></span><h2>databricks.sirens.parsers.aws_cloudtrail module<a class="headerlink" href="#module-databricks.sirens.parsers.aws_cloudtrail" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.aws_cloudtrail.Parse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.aws_cloudtrail.</span></span><span class="sig-name descname"><span class="pre">Parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.aws_cloudtrail.Parse" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">Datasource specific. Responsible for event timestamp extraction to _raw_time, and providing
+a flattened DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.aws_cloudtrail.Parse.toBronze">
+<span class="sig-name descname"><span class="pre">toBronze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.aws_cloudtrail.Parse.toBronze" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">extract an event timestamp and augment raw data with the required metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Incoming DataFrame</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource config object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe with event_timestamp, metadata and a partition column (_event_date)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.aws_cloudtrail.Parse.toSilver">
+<span class="sig-name descname"><span class="pre">toSilver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.aws_cloudtrail.Parse.toSilver" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Use specific domain knowledge to create columns that can be transformed using sql expressions downstream</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Dataframe already processed for metadata (toSilver).</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>flattened DataFrame ready for normalization transformations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.parsers.aws_vpc_flowlogs">
+<span id="databricks-sirens-parsers-aws-vpc-flowlogs-module"></span><h2>databricks.sirens.parsers.aws_vpc_flowlogs module<a class="headerlink" href="#module-databricks.sirens.parsers.aws_vpc_flowlogs" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.aws_vpc_flowlogs.Parse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.aws_vpc_flowlogs.</span></span><span class="sig-name descname"><span class="pre">Parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.aws_vpc_flowlogs.Parse" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">Datasource specific. Responsible for event timestamp extraction to _raw_time, and providing
+a flattened DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.aws_vpc_flowlogs.Parse.toBronze">
+<span class="sig-name descname"><span class="pre">toBronze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.aws_vpc_flowlogs.Parse.toBronze" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">extract an event timestamp and augment raw data with the required metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Incoming DataFrame</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource config object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe with event_timestamp, metadata and a partition column (_event_date)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.aws_vpc_flowlogs.Parse.toSilver">
+<span class="sig-name descname"><span class="pre">toSilver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.aws_vpc_flowlogs.Parse.toSilver" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Use specific domain knowledge to create columns that can be transformed using sql expressions downstream</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Dataframe already processed for metadata (toBronze).</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>flattened DataFrame ready for normalization transformations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.parsers.bluecoat_proxy_sg_w3c">
+<span id="databricks-sirens-parsers-bluecoat-proxy-sg-w3c-module"></span><h2>databricks.sirens.parsers.bluecoat_proxy_sg_w3c module<a class="headerlink" href="#module-databricks.sirens.parsers.bluecoat_proxy_sg_w3c" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.bluecoat_proxy_sg_w3c.Parse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.bluecoat_proxy_sg_w3c.</span></span><span class="sig-name descname"><span class="pre">Parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.bluecoat_proxy_sg_w3c.Parse" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">Datasource specific. Responsible for event timestamp extraction to _raw_time, and providing
+a flattened DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.bluecoat_proxy_sg_w3c.Parse.toBronze">
+<span class="sig-name descname"><span class="pre">toBronze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.bluecoat_proxy_sg_w3c.Parse.toBronze" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">extract an event timestamp and augment raw data with the required metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Incoming DataFrame</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource config object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe with event_timestamp, metadata and a partition column (_event_date)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.bluecoat_proxy_sg_w3c.Parse.toSilver">
+<span class="sig-name descname"><span class="pre">toSilver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.bluecoat_proxy_sg_w3c.Parse.toSilver" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Use specific domain knowledge to create columns that can be transformed using sql expressions downstream</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Dataframe already processed for metadata (toSilver).</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>flattened DataFrame ready for normalization transformations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.parsers.corelight">
+<span id="databricks-sirens-parsers-corelight-module"></span><h2>databricks.sirens.parsers.corelight module<a class="headerlink" href="#module-databricks.sirens.parsers.corelight" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.corelight.Parse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.corelight.</span></span><span class="sig-name descname"><span class="pre">Parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.corelight.Parse" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">Datasource specific. Responsible for event timestamp extraction to _raw_time, and providing
+a flattened DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.corelight.Parse.toBronze">
+<span class="sig-name descname"><span class="pre">toBronze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.corelight.Parse.toBronze" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">extract an event timestamp and augment raw data with the required metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Incoming DataFrame</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource config object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe with event_timestamp, metadata and a partition column (_event_date)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.corelight.Parse.toSilver">
+<span class="sig-name descname"><span class="pre">toSilver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.corelight.Parse.toSilver" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Use specific domain knowledge to create columns that can be transformed using sql expressions downstream</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Dataframe already processed for metadata (toBronze).</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>flattened DataFrame ready for normalization transformations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.parsers.crowdstrike">
+<span id="databricks-sirens-parsers-crowdstrike-module"></span><h2>databricks.sirens.parsers.crowdstrike module<a class="headerlink" href="#module-databricks.sirens.parsers.crowdstrike" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.crowdstrike.Parse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.crowdstrike.</span></span><span class="sig-name descname"><span class="pre">Parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.crowdstrike.Parse" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">Datasource specific. Responsible for event timestamp extraction to _raw_time, and providing
+a flattened DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.crowdstrike.Parse.process_special_table">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">process_special_table</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">src_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dest_df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.crowdstrike.Parse.process_special_table" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.crowdstrike.Parse.toBronze">
+<span class="sig-name descname"><span class="pre">toBronze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.crowdstrike.Parse.toBronze" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">extract an event timestamp and augment raw data with the required metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Incoming DataFrame</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource config object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe with event_timestamp, metadata and a partition column (_event_date)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.crowdstrike.Parse.toSilver">
+<span class="sig-name descname"><span class="pre">toSilver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.crowdstrike.Parse.toSilver" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Use specific domain knowledge to create columns that can be transformed using sql expressions downstream</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Dataframe already processed for metadata (toSilver).</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>flattened DataFrame ready for normalization transformations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.parsers.db_audit">
+<span id="databricks-sirens-parsers-db-audit-module"></span><h2>databricks.sirens.parsers.db_audit module<a class="headerlink" href="#module-databricks.sirens.parsers.db_audit" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.db_audit.Parse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.db_audit.</span></span><span class="sig-name descname"><span class="pre">Parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.db_audit.Parse" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">Datasource specific. Responsible for event timestamp extraction to _raw_time, and providing
+a flattened DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.db_audit.Parse.toBronze">
+<span class="sig-name descname"><span class="pre">toBronze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.db_audit.Parse.toBronze" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">extract an event timestamp and augment raw data with the required metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Incoming DataFrame</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource config object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe with event_timestamp, metadata and a partition column (_event_date)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.db_audit.Parse.toSilver">
+<span class="sig-name descname"><span class="pre">toSilver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.db_audit.Parse.toSilver" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Use specific domain knowledge to create columns that can be transformed using sql expressions downstream</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Dataframe already processed for metadata (toBronze).</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>flattened DataFrame ready for normalization transformations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.parsers.microsoft_sysmon_beats_kafka">
+<span id="databricks-sirens-parsers-microsoft-sysmon-beats-kafka-module"></span><h2>databricks.sirens.parsers.microsoft_sysmon_beats_kafka module<a class="headerlink" href="#module-databricks.sirens.parsers.microsoft_sysmon_beats_kafka" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.microsoft_sysmon_beats_kafka.Parse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.microsoft_sysmon_beats_kafka.</span></span><span class="sig-name descname"><span class="pre">Parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.microsoft_sysmon_beats_kafka.Parse" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.microsoft_sysmon_beats_kafka.Parse.toBronze">
+<span class="sig-name descname"><span class="pre">toBronze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.microsoft_sysmon_beats_kafka.Parse.toBronze" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">extract an event timestamp and augment raw data with the required metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Incoming DataFrame</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource config object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe with event_timestamp, metadata and a partition column (_event_date)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.microsoft_sysmon_beats_kafka.Parse.toSilver">
+<span class="sig-name descname"><span class="pre">toSilver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.microsoft_sysmon_beats_kafka.Parse.toSilver" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Use specific domain knowledge to create columns that can be transformed using sql expressions downstream</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Dataframe already processed for metadata (toSilver).</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>flattened DataFrame ready for normalization transformations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.parsers.okta_okta_IM2">
+<span id="databricks-sirens-parsers-okta-okta-im2-module"></span><h2>databricks.sirens.parsers.okta_okta_IM2 module<a class="headerlink" href="#module-databricks.sirens.parsers.okta_okta_IM2" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.okta_okta_IM2.Parse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.okta_okta_IM2.</span></span><span class="sig-name descname"><span class="pre">Parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.okta_okta_IM2.Parse" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">Datasource specific. Responsible for event timestamp extraction to _raw_time, and providing
+a flattened DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.okta_okta_IM2.Parse.toBronze">
+<span class="sig-name descname"><span class="pre">toBronze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.okta_okta_IM2.Parse.toBronze" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">extract an event timestamp and augment raw data with the required metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Incoming DataFrame</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource config object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe with event_timestamp, metadata and a partition column (_event_date)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.okta_okta_IM2.Parse.toSilver">
+<span class="sig-name descname"><span class="pre">toSilver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.okta_okta_IM2.Parse.toSilver" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Use specific domain knowledge to create columns that can be transformed using sql expressions downstream</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Dataframe already processed for metadata (toBronze).</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>flattened DataFrame ready for normalization transformations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.parsers.plugins">
+<span id="databricks-sirens-parsers-plugins-module"></span><h2>databricks.sirens.parsers.plugins module<a class="headerlink" href="#module-databricks.sirens.parsers.plugins" title="Link to this heading">#</a></h2>
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.plugins.call">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.plugins.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.plugins.call" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Call the given plugin</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.plugins.call_factory">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.plugins.</span></span><span class="sig-name descname"><span class="pre">call_factory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.plugins.call_factory" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Create a call() function for one package</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.plugins.get">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.plugins.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.plugins.get" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Get a given plugin</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.plugins.get_factory">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.plugins.</span></span><span class="sig-name descname"><span class="pre">get_factory</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.plugins.get_factory" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Create a get() function for one package</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.plugins.names">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.plugins.</span></span><span class="sig-name descname"><span class="pre">names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.plugins.names" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">List all plugins in one package</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.plugins.names_factory">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.plugins.</span></span><span class="sig-name descname"><span class="pre">names_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.plugins.names_factory" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Create a names() function for one package</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.plugins.register">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.plugins.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.plugins.register" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Decorator for registering a new plugin</p>
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.parsers.zeek">
+<span id="databricks-sirens-parsers-zeek-module"></span><h2>databricks.sirens.parsers.zeek module<a class="headerlink" href="#module-databricks.sirens.parsers.zeek" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.zeek.Parse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.zeek.</span></span><span class="sig-name descname"><span class="pre">Parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.zeek.Parse" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">Datasource specific. Responsible for event timestamp extraction to _raw_time, and providing
+a flattened DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.zeek.Parse.toBronze">
+<span class="sig-name descname"><span class="pre">toBronze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.zeek.Parse.toBronze" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">extract an event timestamp and augment raw data with the required metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Incoming DataFrame</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource config object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe with event_timestamp, metadata and a partition column (_event_date)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.zeek.Parse.toSilver">
+<span class="sig-name descname"><span class="pre">toSilver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.zeek.Parse.toSilver" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Use specific domain knowledge to create columns that can be transformed using sql expressions downstream</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Dataframe already processed for metadata (toBronze).</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>flattened DataFrame ready for normalization transformations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.parsers.zscaler">
+<span id="databricks-sirens-parsers-zscaler-module"></span><h2>databricks.sirens.parsers.zscaler module<a class="headerlink" href="#module-databricks.sirens.parsers.zscaler" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.zscaler.Parse">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.parsers.zscaler.</span></span><span class="sig-name descname"><span class="pre">Parse</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">spark</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.parsers.zscaler.Parse" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">Datasource specific. Responsible for event timestamp extraction to _raw_time, and providing
+a flattened DataFrame.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.zscaler.Parse.toBronze">
+<span class="sig-name descname"><span class="pre">toBronze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.zscaler.Parse.toBronze" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">extract an event timestamp and augment raw data with the required metadata</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Incoming DataFrame</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource config object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>dataframe with event_timestamp, metadata and a partition column (_event_date)</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.parsers.zscaler.Parse.toSilver">
+<span class="sig-name descname"><span class="pre">toSilver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dataSourceObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">object</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">DataFrame</span></span></span><a class="headerlink" href="#databricks.sirens.parsers.zscaler.Parse.toSilver" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Use specific domain knowledge to create columns that can be transformed using sql expressions downstream</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>df</strong> (<em>DataFrame</em>) – Dataframe already processed for metadata (toBronze).</p></li>
+<li><p><strong>dataSourceObj</strong> (<em>object</em>) – the datasource object</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>flattened DataFrame ready for normalization transformations</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.parsers">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-databricks.sirens.parsers" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="databricks.sirens.parsers.internal.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">databricks.sirens.parsers.internal package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="databricks.sirens.internal.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">databricks.sirens.internal package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Derek King
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">databricks.sirens.parsers package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers.akamai">databricks.sirens.parsers.akamai module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.akamai.Parse"><code class="docutils literal notranslate"><span class="pre">Parse</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.akamai.Parse.add_url_decode_fields"><code class="docutils literal notranslate"><span class="pre">Parse.add_url_decode_fields()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.akamai.Parse.toBronze"><code class="docutils literal notranslate"><span class="pre">Parse.toBronze()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.akamai.Parse.toSilver"><code class="docutils literal notranslate"><span class="pre">Parse.toSilver()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers.apache_access_combined">databricks.sirens.parsers.apache_access_combined module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.apache_access_combined.Parse"><code class="docutils literal notranslate"><span class="pre">Parse</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.apache_access_combined.Parse.toBronze"><code class="docutils literal notranslate"><span class="pre">Parse.toBronze()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.apache_access_combined.Parse.toSilver"><code class="docutils literal notranslate"><span class="pre">Parse.toSilver()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers.aws_cloudtrail">databricks.sirens.parsers.aws_cloudtrail module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.aws_cloudtrail.Parse"><code class="docutils literal notranslate"><span class="pre">Parse</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.aws_cloudtrail.Parse.toBronze"><code class="docutils literal notranslate"><span class="pre">Parse.toBronze()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.aws_cloudtrail.Parse.toSilver"><code class="docutils literal notranslate"><span class="pre">Parse.toSilver()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers.aws_vpc_flowlogs">databricks.sirens.parsers.aws_vpc_flowlogs module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.aws_vpc_flowlogs.Parse"><code class="docutils literal notranslate"><span class="pre">Parse</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.aws_vpc_flowlogs.Parse.toBronze"><code class="docutils literal notranslate"><span class="pre">Parse.toBronze()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.aws_vpc_flowlogs.Parse.toSilver"><code class="docutils literal notranslate"><span class="pre">Parse.toSilver()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers.bluecoat_proxy_sg_w3c">databricks.sirens.parsers.bluecoat_proxy_sg_w3c module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.bluecoat_proxy_sg_w3c.Parse"><code class="docutils literal notranslate"><span class="pre">Parse</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.bluecoat_proxy_sg_w3c.Parse.toBronze"><code class="docutils literal notranslate"><span class="pre">Parse.toBronze()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.bluecoat_proxy_sg_w3c.Parse.toSilver"><code class="docutils literal notranslate"><span class="pre">Parse.toSilver()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers.corelight">databricks.sirens.parsers.corelight module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.corelight.Parse"><code class="docutils literal notranslate"><span class="pre">Parse</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.corelight.Parse.toBronze"><code class="docutils literal notranslate"><span class="pre">Parse.toBronze()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.corelight.Parse.toSilver"><code class="docutils literal notranslate"><span class="pre">Parse.toSilver()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers.crowdstrike">databricks.sirens.parsers.crowdstrike module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.crowdstrike.Parse"><code class="docutils literal notranslate"><span class="pre">Parse</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.crowdstrike.Parse.process_special_table"><code class="docutils literal notranslate"><span class="pre">Parse.process_special_table()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.crowdstrike.Parse.toBronze"><code class="docutils literal notranslate"><span class="pre">Parse.toBronze()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.crowdstrike.Parse.toSilver"><code class="docutils literal notranslate"><span class="pre">Parse.toSilver()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers.db_audit">databricks.sirens.parsers.db_audit module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.db_audit.Parse"><code class="docutils literal notranslate"><span class="pre">Parse</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.db_audit.Parse.toBronze"><code class="docutils literal notranslate"><span class="pre">Parse.toBronze()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.db_audit.Parse.toSilver"><code class="docutils literal notranslate"><span class="pre">Parse.toSilver()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers.microsoft_sysmon_beats_kafka">databricks.sirens.parsers.microsoft_sysmon_beats_kafka module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.microsoft_sysmon_beats_kafka.Parse"><code class="docutils literal notranslate"><span class="pre">Parse</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.microsoft_sysmon_beats_kafka.Parse.toBronze"><code class="docutils literal notranslate"><span class="pre">Parse.toBronze()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.microsoft_sysmon_beats_kafka.Parse.toSilver"><code class="docutils literal notranslate"><span class="pre">Parse.toSilver()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers.okta_okta_IM2">databricks.sirens.parsers.okta_okta_IM2 module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.okta_okta_IM2.Parse"><code class="docutils literal notranslate"><span class="pre">Parse</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.okta_okta_IM2.Parse.toBronze"><code class="docutils literal notranslate"><span class="pre">Parse.toBronze()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.okta_okta_IM2.Parse.toSilver"><code class="docutils literal notranslate"><span class="pre">Parse.toSilver()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers.plugins">databricks.sirens.parsers.plugins module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.plugins.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.plugins.call_factory"><code class="docutils literal notranslate"><span class="pre">call_factory()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.plugins.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.plugins.get_factory"><code class="docutils literal notranslate"><span class="pre">get_factory()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.plugins.names"><code class="docutils literal notranslate"><span class="pre">names()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.plugins.names_factory"><code class="docutils literal notranslate"><span class="pre">names_factory()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.plugins.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers.zeek">databricks.sirens.parsers.zeek module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.zeek.Parse"><code class="docutils literal notranslate"><span class="pre">Parse</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.zeek.Parse.toBronze"><code class="docutils literal notranslate"><span class="pre">Parse.toBronze()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.zeek.Parse.toSilver"><code class="docutils literal notranslate"><span class="pre">Parse.toSilver()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers.zscaler">databricks.sirens.parsers.zscaler module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.zscaler.Parse"><code class="docutils literal notranslate"><span class="pre">Parse</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.parsers.zscaler.Parse.toBronze"><code class="docutils literal notranslate"><span class="pre">Parse.toBronze()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.parsers.zscaler.Parse.toSilver"><code class="docutils literal notranslate"><span class="pre">Parse.toSilver()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.parsers">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>

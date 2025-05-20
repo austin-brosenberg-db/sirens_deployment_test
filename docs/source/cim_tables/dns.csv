@@ -1,0 +1,29 @@
+FieldName,Data Type,Type,Description,Allowed Values,Example
+_event_date,date,mandatory,The date of the original event,,2022-11-28
+_event_time,timestamp,mandatory,The timestamp of the original event,,
+_source,string,mandatory,he source of the data ingested,,"aws, checkpoint"
+_sourcetype,string,mandatory,The sourcetype of data ingested,,"cloud_trail, opsec_lea"
+dest,string,mandatory,"alias from dest_ip_addr, or dvc_hostname",,"192.168.1.1, dc01"
+dest_host_name,string,recommended,"The destination device hostname, excluding domain information",,DC01
+dest_ip_addr,string,recommended,"The destination of the lookup, This is usually to local DNS server",,192.168.1.1
+dest_port,bigint,recommended,The destination port used to connect to the dest_ip_addr,,53
+dns_query,string,mandatory,the domain the dns request is trying to resolve,,www.myvalidexe.com
+dns_query_type,string,recommended,The DNS OpCodes translated. https://www.iana.org/assignments/dns-parameters/dns-parameters.xhtml,"Query, IQuery, Status, Notify, Update, Unassigned",
+dns_query_type_name,string,recommended,The DNS resource record type,,"A, NS, CNAME, SOA, PTR, MX, TXT, AAAA"
+dns_response_answers,string,recommended,The answers received for the dns lookup,,23.34.65.142
+dns_response_code,bigint,recommended,The numeric response code,,"0,3"
+dns_response_name,string,recommended,The content of the response,,
+dvc_hostname,string,mandatory,The device sending the data,,dc01
+event_message,string,recommended,Details of the event,,
+event_result,string,recommended,The result of the event reported. Normalised to one of the examples,"Success, Failure, Partial, Unknown",
+event_schema_file,string,optional,he version of CIM model used to create this dataset. Literal string assigned by the data engineer,,dns_v1
+event_severity,string,optional,"The severity of the event, normalized to one of example","Informational, Low, Medium, High",
+event_type,string,recommended,The operation reported. For DNS this is the dns_query_type,,
+network_protocol,string,optional,normally UDP or TCP,"TCP,UDP","udp, tcp"
+process,string,recommended,alias from process_file_path,,
+process_file_path,string,optional,The file name and path of the process initiating the request,,C:\Windows\explorer.exe
+process_guid,string,optional,The unique Process Guid of the initiating process,,
+process_id,string,optional,The process id of the initiating request,,
+src,string,mandatory,alias from src_ip_addr,,10.10.10.10
+src_ip_addr,string,recommended,The host requesting a dns lookup,,10.10.10.10
+src_port,bigint,recommended,The application port number used to request the dns lookup,,30123

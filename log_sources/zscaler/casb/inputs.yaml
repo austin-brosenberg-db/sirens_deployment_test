@@ -1,0 +1,126 @@
+config:
+  version: 1.0
+  updated: 2024-03-12
+  author: Li Yu, Derek King
+  description: Process Zscaler CASB Logs
+input:
+  source: zscaler
+  sourcetype: casb
+  parser: zscaler
+  rawPath: s3://rawlog_bucket/zscaler/webproxy/raw
+  connector: 
+    name: autoloader #csv
+    options:
+      header: True
+      escape: '"'
+      cloudFiles.format: csv
+      cloudFiles.schemaLocation: s3://zscaler/casb/schemaLocation
+  streamType: streaming #batch
+transforms:
+  bronze:
+    meta:
+      timestamp_column: _time
+  silver:
+    event_type:
+     - target_table: dlp
+       fields:
+        - _event_date:
+            action: rename
+            value: _event_date
+        - _event_time:
+            action: rename
+            value: _event_time
+        - _source:
+            action: rename
+            value: _source
+        - _sourcetype:
+            action: rename
+            value: _sourcetype  
+        - action:
+            action: alias
+            value: dlpenginenames
+        - app:
+            action: add
+            type: literal
+            value: Zscaler
+        - category:
+            action: alias
+            value: collabscope
+        - channel:
+            action: alias
+            value: applicationname
+        - dest:
+            action: alias
+            value: applicationname  
+        - dest_path:
+            action: add
+            type: expression
+            value: case when (filesource != '/' and filename is not null) then concat_ws('/', filesource, filename) when filesource == '/' then concat('/', filename) else filename end
+        - dvc_hostname:
+            action: rename
+            value: dvc_hostname
+        - dvc_zone:
+            action: alias
+            value: tenant
+        - event_message:
+            action: add
+            type: literal
+            value: Data Loss Prevention
+        - event_product:
+            action: add
+            type: literal
+            value: Zscaler CASB
+        - event_result:
+            action: add
+            type: literal
+            value: Success
+        - event_schema_file:
+            action: add
+            type: literal
+            value: dlp_v0.1.1
+        - event_severity:
+            action: add
+            type: expression 
+            value: case when (lower(severity) == 'info') then 'Informational' when (lower(severity) == 'low') then 'Low' when (lower(severity) == 'medium') then 'Medium' when (lower(severity) == 'high') then 'High' else severity end
+        - event_type:
+            action: add
+            type: literal
+            value: logon
+            #type: expression 
+            #value: case when (lower(eventtype) == 'logon') then 'Logon' when (lower(eventtype) == 'logoff') then 'Logoff' else eventtype end
+        - event_sub_type:
+            action: alias
+            value: protocol
+        - event_vendor:
+            action: add
+            type: literal
+            value: Zscaler
+        - object_name:
+            action: alias
+            value: filename
+        - object_type:
+            action: alias
+            value: filetypename
+        - object_path:
+            action: add
+            type: expression
+            value: case when (filesource != '/' and filename is not null) then concat_ws('/', filesource, filename) when filesource == '/' then concat('/', filename) else filename end
+        - object_md5:
+            action: alias
+            value: filemd5
+        - severity:
+            action: alias
+            value: severity
+        - src:
+            action: alias
+            value: host
+        - src_user:
+            action: alias
+            value: user
+        - user:
+            action: alias
+            value: user
+        - vendor_product:
+            action: add
+            type: literal
+            value: Zscaler

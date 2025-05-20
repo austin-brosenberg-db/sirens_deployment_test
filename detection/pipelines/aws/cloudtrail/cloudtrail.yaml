@@ -1,0 +1,39 @@
+name: cloudtrail_pipeline
+input_table: input_database.aws_cloudtrail_silver
+output_table: ${alerts_table}
+rule_dir: cloudtrail
+enabled: true
+streamType: streaming
+dlt_read: false
+filter: _event_date > CURRENT_DATE - 1
+rules:
+  - name: db_proxy_controls_changed
+    enabled: true
+  - name: db_removed_from_security_grp
+    enabled: true
+  - name: db_security_grp_modified
+    enabled: true
+  - name: guardduty_ip_whitelist_creation
+    enabled: true
+  - name: health_check_deletion
+    enabled: true
+  - name: hosted_zone_deletion
+    enabled: true
+  - name: hosted_zone_deletion_failed
+    enabled: true
+  - name: iam_provider_change
+    enabled: true
+  - name: modify_cloudtrail
+    enabled: true
+  - name: org_domain_update
+    enabled: true
+  - name: rds_db_modified_security_grps
+    enabled: true
+  - name: rds_logging_config_changed
+    enabled: true
+  - name: rds_restored_db_publicly_accessible
+    enabled: true
+  - name: root_console_login
+    enabled: true
+  - name: serial_console_access_enabled
+    enabled: true

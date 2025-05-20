@@ -1,0 +1,92 @@
+name: signin_policy_modified
+summary: <actor.alternateId> attempted to modify the signin Policy for <targetApp> on <oktaURL>
+severity: medium
+source: okta
+sourceDetails: <oktaURL>
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <published>
+actor:
+  type: USER
+  domain: <oktaURL>
+  id: <actor.alternateId>
+  beliefCompromised: 0.1
+target:
+  type: APPLICATION
+  domain: <oktaURL>
+  id: <targetApp>
+  beliefCompromised: 0.1
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: PERSISTANCE
+    techniqueId: T1556
+    technique: Modify Authentication Process
+observables:
+  ipAddresses:
+  - <client.ipAddress>
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  Okta URL: <oktaURL>
+  UserAgent: <client.userAgent.rawUserAgent>
+  targetApp: <targetApp>
+  eventType: <eventType>
+  ipAddress: <client.ipAddress>
+  outcome: <outcome.result>
+  who: <actor.alternateId>
+filter: |-
+  eventType IN (
+  'application.policy.sign_on.update',
+  'application.policy.sign_on.rule.delete'
+  )
+test_cases:
+- test_name: 'expected hit: application.policy.sign_on.update'
+  expected_result: true
+  expected_summary: 'first.last@example.com attempted to modify the signin Policy for my app on okta.example.com'
+  expected_severity: medium
+  expected_context: 
+    {
+      "Okta URL": "okta.example.com",
+      "UserAgent": "OktaVerify",
+      "targetApp": "my app",
+      "eventType": "application.policy.sign_on.update",
+      "ipAddress": "1.2.3.4",
+      "outcome": "SUCCESS",
+      "who": "first.last@example.com"
+    }
+  test_input: 
+    {
+        "actor": { "alternateId": "first.last@example.com"},
+        "eventType": "application.policy.sign_on.update",
+        "targetApp": "my app",
+        "oktaURL": "okta.example.com",
+        "client": {"userAgent": {"rawUserAgent": "OktaVerify"}, "ipAddress": "1.2.3.4"},
+        "outcome": {"result": "SUCCESS"},
+        "published": "2022-01-01"
+    }
+- test_name: 'expected hit: application.policy.sign_on.rule.delete'
+  expected_result: true
+  expected_summary: 'first.last@example.com attempted to modify the signin Policy for my app on okta.example.com'
+  expected_severity: medium
+  expected_context: 
+    {
+      "Okta URL": "okta.example.com",
+      "UserAgent": "OktaVerify",
+      "targetApp": "my app",
+      "eventType": "application.policy.sign_on.rule.delete",
+      "ipAddress": "1.2.3.4",
+      "outcome": "SUCCESS",
+      "who": "first.last@example.com"
+    }
+  test_input: 
+    {
+        "actor": { "alternateId": "first.last@example.com"},
+        "eventType": "application.policy.sign_on.rule.delete",
+        "targetApp": "my app",
+        "oktaURL": "okta.example.com",
+        "client": {"userAgent": {"rawUserAgent": "OktaVerify"}, "ipAddress": "1.2.3.4"},
+        "outcome": {"result": "SUCCESS"},
+        "published": "2022-01-01"
+    }

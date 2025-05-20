@@ -1,0 +1,33 @@
+{
+    "name": "idp",
+    "version": "0.1",
+    "description": "contains detailed information about a provider responsible for creating, maintaining, and managing identity information while offering authentication services to applications.",
+    "fields": [
+        {
+            "name": "name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The name of the identity provider.",
+            "example": ""
+        },
+        {
+            "name": "uid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique identifier of the identity provider.",
+            "example": ""
+        }
+    ]
+}

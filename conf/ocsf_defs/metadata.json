@@ -1,0 +1,254 @@
+{
+    "name": "metadata",
+    "version": "0.1",
+    "description": "used to describe the metadata associated with the event.",
+    "fields": [
+        {
+            "name": "correlation_uid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique identifier used to correlate events.",
+            "example": ""
+        },
+        {
+            "name": "event_code",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The Event ID or Code that the product uses to describe the event.",
+            "example": ""
+        },
+        {
+            "name": "uid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The logging system-assigned unique identifier of an event instance.",
+            "example": ""
+        },
+        {
+            "name": "labels",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The list of category labels attached to the event or specific attributes.",
+            "example": ""
+        },
+        {
+            "name": "log_level",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The audit level at which an event was generated.",
+            "example": ""
+        },
+        {
+            "name": "log_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The event log name.",
+            "example": ""
+        },
+        {
+            "name": "log_provider",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The logging provider or logging service that logged the event. ",
+            "example": ""
+        },
+        {
+            "name": "log_version",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The event log schema version that specifies the format of the original event.",
+            "example": ""
+        },
+        {
+            "name": "logged_time",
+            "datatype": "timestamp",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The time when the logging system collected and logged the event.",
+            "example": ""
+        },
+        {
+            "name": "loggers",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "An array of Logger objects that describe the devices and logging products between the event source and its eventual destination.",
+            "example": ""
+        },
+        {
+            "name": "modified_time",
+            "datatype": "timestamp",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The time when the event was last modified or enriched.",
+            "example": ""
+        },
+        {
+            "name": "original_time",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The original event time as reported by the event source. ",
+            "example": ""
+        },
+        {
+            "name": "processed_time",
+            "datatype": "timestamp",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The event processed time, such as an ETL operation.",
+            "example": ""
+        },
+        {
+            "name": "product",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The product that reported the event.",
+            "example": ""
+        },
+        {
+            "name": "profiles",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The list of profiles used to create the event.",
+            "example": ""
+        },
+        {
+            "name": "extension",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The schema extension used to create the event.",
+            "example": ""
+        },
+        {
+            "name": "sequence",
+            "datatype": "integer",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Sequence number of the event. The sequence number is a value available in some events, to make the exact ordering of events unambiguous, regardless of the event time precision.",
+            "example": ""
+        },
+        {
+            "name": "tenant_uid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique tenant identifier.",
+            "example": ""
+        },
+        {
+            "name": "version",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The version of the OCSF schema, using Semantic Versioning Specification (SemVer).",
+            "example": ""
+        }
+    ]
+}

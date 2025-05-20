@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_smtp
+    connector: json
+    sample: smtp_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_smtp'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype,dvc_hostname, id.resp_h, _write_ts, path, fuids, id.orig_h, ts, id.orig_p, _path, tls,trans_depth, helo, id.resp_p, uid, is_webmail, last_reply, _system_name
+        expected_values:
+          - trans_depth: '1'
+          - is_webmail: 'false'
+          - helo: '[10.0.0.3]'

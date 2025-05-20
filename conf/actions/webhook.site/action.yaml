@@ -1,0 +1,14 @@
+name: webhook.site
+connection:
+  server: webhook.site/54eba1de-e79a-4b07-8c8f-bc696b20430f
+  auth:
+    auth_type: none
+  headers:
+    Content-Type: application/json
+    user-agent: "databricks-sirens/1.0"
+  ratelimit:
+    max_calls: 10
+    period_seconds: 60
+  max_timeout_seconds: 10
+  retries: 3
+  verify_ssl: False

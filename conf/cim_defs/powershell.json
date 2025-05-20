@@ -1,0 +1,293 @@
+{
+    "name": "powershell",
+    "version": "0.1",
+    "description": "used to describe powershell events from operating systems",
+    "fields": [
+        {
+            "name": "_event_date",
+            "datatype": "date",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_event_time",
+            "datatype": "timestamp",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_sourcetype",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_source",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "dvc_hostname",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_message",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_result",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_schema_file",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_severity",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "message_number",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "message_total",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "module_payload",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "powershell_context",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "process_pid",
+            "datatype": "bigint",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "script_block",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "script_block_id",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "script_path",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "actor_user_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "contoso\\mallory.park"
+        },
+        {
+            "name": "actor_domain",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "contoso"
+        },
+        {
+            "name": "actor_user_id",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "user",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "alias from actor_user_id"
+        }
+    ]
+}

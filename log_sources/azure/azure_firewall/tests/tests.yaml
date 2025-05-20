@@ -1,0 +1,26 @@
+test_cases:
+  - name: azure_firewall
+    connector: json
+    sample: firewall_log_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_time,_event_date,_ingest_time,_source,_sourcetype,dvc_hostname,_source_file,category,operationName,properties,resourceId,time,_rescued_data
+        expected_values:
+          - _source: 'azure'
+          - _sourcetype: 'azure_firewall'
+      silver:
+        expected_columns: _event_time,_event_date,_ingest_time,_source,_sourcetype,dvc_hostname,_source_file,category,operationName,resourceId,time,_rescued_data,Action,DestinationIp,DestinationPort,DnsServerIp,PolicyName,Protocol,QueryName,QueryType,RuleName,SourceIp,SourcePort,msg,Fqdn,RequestSize,ResponseCode,ResponseFlags,ResponseSize
+        expected_values:
+          - category: 'AZFWApplicationRule'
+          - Fqdn: 'example.com'
+      normalized:
+        network:
+          expected_columns: _event_date,_event_time,_source,_sourcetype,dest,dest_dvc_id,dest_dvc_id_type,dest_hostname,dest_ip_addr,dest_port_number,dvc_action,event_message,event_result,event_schema_file,event_severity,event_type,network_application,network_protocol,src,src_ip_addr,src_port
+          expected_values:
+            - event_message: 'Network Traffic'
+            - event_type: 'NetworkSession'
+        dns:
+          expected_columns: _event_date,_event_time,_source,_sourcetype,dest,dest_host_name,dns_query,dns_query_type,dns_query_type_name,dns_response_answers,dns_response_code,dns_request_size,dns_response_size,dns_response_name,event_message,event_result,event_schema_file,event_severity,event_type,network_protocol,src,src_ip_addr,src_port
+          expected_values:
+            - event_result: 'Success'
+            - event_severity: 'Informational'

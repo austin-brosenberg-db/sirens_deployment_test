@@ -1,0 +1,79 @@
+name: unauthorized_app_access_attempts
+summary: <alternateId> had >= <count> Unauthorized app access attempts within 24 hours on <oktaURL>
+severity: medium
+source: okta
+sourceDetails: <oktaURL>
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <max_hour_timestamp>
+actor:
+  type: USER
+  domain: <oktaURL>
+  id: <alternateId>
+  beliefCompromised: 0.1
+target:
+  type: APPLICATION
+  domain: <oktaURL>
+  id: <targetApps>
+  beliefCompromised: 0.1
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: LATERAL_MOVEMENT
+    techniqueId: T1021
+    technique: Remote Services
+observables:
+  ipAddresses: <ipAddresses>
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  Okta URL: <oktaURL>
+  apps: <targetApps>
+  errors: <count>
+  eventType: <eventType>
+  ipAddresses: <ipAddresses>
+  userAgents: <userAgents>
+  who: <alternateId>
+filter: |-
+  count >= 10 AND
+  eventType = 'app.generic.unauth_app_access_attempt'
+test_cases:
+- test_name: 'expected hit'
+  expected_result: true
+  expected_summary: 'first.last@example.com had >= 10 Unauthorized app access attempts within 24 hours on okta.example.com'
+  expected_severity: medium
+  expected_context: 
+    {
+      "Okta URL": "okta.example.com",
+      "apps": "[app1, app2]",
+      "errors": "10",
+      "eventType": "app.generic.unauth_app_access_attempt",
+      "ipAddresses": "[1.2.3.4, 4.5.6.7]",
+      "userAgents": "[chrome, oktaVerify]",
+      "who": "first.last@example.com",
+    }
+  test_input:
+    {
+      'alternateId': 'first.last@example.com',
+      'eventType': 'app.generic.unauth_app_access_attempt',
+      'oktaURL': 'okta.example.com',
+      'count': 10,
+      'ipAddresses': ["1.2.3.4","4.5.6.7"],
+      'userAgents': ["chrome","oktaVerify"],
+      'targetApps': ['app1', 'app2'],
+      'max_hour_timestamp': '2022-12-01T00:00:00.000Z',
+    }
+- test_name: 'expected miss'
+  expected_result: false
+  test_input:
+    {
+      'alternateId': 'first.last@example.com',
+      'eventType': 'app.generic.unauth_app_access_attempt',
+      'oktaURL': 'okta.example.com',
+      'count': 9,
+      'ipAddresses': ["1.2.3.4","4.5.6.7"],
+      'userAgents': ["chrome","oktaVerify"],
+      'targetApps': ['app1', 'app2'],
+      'max_hour_timestamp': '2022-12-01T00:00:00.000Z',
+    }

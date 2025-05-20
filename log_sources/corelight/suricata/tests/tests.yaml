@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_suricata
+    connector: json
+    sample: suricata_corelight_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_suricata'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype,dvc_hostname, pcap_cnt, alert.signature_id, _write_ts, alert.rev, alert.action, id.orig_h,ts, id.orig_p, service, _path, alert.metadata, alert.gid, id.resp_p, tx_id, uid,metadata, alert.severity, alert.category, flow_id, suri_id, alert.signature, _system_name
+        expected_values:
+          - alert.signature_id: '2035076'
+          - service: 'http'
+          - alert.signature: 'ET MALWARE Win32/Emotet CnC Activity (POST) M9'

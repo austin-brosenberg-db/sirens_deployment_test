@@ -1,0 +1,569 @@
+{
+    "name": "process",
+    "version": "0.1",
+    "description": "used to describe process activities from operating systems and EDR systems",
+    "fields": [
+        {
+            "name": "_event_date",
+            "datatype": "date",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_event_time",
+            "datatype": "timestamp",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_sourcetype",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_source",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "dvc_hostname",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "Process Created, Process Terminated"
+        },
+        {
+            "name": "event_message",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_result",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_schema_file",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_severity",
+            "datatype": "string",
+            "allowed_values": [
+                "Low",
+                " Medium",
+                " High",
+                " Informational"
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "actor_user_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "contoso\\mallory.park"
+        },
+        {
+            "name": "actor_user_id",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "S-1-5-18"
+        },
+        {
+            "name": "actor_user_type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "Regular, Machine, Admin, System, Application, Service Principal, and Other"
+        },
+        {
+            "name": "actor_original_user_type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "Regular, Machine, Admin, System, Application, Service Principal, and Other"
+        },
+        {
+            "name": "acting_process_command_line",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "evil-winrm -i 192.168.1.100"
+        },
+        {
+            "name": "acting_process_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "c:\\Windows\\explorer.exe"
+        },
+        {
+            "name": "acting_process_file_company",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "Microsoft Corporation"
+        },
+        {
+            "name": "acting_process_file_description",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "acting_process_file_product",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "acting_process_file_version",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "acting_process_pid",
+            "datatype": "bigint",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "acting_process_guid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "acting_process_integrity_level",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "acting_process_hash_md5",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "acting_process_hash_sha256",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "acting_process_creation_time",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "acting_process_token_elevation",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "parent_process_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "parent_process_id",
+            "datatype": "bigint",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "parent_process_guid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "parent_process_hash_md5",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "parent_process_hash_sha256",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "target_user_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "target_user_type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "target_user_id",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "target_process_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "target_process_hash_md5",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "target_process_hash_sha256",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "target_process_command_line",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "target_process_id",
+            "datatype": "bigint",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "target_process_guid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "hash_type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The type of hash stored in hash column"
+        },
+        {
+            "name": "hash",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The best suited hash from other has fields"
+        }
+    ]
+}

@@ -1,0 +1,16 @@
+field_names = ['a0', 'a1', 'a2', 'a3', 'acct', 'action', 'appraise_type', "addr", "arch", "auid",
+               "calipso_doi","calipso_type","capability","cap_fe","cap_fi","cap_fp","cap_fver","cap_pe","cap_pi","cap_pp","cause","cgroup","cmd","code","comm","compat","cwd",
+               "data","dev","devmajor","devminor",
+               "egid","euid","exe","exit",
+               "family","feature","file","filetype","flags","fowner","fsgid","fsmagic","fsuuid","fsuid","func",
+               "gid", "grantors",
+               "hash","hostname","icmptype",
+               "id","inode","inode_gid","inode_uid","ip","items",
+               "key","list","mode","msg","msgtype","name","new-disk","new-mem","new-vcpu","new-net","new_gid","new_lock","nsec",
+               "oauid","ocomm","old_lock","opid","oses","ouid","obj","objtype","obj_gid","obj_lev_high","obj_lev_low","obj_role","obj_type","obj_uid","obj_user","ogid","old-disk","old-mem","old-vcpu","old-net","old_prom","ouid", "op", 
+               "old-auid", "old-ses",
+               "path","perm","pid","ppid","proctitle","prom","proto","res","resp","result",
+               "saddr","sauid","sec","ses","sgid","sig","subj","subj_clr","subj_role","subj_sen","subj_type","subj_user","success","suid","syscall",
+               "terminal","tty","uid","vm","xattr","type",
+               'A0', 'A1', 'A2', 'A3', 'ACCT', 'ACTION', 'APPRAISE_TYPE', 'ADDR', 'ARCH', 'AUID', 'CALIPSO_DOI', 'CALIPSO_TYPE', 'CAPABILITY', 'CAP_FE', 'CAP_FI', 'CAP_FP', 'CAP_FVER', 'CAP_PE', 'CAP_PI', 'CAP_PP', 'CAUSE', 'CGROUP', 'CMD', 'CODE', 'COMM', 'COMPAT', 'CWD', 'DATA', 'DEV', 'DEVMAJOR', 'DEVMINOR', 'EGID', 'EUID', 'EXE', 'EXIT', 'FAMILY', 'FEATURE', 'FILE', 'FILETYPE', 'FLAGS', 'FOWNER', 'FSGID', 'FSMAGIC', 'FSUUID', 'FSUID', 'FUNC', 'GID', 'GRANTORS', 'HASH', 'HOSTNAME', 'ICMPTYPE', 'ID', 'INODE', 'INODE_GID', 'INODE_UID', 'IP', 'ITEMS', 'KEY', 'LIST', 'MODE', 'MSG', 'MSGTYPE', 'NAME', 'NEW-DISK', 'NEW-MEM', 'NEW-VCPU', 'NEW-NET', 'NEW_GID', 'NEW_LOCK', 'NSEC', 'OAUID', 'OCOMM', 'OLD_LOCK', 'OPID', 'OSES', 'OUID', 'OBJ', 'OBJTYPE', 'OBJ_GID', 'OBJ_LEV_HIGH', 'OBJ_LEV_LOW', 'OBJ_ROLE', 'OBJ_TYPE', 'OBJ_UID', 'OBJ_USER', 'OGID', 'OLD-DISK', 'OLD-MEM', 'OLD-VCPU', 'OLD-NET', 'OLD_PROM', 'OUID', 'OP', 'OLD-AUID', 'OLD-SES', 'PATH', 'PERM', 'PID', 'PPID', 'PROCTITLE', 'PROM', 'PROTO', 'RES', 'RESP', 'RESULT', 'SADDR', 'SAUID', 'SEC', 'SES', 'SGID', 'SIG', 'SUBJ', 'SUBJ_CLR', 'SUBJ_ROLE', 'SUBJ_SEN', 'SUBJ_TYPE', 'SUBJ_USER', 'SUCCESS', 'SUID', 'SYSCALL', 'TERMINAL', 'TTY', 'UID', 'VM', 'XATTR', 'TYPE'
+               ]

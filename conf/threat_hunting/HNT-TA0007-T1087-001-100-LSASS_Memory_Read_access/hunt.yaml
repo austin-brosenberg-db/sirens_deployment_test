@@ -1,0 +1,27 @@
+meta:
+  author: Derek King
+  created: 11/15/2023
+  version: 1.0
+  last_updated: 11/15/2023
+hunt:
+  name: HNT-TA0007-T1087-001-100-LSASS_Memory_Read_Access
+  description: Processes accessing Local Security Authority Subsystem Service (LSASS)
+  attacks:
+    - mitre:
+        tactic: discovery
+        technique_id: T1087
+        subtechnique_id: 001
+  tags:
+    campaign: trickbot
+    hunt_type: filename
+    source_type: device_process_events
+notebooks:
+  - name: LSASS_Memory_Read_Access
+    input:
+      table: sirens.sentinel_hunt
+      custom: key_value_pairs
+      that: you_read_in_your_notebook
+    output:
+      custom: key_value_pairs
+      that: you_read_and_use_in_your_notebook
+      

@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_x509
+    connector: json
+    sample: x509_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_x509'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype,dvc_hostname, basic_constraints.ca, fingerprint, _write_ts, certificate.not_valid_before,certificate.sig_alg, certificate.exponent, certificate.issuer, certificate.key_alg, certificate.subject,san.dns, _path, certificate.version, certificate.serial, certificate.key_type, client_cert,_system_name, host_cert, certificate.key_length, certificate.not_valid_after
+        expected_values:
+          - basic_constraints.ca: 'false'
+          - certificate.issuer: 'CN=Microsoft Secure Server CA 2011,O=Microsoft Corporation,L=Redmond,ST=Washington,C=US'
+          - client_cert: 'false'

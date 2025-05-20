@@ -1,0 +1,20 @@
+test_cases:
+  - name: zscaler_users
+    connector: json
+    sample: user_status.json
+    transforms:
+      bronze:
+        expected_columns: _event_time, _event_date, _ingest_time, _source, _sourcetype, dvc_hostname, _source_file, LogTimestamp, Customer, Username, SessionID, SessionStatus, Version, ZEN,CertificateCN, PrivateIP, PublicIP, Latitude, Longitude, CountryCode, TimestampAuthentication, TimestampUnAuthentication, TotalBytesRx, TotalBytesTx, Idp, Hostname, Platform, ClientType, TrustedNetworks, TrustedNetworksNames, SAMLAttributes, PosturesHit, PosturesMiss, ZENLatitude, ZENLongitude, ZENCountryCode, FQDNRegistered, FQDNRegisteredError, _rescued_data
+        expected_values:
+          - _source: 'zscaler'
+          - _sourcetype: 'user_status'
+      silver:
+        expected_columns: _event_time, _event_date, _ingest_time, _source, _sourcetype, dvc_hostname, _source_file, LogTimestamp, Customer, Username, SessionID, SessionStatus, Version, ZEN, CertificateCN, PrivateIP, PublicIP, Latitude, Longitude, CountryCode, TimestampAuthentication, TimestampUnAuthentication, TotalBytesRx, TotalBytesTx, Idp, Hostname, Platform, ClientType, TrustedNetworks, TrustedNetworksNames, SAMLAttributes, PosturesHit, PosturesMiss, ZENLatitude, ZENLongitude, ZENCountryCode, FQDNRegistered, FQDNRegisteredError, _rescued_data
+        expected_values:
+          - CountryCode: 'US'
+          - Platform: 'windows'
+      normalized:
+        authentication:
+          expected_columns: _event_date, _event_time, _sourcetype, _source, dvc_hostname, event_product, event_result, event_schema_file, event_type, event_vendor, src, src_geo_country, src_geo_lat, src_geo_lon, src_ip_addr, user, customer_name, session_id, event_status, product_version, host, auth_name, auth_granted, bytes_in, bytes_out, identity, host_name, host_platform, customer_id, trusted_networks_names, user_name, dst_lat, dst_long, dst_country
+          expected_values:
+            - event_vendor: 'zscaler'

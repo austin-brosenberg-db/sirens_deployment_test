@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_dhcp
+    connector: json
+    sample: dhcp_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_dhcp'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, duration, mac, _write_ts, msg_types, ts, host_name, _path, uids, client_addr, _system_name, message_type
+        expected_values:
+          - client_addr: '192.168.204.69'
+          - message_type: 'INFORM'
+          - host_name: 'G00016860'

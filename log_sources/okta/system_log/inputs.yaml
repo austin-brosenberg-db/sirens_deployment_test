@@ -1,0 +1,230 @@
+config:
+  version: 1.1
+  updated: 2022-07-07
+  author: Derek King
+  description: Process OKTA System Logs (https://developer.okta.com/docs/reference/api/system-log/)
+input:
+  source: okta
+  sourcetype: system_log
+  parser: okta_system_log
+  rawPath: #dbfs:/FileStore/sirens/connectors/okta/runs/ #s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/okta/oktaIM2_log/ #[optional]
+  rawSchemaFile: schema.json   #[optional] - must be in the same directory as inputs.yaml
+  connector: 
+    name: okta_api # json|kafka|csv|txt| [required]
+    options:
+      multiLine: True
+      token:
+        scope: lakealert
+        key: dev-74006068.okta.com
+      url: https://dev-74006068.okta.com/api/v1/logs
+  streamType: streaming # batch|streaming [required]
+transforms:
+    bronze:
+      meta:
+        timestamp_column: published
+        timestamp_format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+    silver:
+      event_type:
+       - target_table: authentication
+         filter: eventType == "user.authentication.auth_via_mfa" or eventType == "user.authentication.sso" or eventType == "user.session.start"
+         fields:
+          - _event_date:
+              action: copy
+          - _event_time:
+              action: copy
+          - _sourcetype:
+              action: copy
+          - _source:
+              action: copy
+          - dvc_hostname:
+              action: copy
+          - event_type:
+              action: add
+              type: literal
+              value: Logon
+          - event_sub_type:
+              action: alias
+              value: eventType
+          - event_message:
+              action: alias
+              value: displayMessage
+          - event_result:
+              action: add
+              type: expression
+              value: case when outcome.result = 'SUCCESS' then 'success' when outcome.result = 'ALLOW' then 'success' when outcome.result = 'FAILURE' then 'failure' when outcome.result = 'CHALLENGE' then 'partial' else 'unknown' end
+          - event_schema_file:
+              action: add
+              type: literal
+              value: authentication
+          - event_severity:
+              action: add
+              type: expression
+              value: case when severity = 'DEBUG' then 'Informational' when severity = 'INFO' then 'Informational' when severity = 'WARN' then 'Medium' when severity = 'ERROR' then 'High' when severity = 'FATAL' then 'High' else 'unknown' end
+          - event_original_severity:
+              action: alias
+              value: severity
+          - http_user_agent:
+              action: alias
+              value: client.userAgent.rawUserAgent
+          - src:
+              action: alias
+              value: client.ipAddress
+          - src_ip_addr:
+              action: alias
+              value: client.ipAddress
+          - src_isp:
+              action: alias
+              value: securityContext.isp
+          - src_geo_country:
+              action: alias
+              value: client.geographicalContext.country
+          - src_geo_city:
+              action: alias
+              value: client.geographicalContext.city
+          - src_geo_region: 
+              action: alias
+              value: client.geographicalContext.state
+          - src_geo_lon: 
+              action: alias
+              value: client.geographicalContext.geolocation.lon
+          - src_geo_lat:
+              action: alias
+              value: client.geographicalContext.geolocation.lat
+          - dst:
+              action: add
+              type: expression
+              value: array_join(target.displayName, ',')
+          - target_app_name:
+              action: add
+              type: expression
+              value: array_join(target.displayName, ',')
+          - target_app_type:
+              action: add
+              type: expression
+              value: array_join(target.type, ',')
+          - target_app_id:
+              action: add
+              type: expression
+              value: array_join(target.id, ',')
+          - target_hostname:
+              action: add
+              type: expression
+              value: coalesce(debugContext.debugData.origin, debugContext.debugData.redirectUri, debugContext.debugData.requestUri)
+          - target_user_id:
+              action: alias
+              value: actor.id
+          - target_user_name:
+              action: alias
+              value: actor.displayName
+          - target_user_type:
+              action: alias
+              value: actor.type
+          - target_session_id:
+              action: alias
+              value: authenticationContext.externalSessionId
+          - logon_guid:
+              action: alias
+              value: transaction.id
+          - logon_type:
+              action: alias
+              value: debugContext.debugData.signOnMode
+          - login_id:
+              action: alias
+              value: transaction.id
+          - logon_authentication_package_name:
+              action: alias
+              value: authenticationContext.credentialProvider
+          - logon_method:
+              action: alias
+              value: debugContext.debugData.factor
+          - user:
+              action: alias
+              value: actor.displayName
+          - event_product:
+              action: add
+              type: literal
+              value: okta
+          - event_vendor:
+              action: add
+              type: literal
+              value: okta
+          - logon_target:
+              action: add
+              type: expression
+              value: array_join(target.displayName,',')
+       - target_table: user_management
+         filter: eventType == "system.api_token.create" or eventType == "user.lifecycle.activate" or eventType == "user.lifecycle.create" or eventType == "user.lifecycle.deactivate" or eventType == "user.lifecycle.suspend" or eventType == "user.lifecycle.unsuspend" or eventType == "group.user_membership.add" or eventType == "group.user_membership.remove" or eventType == "application.user_membership.add" or eventType == "application.user_membership.remove" or eventType == "application.user_membership.change_username"
+         fields:
+          - _event_date:
+              action: copy
+          - _event_time:
+              action: copy
+          - _sourcetype:
+              action: copy
+          - _source:
+              action: copy
+          - dvc_hostname:
+              action: copy
+          - event_type:
+              action: add
+              type: literal
+              value: UserCreated
+          - event_message:
+              action: alias
+              value: displayMessage
+          - event_result:
+              action: add
+              type: expression
+              value: case when outcome.result = 'SUCCESS' then 'success' when outcome.result = 'ALLOW' then 'success' when outcome.result = 'FAILURE' then 'failure' when outcome.result = 'CHALLENGE' then 'partial' else 'unknown' end
+          - event_schema_file:
+              action: add
+              type: literal
+              value: user_management
+          - event_severity:
+              action: add
+              type: expression
+              value: case when severity = 'DEBUG' then 'Informational' when severity = 'INFO' then 'Informational' when severity = 'WARN' then 'Medium' when severity = 'ERROR' then 'High' when severity = 'FATAL' then 'High' else 'unknown' end
+          - event_original_severity:
+              action: alias
+              value: severity
+          - user:
+              action: alias
+              value: actor.displayName
+          - event_product:
+              action: add
+              type: literal
+              value: okta
+          - event_vendor:
+              action: add
+              type: literal
+              value: okta
+          - src:
+              action: alias
+              value: client.ipAddress
+          - src_ip_addr:
+              action: alias
+              value: client.ipAddress
+          - src_isp:
+              action: alias
+              value: securityContext.isp
+          - src_geo_country:
+              action: alias
+              value: client.geographicalContext.country
+          - src_geo_city:
+              action: alias
+              value: client.geographicalContext.city
+          - src_geo_region: 
+              action: alias
+              value: client.geographicalContext.state
+          - src_geo_lon: 
+              action: alias
+              value: client.geographicalContext.geolocation.lon
+          - src_geo_lat:
+              action: alias
+              value: client.geographicalContext.geolocation.lat
+          - dst:
+              action: add
+              type: expression
+              value: array_join(target.displayName, ',')
+
+

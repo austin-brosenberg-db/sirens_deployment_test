@@ -1,0 +1,6 @@
+<172>2024-09-02T02:55:54.149733-05:00 HOST_1 Severity: Warning, Category: Audit, MessageID: ABC1234, Message: Login attempt alert for ServiceNow-L from 999.65.78.1 using SSH, IP will be blocked for 60 seconds.
+<172>2024-09-08T00:57:14.512063-05:00 HOST1 Severity: Warning, Category: Audit, MessageID: ABC1234, Message: Login attempt alert for ServiceNow-Linux from 10.999.49.129 using SSH, IP will be blocked for 60 seconds.
+<174>2024-10-31T04:49:15.991678-05:00 HOST1 Severity: Informational, Category: Audit, MessageID: ABC1234, Message: Unable to log in for svc_obo from 10.65.999.1 using API.
+<171>2024-10-30T15:31:12.918747-05:00 HOST-1 Severity: Critical, Category: System Health, MessageID: abc1234, Message: The watchdog timer reset the system @ Port 12.
+<174>2024-11-14T03:29:09.671015-06:00 HOST1 Severity: Informational, Category: Audit, MessageID: LOG007, Message: The previous log entry was repeated 2 times.
+<172>2024-08-15T15:35:52.376406-05:00 HOSTX Severity: Warning, Category: System Health, MessageID: NIC100, Message: The Integrated NIC 1 Port 3 network link is down.

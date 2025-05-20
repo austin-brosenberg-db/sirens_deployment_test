@@ -1,0 +1,358 @@
+{
+    "name": "src_endpoint",
+    "version": "0.1",
+    "description": "used to describe login activities from any data source",
+    "fields": [
+        {
+            "name": "agent_list",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "A list of agent objects associated with a device, endpoint, or resource.",
+            "example": ""
+        },
+        {
+            "name": "autonomous_system",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The Autonomous System details associated with an IP address.",
+            "example": ""
+        },
+        {
+            "name": "domain",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The name of the domain.",
+            "example": ""
+        },
+        {
+            "name": "location",
+            "datatype": "model",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The geographical location of the endpoint.",
+            "example": ""
+        },
+        {
+            "name": "hw_info",
+            "datatype": "model",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The endpoint hardware information.",
+            "example": ""
+        },
+        {
+            "name": "hostname",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The fully qualified name of the endpoint.",
+            "example": ""
+        },
+        {
+            "name": "hostname",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The fully qualified name of the endpoint.",
+            "example": ""
+        },
+        {
+            "name": "ip",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The IP address of the endpoint, in either IPv4 or IPv6 format.",
+            "example": ""
+        },
+        {
+            "name": "instance_uid",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique identifier of a VM instance.",
+            "example": ""
+        },
+        {
+            "name": "intermediate_ips",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The intermediate IP Addresses. For example, the IP addresses in the HTTP X-Forwarded-For header."
+        },
+        {
+            "name": "mac",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The Media Access Control (MAC) address of the endpoint."
+        },
+        {
+            "name": "mac",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The Media Access Control (MAC) address of the endpoint."
+        },
+        {
+            "name": "name",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The short name of the endpoint."
+        },
+        {
+            "name": "interface_uid",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The unique identifier of the network interface."
+        },
+        {
+            "name": "interface_name",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The name of the network interface (e.g. eth2)."
+        },
+        {
+            "name": "zone",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The network zone or LAN segment."
+        },
+        {
+            "name": "os",
+            "datatype": "model",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The endpoint operating system."
+        },
+        {
+            "name": "owner",
+            "datatype": "model",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The identity of the service or user account that owns the endpoint or was last logged into it."
+        },
+        {
+            "name": "port",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The port used for communication within the network connection."
+        },
+        {
+            "name": "proxy_endpoint",
+            "datatype": "model",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The network proxy information pertaining to a specific endpoint. This can be used to describe information pertaining to network address translation (NAT)."
+        },
+        {
+            "name": "svc_name",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The service name in service-to-service connections. For example, AWS VPC logs the pkt-src-aws-service and pkt-dst-aws-service fields identify the connection is coming from or going to an AWS service."
+        },
+        {
+            "name": "subnet_uid",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The unique identifier of a virtual subnet."
+        },
+        {
+            "name": "type",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The network endpoint type."
+        },
+        {
+            "name": "type_id",
+            "datatype": "integer",
+            "allowed_values": [
+               0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 99
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The network endpoint type."
+        },
+        {
+            "name": "uid",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The unique identifier of the endpoint."
+        },
+        {
+            "name": "vlan_uid",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The Virtual LAN identifier."
+        },
+        {
+            "name": "vpc_uid",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The unique identifier of the Virtual Private Cloud (VPC)."
+        }
+    ]
+}

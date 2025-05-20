@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_http
+    connector: json
+    sample: http_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_http'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, request_body_len, method, orig_filenames, id.resp_h, _write_ts, response_body_len, tags, host, id.orig_h, ts, uri, status_code, id.orig_p, _path, user_agent, version, resp_fuids, trans_depth, status_msg, id.resp_p, uid, referrer, _system_name, orig_fuids
+        expected_values:
+          - id.resp_h: '82.163.245.38'
+          - request_body_len: '4886'
+          - id.orig_p: '49855'

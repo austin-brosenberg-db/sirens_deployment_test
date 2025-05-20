@@ -1,0 +1,98 @@
+# Databricks notebook source
+# DBTITLE 1,Install Sirens on the DLT cluster
+# MAGIC %pip install pyyaml inflection {spark.conf.get('sirens_wheel', '')} --force-reinstall
+
+# COMMAND ----------
+# DBTITLE 1,Set working directory to Sirens home
+import os
+
+sirens_home = spark.conf.get("sirens.home", None)
+
+if sirens_home is not None:
+  os.chdir(sirens_home)
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Usage
+# MAGIC This notebook should be used as the source for any testing.
+# MAGIC
+# MAGIC First clone the notebook, and then make changes to a local version
+
+# COMMAND ----------
+
+# DBTITLE 1,Data sources to consume and pipeline settings
+input_conf = {{input_source}}
+
+# COMMAND ----------
+
+# DBTITLE 1,Imports
+import dlt
+from pyspark.sql.dataframe import DataFrame
+from pyspark.sql.functions import *
+from databricks.sirens.datasource import DataSource
+from databricks.sirens import connectors
+from databricks.sirens import normalize
+from databricks.sirens.expectations import Expectations
+from databricks.sirens.exceptions import SirensAggregationException
+from databricks.sirens.utils.global_opts import *
+import logging
+from databricks.sirens.logging import get_logger
+logger = get_logger(__name__)
+
+# COMMAND ----------
+
+# DBTITLE 1,Common Information Model ready tables
+def generate_cim_tables(dest_table, source_tables, table_config):
+
+    # build spark_conf and table_properties based on table_config
+    spark_conf = {conf: str(table_config[key]) for conf,key in [
+        ("pipelines.trigger.interval","trigger_interval")
+    ] if table_config.get(key)}
+    spark_conf["spark.sql.caseSensitive"] = "true"
+
+    table_properties = {conf: str(table_config[key]) for conf,key in [
+        ("pipelines.autoOptimize.managed","dlt_auto_optimize_managed"),
+        ("delta.autoOptimize.optimizeWrite","optimize_write"),
+        ("delta.autoOptimize.autoCompact","auto_compact")
+    ] if table_config.get(key)}
+    table_properties["pipelines.autoOptimize.zOrderCols"] = ",".join(table_config.get("zorder_cols", []))
+
+    @dlt.table(
+    name=dest_table,
+    comment="CIM table",
+    spark_conf=spark_conf,
+    table_properties=table_properties,
+    partition_cols=table_config.get("partition_cols", ["_event_date"])
+    )
+    def cim():
+        try:
+            all_sources = [dlt.read_stream(s) for s in source_tables]
+            return(functools.reduce(lambda x,y: x.unionByName(y, allowMissingColumns=True), all_sources))
+        except Exception as exc:
+            raise SirensAggregationException(f"Error: {source_tables} {exc}") from exc
+
+# COMMAND ----------
+
+src_dst_pairs = {}
+for s in input_conf:
+    source = s.get("source")
+    sourcetype = s.get("sourcetype")
+    dlt_name = source+"_"+sourcetype
+
+    # Get dataSource Object, and read the inputs.yaml.
+    dataSourceObj = DataSource(spark, "", source, sourcetype)
+    config = dataSourceObj.read()
+
+    # Get target tables and silver table names
+    for et in config.get("transforms").get("silver").get("event_type"):
+        src_dst_pairs.setdefault(et.get("target_table"), []).append(dlt_name+"_"+et.get("target_table")+"_silver")
+
+# COMMAND ----------
+
+# Generate Common Information Model Tables from source/dest pairs
+for dest_table in src_dst_pairs:
+    logger.info(f"generating tables: {dest_table}, from: {src_dst_pairs[dest_table]}")
+    # TODO: fix it correctly - otherwise it will always use the last dataSourceObj
+    table_config = dataSourceObj.get_table_config(dest_table)
+    generate_cim_tables(dest_table, src_dst_pairs[dest_table], table_config)

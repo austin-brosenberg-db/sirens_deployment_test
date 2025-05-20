@@ -1,0 +1,137 @@
+{
+    "name": "http_request",
+    "version": "0.1",
+    "description": "represents the attributes of a request made to a web server.",
+    "fields": [
+        {
+            "name": "args",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The arguments sent along with the HTTP request.",
+            "example": ""
+        },
+        {
+            "name": "http_headers",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Additional HTTP headers of an HTTP request or response.",
+            "example": ""
+        },
+        {
+            "name": "http_method",
+            "datatype": "string",
+            "allowed_values": [
+                "CONNECT", "DELETE", "GET", "HEAD", "OPTIONS", "POST", "PUT", "TRACE"
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The HTTP request method indicates the desired action to be performed for a given resource.",
+            "example": ""
+        },
+        {
+            "name": "referrer",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The request header that identifies the address of the previous web page, which is linked to the current web page or resource being requested.",
+            "example": ""
+        },
+        {
+            "name": "user_agent",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The request header that identifies the operating system and web browser.",
+            "example": ""
+        },
+        {
+            "name": "version",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The Hypertext Transfer Protocol (HTTP) version.",
+            "example": ""
+        },
+        {
+            "name": "length",
+            "datatype": "integer",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The HTTP request length, in number of bytes.",
+            "example": ""
+        },
+        {
+            "name": "url",
+            "datatype": "model",
+            "allowed_values": [
+               ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The URL object that pertains to the request.",
+            "example": ""
+        },
+        {
+            "name": "uid",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique identifier of the http request.",
+            "example": ""
+        },
+        {
+            "name": "x_forwarded_to",
+            "datatype": "string",
+            "allowed_values": [
+               ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The X-Forwarded-For header identifying the originating IP address(es) of a client connecting to a web server through an HTTP proxy or a load balancer.",
+            "example": ""
+        }
+    ]
+}

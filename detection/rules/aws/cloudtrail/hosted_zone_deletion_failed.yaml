@@ -1,0 +1,62 @@
+name: hosted_zone_deletion_failed
+summary: Route53 Hosted Zone Deletion Failed
+severity: medium
+source: cloudtrail
+sourceDetails: 
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <timestamp>
+actor:
+  type: USER
+  domain: userIdentity.accountId
+  id: userIdentity.arn
+  role: 
+  beliefCompromised: 0.5
+target:
+  type: INFRASTRUCTURE
+  domain: recipientAccountId
+  id: 
+  role: 
+  beliefCompromised: 0.5
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: IMPACT
+    techniqueId: T1496
+    technique: Resource Hijacking
+observables:
+  ipAddresses:
+  - '[ipAddress]'
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  DeletedHostedZoneId: <requestParameters.id>
+  errorCode: <errorCode>
+  errorMessage: <errorMessage>
+  eventName: <eventName>
+  playbook: https://github.com/databricks/sirt-playbooks/blob/e6f15364d187bad9eb7e0c6358d6bdfc18348aa9/docs_Route53.md
+  recipientAccountId: <userIdentity.accountId>
+  requestorArn: <userIdentity.arn>
+  sourceIPAddress: <sourceIPAddress>
+filter: |-
+  eventSource = 'route53.amazonaws.com'
+  and eventName = 'DeleteHostedZone'
+  and errorCode is not NULL
+test_cases:
+- test_name: expected hit
+  expected_result: true
+  expected_summary: Route53 Hosted Zone Deletion Failed
+  expected_severity: medium
+  # expected_context: {}
+  test_input:
+    {
+        "eventName": "DeleteHostedZone",
+        "eventSource": "route53.amazonaws.com",
+        "errorCode": "403",
+        "errorMessage": "eroror",
+        "requestParameters": {"id": "1234567"},
+        "sourceIPAddress": "1.2.3.4",
+        "timestamp": "2022-01-01 00:00:00",
+        "userIdentity": {"arn": "arn:aws:iam::123456789012:user/Alice", "accountId": "123456789"},
+    }

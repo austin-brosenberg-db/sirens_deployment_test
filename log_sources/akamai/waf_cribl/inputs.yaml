@@ -1,0 +1,193 @@
+config:
+  version: 1.0
+  updated: 2023-08-21
+  author: Alex Ott
+  description: Akamai WAF Cribl Logs
+input:
+  source: akamai
+  sourcetype: waf_cribl
+  parser: akamai
+  rawPath: LocalPath://akamai/waf_cribl/samples/
+  connector:
+    name: autoloader  # json|kafka|csv|txt [required]
+    options:
+      cloudFiles.format: text
+      cloudFiles.includeExistingFiles: true
+  streamType: streaming # batch|streaming [required]
+transforms:
+  bronze:
+    meta:
+      host_column: host
+  silver:
+    event_type:
+      - target_table: web
+        fields:
+        - _event_date:
+            action: copy
+        - _event_time:
+            action: copy
+        - _source:
+            action: copy
+        - _sourcetype:
+            action: copy
+        - dest:
+            action: alias
+            value: host  
+        - dest_host:
+            action: alias
+            value: host
+        - dest_ip_address:
+            action: alias
+            value: message.cliIP  
+        - dest_port:
+            action: alias
+            value: message.reqPort
+        - event_message:
+            action: alias
+            value: type
+        - event_result:
+            action: add
+            type: expression
+            value: case when message.status <= 399 then "Success" else "Failure" end
+        - event_schema_file:
+            action: add
+            type: literal
+            value: web
+        - event_severity:
+            action: add 
+            type: literal
+            value: Informational
+        - event_type:
+            action: add
+            type: literal
+            value: HTTP Session
+        - http_content_type:
+            action: alias
+            value: message.respCT
+        - http_referrer:
+            action: alias
+            value: reqHdr.referer
+        - http_request_method:
+            action: alias
+            value: message.reqMethod
+        - http_response_length:
+            action: alias
+            value: message.respLen
+        - http_status_code:
+            action: alias
+            value: message.status
+        - http_user_agent:
+            action: alias
+            value: message.UA
+        - http_version:
+            action: alias
+            value: message.protoVer
+        - src:
+            action: alias
+            value: message.cliIP
+        - src_ip_addr:
+            action: alias
+            value: message.cliIP
+        - threat_category:
+            action: alias
+            value: waf.warnTags
+        - threat_id:
+            action: alias
+            value: waf.policy
+        - threat_name:
+            action: alias
+            value: waf.warnSlrs
+        - threat_risk_level:
+            action: alias
+            value: waf.riskScores
+        - uid:
+            action: alias
+            value: id
+        - url:
+            action: add
+            type: expression
+            value: concat(message.reqHost, message.reqPath)
+        - x_forwarded_for:
+            action: alias
+            value: message.fwdHost
+        - user_agent:
+            action: alias
+            value: message.UA
+      - target_table: network
+        fields:
+        - _source:
+            action: copy
+        - _sourcetype:
+            action: copy
+        - _event_time:
+            action: copy
+        - _event_date:
+            action: copy
+        - dest:
+            action: alias
+            value: network.edgeIP
+        - dest_bytes:
+            action: alias
+            value: message.respLen
+        - dest_geo_city:
+            action: alias
+            value: geo.city
+        - dest_geo_country:
+            action: alias
+            value: geo.country
+        - dest_geo_lat:
+            action: alias
+            value: geo.lat
+        - dest_geo_lon:
+            action: alias
+            value: geo.long
+        - dest_geo_region:
+            action: alias
+            value: geo.region
+        - dest_hostname:
+            action: alias
+            value: message.reqHost
+        - dest_ip_addr:
+            action: alias
+            value: network.edgeIP
+        - dest_port_number:
+            action: alias
+            value: message.reqPort
+        - event_result:
+            action: add
+            type: literal
+            value: Success
+        - event_schema_file:
+            action: add
+            type: literal
+            value: network
+        - event_severity:
+            action: add
+            type: literal
+            value: Informational
+        - event_type:
+            action: add
+            type: literal
+            value: Network Session
+        - network_application:
+            action: alias
+            value: message.proto
+        - network_bytes:
+            action: alias
+            value: message.bytes
+        - network_duration:
+            action: alias
+            value: netPerf.netOriginLatency
+        - network_session_id:
+            action: add
+            type: expression
+            value: concat_ws("-", message.cliIP, "0", network.edgeIP, message.reqPort)
+        - src:
+            action: alias
+            value: message.cliIP
+        - src_ip_addr:
+            action: alias
+            value: message.cliIP
+        - uid:
+            action: alias
+            value: id

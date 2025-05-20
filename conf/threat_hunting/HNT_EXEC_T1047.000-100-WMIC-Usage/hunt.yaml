@@ -1,0 +1,60 @@
+meta:
+  author: Derek King
+  created: 11/15/2023
+  version: 1.0
+  last_updated: 11/15/2023
+  notebook_type: delta|dlt <TF as DLT or SS>
+hunt:
+  name: hnt_exec_T1047.000-100-WMIC-Usage
+  description: hunting for remote wmic usage
+  attacks:
+    - mitre:
+        tactic: execution
+        technique_id: T1047
+        subtechnique_id: 0000
+notebooks:
+  - name: hunt1
+    input:
+      database: sirens
+      table: 
+      filter:
+      condition:
+        type: "num_events|num_hosts|num_sources|custom|always"
+        relation: "<,>,<=,>=,=="
+        quantity: int
+      parameters: 
+        sourcetype: "_sourcetype"
+        host: dvc_hostname
+    output: "<optional database/table>"
+  - name: hunt2
+    input:
+      database: sirens
+      table: 
+      filter:
+      condition:
+        type: "num_events|num_hosts|num_sources|custom|always"
+        relation: "<,>,<=,>=,=="
+        quantity: int
+      parameters: 
+        sourcetype: "_sourcetype"
+        host: dvc_hostname
+    output: sirens.hunt2
+playbooks:
+  - name: playbook1
+    enabled: true
+    input:
+      database: sirens
+      table: "<read events from this table>"
+      filter: "<SQL Filter from notebook output table(s)>"
+      condition:
+        type: num_events|num_hosts|num_sources|custom|always
+        relation: "<,>,<=,>=,=="
+        quantity: int
+      parameters:
+        sourcetype: 'Column<_sourcetype>'
+        host: 'Column<dvc_hostname>'
+    output:
+      database: [or defaults to target_database]
+      table: "<optional - playbook should augment existing - but maybe not? - perhaps fwd to alert table?>"
+
+      

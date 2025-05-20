@@ -1,0 +1,943 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="databricks.sirens.cjp package" href="databricks.sirens.cjp.html" /><link rel="prev" title="databricks.sirens package" href="databricks.sirens.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>databricks.sirens.actions package - Sirens by Databricks</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=46bbebfe" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Sirens by Databricks</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Sirens by Databricks</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#data-ingestion">Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#enrichments">Enrichments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#transformations">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#aggregation-tables">Aggregation Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#global-configuration-files">Global Configuration files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#log-source-configuration">Log Source Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#detections">Detections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#alerts">Alerts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#action-framework">Action Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#threat-hunting-framework">Threat Hunting Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#common-information-model-schemas">Common Information Model Schemas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#functions">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#sirens-cli-reference">Sirens CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#known-limitations">Known Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#faqs">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#developers-guide">Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contributing.html">Contributing</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">databricks</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of databricks</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="databricks.html">databricks package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of databricks package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 current has-children"><a class="reference internal" href="databricks.sirens.html">databricks.sirens package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of databricks.sirens package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l4 current current-page"><a class="current reference internal" href="#">databricks.sirens.actions package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.cjp.html">databricks.sirens.cjp package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5 has-children"><a class="reference internal" href="databricks.sirens.cjp.cjlib.html">databricks.sirens.cjp.cjlib package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp.cjlib package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.exceptions.html">databricks.sirens.cjp.cjlib.exceptions package</a></li>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.pollers.html">databricks.sirens.cjp.cjlib.pollers package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.connectors.html">databricks.sirens.connectors package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.detection.html">databricks.sirens.detection package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of databricks.sirens.detection package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.detection.alert.html">databricks.sirens.detection.alert package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.detection.rule.html">databricks.sirens.detection.rule package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.features.html">databricks.sirens.features package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.internal.html">databricks.sirens.internal package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.parsers.html">databricks.sirens.parsers package</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of databricks.sirens.parsers package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.parsers.internal.html">databricks.sirens.parsers.internal package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.udfs.html">databricks.sirens.udfs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.utils.html">databricks.sirens.utils package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.validators.html">databricks.sirens.validators package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="databricks-sirens-actions-package">
+<h1>databricks.sirens.actions package<a class="headerlink" href="#databricks-sirens-actions-package" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-databricks.sirens.actions.noop">
+<span id="databricks-sirens-actions-noop-module"></span><h2>databricks.sirens.actions.noop module<a class="headerlink" href="#module-databricks.sirens.actions.noop" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.actions.noop.Action">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.noop.</span></span><span class="sig-name descname"><span class="pre">Action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actionConfigObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.noop.Action" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <a class="reference internal" href="databricks.sirens.internal.html#databricks.sirens.internal.baseaction.BaseAction" title="databricks.sirens.internal.baseaction.BaseAction"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAction</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.actions.noop.Action.do_action">
+<span class="sig-name descname"><span class="pre">do_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">requested_action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">[]</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="headerlink" href="#databricks.sirens.actions.noop.Action.do_action" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">return noop for testing purposes.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>df</strong> (<em>DataFrame</em>) – _description_</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.actions.plugins">
+<span id="databricks-sirens-actions-plugins-module"></span><h2>databricks.sirens.actions.plugins module<a class="headerlink" href="#module-databricks.sirens.actions.plugins" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.actions.plugins.Plugin">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.plugins.</span></span><span class="sig-name descname"><span class="pre">Plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.plugins.Plugin" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">tuple</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.plugins.Plugin.func">
+<span class="sig-name descname"><span class="pre">func</span></span><a class="headerlink" href="#databricks.sirens.actions.plugins.Plugin.func" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Alias for field number 1</p>
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.plugins.Plugin.name">
+<span class="sig-name descname"><span class="pre">name</span></span><a class="headerlink" href="#databricks.sirens.actions.plugins.Plugin.name" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Alias for field number 0</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.actions.plugins.call">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.plugins.</span></span><span class="sig-name descname"><span class="pre">call</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.plugins.call" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Call the given plugin</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.actions.plugins.call_factory">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.plugins.</span></span><span class="sig-name descname"><span class="pre">call_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.plugins.call_factory" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Create a call() function for one package</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.actions.plugins.get">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.plugins.</span></span><span class="sig-name descname"><span class="pre">get</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">plugin</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.plugins.get" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Get a given plugin</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.actions.plugins.get_factory">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.plugins.</span></span><span class="sig-name descname"><span class="pre">get_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.plugins.get_factory" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Create a get() function for one package</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.actions.plugins.names">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.plugins.</span></span><span class="sig-name descname"><span class="pre">names</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.plugins.names" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">List all plugins in one package</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.actions.plugins.names_factory">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.plugins.</span></span><span class="sig-name descname"><span class="pre">names_factory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">package</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.plugins.names_factory" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Create a names() function for one package</p>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.actions.plugins.register">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.plugins.</span></span><span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.plugins.register" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Decorator for registering a new plugin</p>
+</dd></dl>
+
+</section>
+<section id="databricks-sirens-actions-slack-module">
+<h2>databricks.sirens.actions.slack module<a class="headerlink" href="#databricks-sirens-actions-slack-module" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-databricks.sirens.actions.splunk_soar">
+<span id="databricks-sirens-actions-splunk-soar-module"></span><h2>databricks.sirens.actions.splunk_soar module<a class="headerlink" href="#module-databricks.sirens.actions.splunk_soar" title="Link to this heading">#</a></h2>
+<p class="linemarker linemarker-1">Splunk SOAR API Module.</p>
+<dl class="simple">
+<dt>Author:</dt><dd><p class="linemarker linemarker-4">Derek King. 01-Nov-23</p>
+</dd>
+</dl>
+<p class="linemarker linemarker-6">Version: 1.0</p>
+<p class="linemarker linemarker-8">the alert_handler reads alerts/records from a delta table and sends them to a phantom / Splunk SOAR instance using
+the alerts.yaml &amp; splunk_soar/action.yaml.</p>
+<p class="linemarker linemarker-11">map your alert schema to the Phantom RESTAPI fields using action.yaml.</p>
+<p class="linemarker linemarker-13">With the action.yaml and alerts.yaml configured, process them using
+.. code-block:: python3</p>
+<blockquote>
+<div><p class="linemarker linemarker-16">from databricks.sirens.alertmanager import AlertHandler
+alert_processor = AlertHandler(database=”&lt;alert_database&gt;”, tables=[“&lt;list of tables to process&gt;”], since=”INTERVAL 1 day”)
+alert_processor.process_alerts()</p>
+</div></blockquote>
+<p class="linemarker linemarker-20">You can interact directly with the module by importing SoarAPI
+.. code-block:: python3</p>
+<blockquote>
+<div><p class="linemarker linemarker-23">from databricks.sirens.actions.splunk_soar import SoarAPI
+SoarObj = SoarAPI(server=&lt;server&gt;, auth_token: str = None, verify_ssl=[True|False])
+# optionally create a container
+result = SoarObj.create_container(name”test_event”, <a href="#id1"><span class="problematic" id="id2">**</span></a>kwargs)
+if result.status:</p>
+<blockquote>
+<div><p class="linemarker linemarker-28">container_id = result.data[‘id’]</p>
+</div></blockquote>
+<p class="linemarker linemarker-30"># add artifacts (either specify a container_id or containers will be created)
+result = SoarObj.add_artifacts(df)</p>
+</div></blockquote>
+<dl class="simple">
+<dt>Classes:</dt><dd><p class="linemarker linemarker-34">Action
+SoarAPI</p>
+</dd>
+<dt>Functions:</dt><dd><p class="linemarker linemarker-38">create_container()
+add_artifacts()
+custom_rest()
+list()
+do_action(action, params, body)</p>
+</dd>
+<dt>Actions:</dt><dd><p class="linemarker linemarker-45">send_alerts</p>
+</dd>
+</dl>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.APICommon">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.splunk_soar.</span></span><span class="sig-name descname"><span class="pre">APICommon</span></span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.APICommon" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.APICommon.to_dict">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">to_dict</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_obj</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.APICommon.to_dict" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.Action">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.splunk_soar.</span></span><span class="sig-name descname"><span class="pre">Action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">actionConfigObj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.Action" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <a class="reference internal" href="databricks.sirens.internal.html#databricks.sirens.internal.baseaction.BaseAction" title="databricks.sirens.internal.baseaction.BaseAction"><code class="xref py py-class docutils literal notranslate"><span class="pre">BaseAction</span></code></a></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.Action.do_action">
+<span class="sig-name descname"><span class="pre">do_action</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">requested_action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">body</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">Dict</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="databricks.sirens.internal.html#databricks.sirens.internal.baseaction.ActionResult" title="databricks.sirens.internal.baseaction.ActionResult"><span class="pre">ActionResult</span></a></span></span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.Action.do_action" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Entry point for supported actions</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>requested_action</strong> (<em>str</em>) – name of a function that implements the action (ex. post_message)</p></li>
+<li><p><strong>params</strong> (<em>Optional</em><em>[</em><em>Dict</em><em>]</em>) – any params required to setup the action</p></li>
+<li><p><strong>body</strong> (<em>Optional</em><em>[</em><em>Union</em><em>[</em><em>List</em><em>[</em><em>Dict</em><em>]</em><em>, </em><em>DataFrame</em><em>]</em><em>]</em>) – data to send using the action</p></li>
+</ul>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference internal" href="databricks.sirens.html#databricks.sirens.exceptions.SirensActionException" title="databricks.sirens.exceptions.SirensActionException"><strong>SirensActionException</strong></a> – _description_</p>
+</dd>
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>_description_</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.splunk_soar.</span></span><span class="sig-name descname"><span class="pre">AddArtifacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">container_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cef</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cef_types</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kill_chain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'Reconnaissance'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Weaponization'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Delivery'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Exploitation'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Installation'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Command</span> <span class="pre">&amp;</span> <span class="pre">Control'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Actions</span> <span class="pre">on</span> <span class="pre">Objectives'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'event'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'net</span> <span class="pre">flow'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_automation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">severity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_data_identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <a class="reference internal" href="#databricks.sirens.actions.splunk_soar.APICommon" title="databricks.sirens.actions.splunk_soar.APICommon"><code class="xref py py-class docutils literal notranslate"><span class="pre">APICommon</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.cef">
+<span class="sig-name descname"><span class="pre">cef</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.cef" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.cef_types">
+<span class="sig-name descname"><span class="pre">cef_types</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.cef_types" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.container_id">
+<span class="sig-name descname"><span class="pre">container_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.container_id" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.data">
+<span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.description" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.end_time">
+<span class="sig-name descname"><span class="pre">end_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.end_time" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.ingest_app_id">
+<span class="sig-name descname"><span class="pre">ingest_app_id</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.ingest_app_id" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.kill_chain">
+<span class="sig-name descname"><span class="pre">kill_chain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'Reconnaissance'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Weaponization'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Delivery'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Exploitation'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Installation'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Command</span> <span class="pre">&amp;</span> <span class="pre">Control'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Actions</span> <span class="pre">on</span> <span class="pre">Objectives'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.kill_chain" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.label">
+<span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'event'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'net</span> <span class="pre">flow'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.label" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.owner_id">
+<span class="sig-name descname"><span class="pre">owner_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.owner_id" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.run_automation">
+<span class="sig-name descname"><span class="pre">run_automation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.run_automation" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.severity">
+<span class="sig-name descname"><span class="pre">severity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.severity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.source_data_identifier">
+<span class="sig-name descname"><span class="pre">source_data_identifier</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.source_data_identifier" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.start_time">
+<span class="sig-name descname"><span class="pre">start_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.start_time" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.tags">
+<span class="sig-name descname"><span class="pre">tags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.tags" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.AddArtifacts.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.splunk_soar.</span></span><span class="sig-name descname"><span class="pre">CreateContainer</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">artifacts</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">label</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'events'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'databricks_event'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">asset_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">close_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">custom_fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">due_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">end_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ingest_app_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">kill_chain</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'Reconnaissance'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Weaponization'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Delivery'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Exploitation'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Installation'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Command</span> <span class="pre">&amp;</span> <span class="pre">Control'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Actions</span> <span class="pre">on</span> <span class="pre">Objectives'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">owner_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">role_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">run_automation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sensitivity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">severity</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'Low'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Medium'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'High'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_data_identifier</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">open_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">status</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'New'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Open'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Closed'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tags</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">tenant_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">container_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">template_id</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">authorized_users</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <a class="reference internal" href="#databricks.sirens.actions.splunk_soar.APICommon" title="databricks.sirens.actions.splunk_soar.APICommon"><code class="xref py py-class docutils literal notranslate"><span class="pre">APICommon</span></code></a></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.artifacts">
+<span class="sig-name descname"><span class="pre">artifacts</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.artifacts" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.asset_id">
+<span class="sig-name descname"><span class="pre">asset_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.asset_id" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.authorized_users">
+<span class="sig-name descname"><span class="pre">authorized_users</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.authorized_users" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.close_time">
+<span class="sig-name descname"><span class="pre">close_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.close_time" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.container_type">
+<span class="sig-name descname"><span class="pre">container_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.container_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.custom_fields">
+<span class="sig-name descname"><span class="pre">custom_fields</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.custom_fields" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.data">
+<span class="sig-name descname"><span class="pre">data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.description" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.due_time">
+<span class="sig-name descname"><span class="pre">due_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.due_time" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.end_time">
+<span class="sig-name descname"><span class="pre">end_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.end_time" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.ingest_app_id">
+<span class="sig-name descname"><span class="pre">ingest_app_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.ingest_app_id" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.kill_chain">
+<span class="sig-name descname"><span class="pre">kill_chain</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'Reconnaissance'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Weaponization'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Delivery'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Exploitation'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Installation'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Command</span> <span class="pre">&amp;</span> <span class="pre">Control'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Actions</span> <span class="pre">on</span> <span class="pre">Objectives'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.kill_chain" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.label">
+<span class="sig-name descname"><span class="pre">label</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'events'</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.label" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">'databricks_event'</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.open_time">
+<span class="sig-name descname"><span class="pre">open_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.open_time" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.owner_id">
+<span class="sig-name descname"><span class="pre">owner_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.owner_id" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.role_id">
+<span class="sig-name descname"><span class="pre">role_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.role_id" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.run_automation">
+<span class="sig-name descname"><span class="pre">run_automation</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.run_automation" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.sensitivity">
+<span class="sig-name descname"><span class="pre">sensitivity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.sensitivity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.severity">
+<span class="sig-name descname"><span class="pre">severity</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'Low'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Medium'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'High'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.severity" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.source_data_identifier">
+<span class="sig-name descname"><span class="pre">source_data_identifier</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.source_data_identifier" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.start_time">
+<span class="sig-name descname"><span class="pre">start_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.start_time" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.status">
+<span class="sig-name descname"><span class="pre">status</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'New'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Open'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'Closed'</span></span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.status" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.tags">
+<span class="sig-name descname"><span class="pre">tags</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.tags" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.template_id">
+<span class="sig-name descname"><span class="pre">template_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.template_id" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.CreateContainer.tenant_id">
+<span class="sig-name descname"><span class="pre">tenant_id</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">int</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">str</span></em><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.CreateContainer.tenant_id" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.SoarAPI">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.splunk_soar.</span></span><span class="sig-name descname"><span class="pre">SoarAPI</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">server</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">headers</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">{}</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auth_token</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timeout</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">retries</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">int</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">verify_ssl</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">use_sirens_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.SoarAPI" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <a class="reference internal" href="databricks.sirens.internal.html#databricks.sirens.internal.baseapi.API" title="databricks.sirens.internal.baseapi.API"><code class="xref py py-class docutils literal notranslate"><span class="pre">API</span></code></a></p>
+<p class="linemarker linemarker-1">class used to implement the connectivity to a splunk SOAR instance.
+can be used from notebooks directly, or the action framework as part of the pipeline definition using the Action class.</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.SoarAPI.add_artifacts">
+<span class="sig-name descname"><span class="pre">add_artifacts</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.SoarAPI.add_artifacts" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.SoarAPI.create_container">
+<span class="sig-name descname"><span class="pre">create_container</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.SoarAPI.create_container" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.SoarAPI.custom_rest">
+<span class="sig-name descname"><span class="pre">custom_rest</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'GET'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'POST'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">endpoint</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">params</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="databricks.sirens.internal.html#databricks.sirens.internal.baseaction.ActionResult" title="databricks.sirens.internal.baseaction.ActionResult"><span class="pre">ActionResult</span></a></span></span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.SoarAPI.custom_rest" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">custom rest call for advanced usage. NOTE: you need to format the message as required for the rest call.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method</strong> (<em>Literal</em><em>[</em><em>GET</em><em>, </em><em>POST</em><em>]</em>) – rest get or post</p></li>
+<li><p><strong>endpoint</strong> (<em>str</em>) – example: /rest/container/2</p></li>
+<li><p><strong>data</strong> (<em>dict</em><em>, </em><em>optional</em>) – python dict of data to be sent. method will json.dumps(dict) for you, defaults to None</p></li>
+<li><p><strong>params</strong> (<em>dict</em><em>, </em><em>optional</em>) – example: {“page”: 2}, defaults to None</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>ActionResult object</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference internal" href="databricks.sirens.internal.html#databricks.sirens.internal.baseaction.ActionResult" title="databricks.sirens.internal.baseaction.ActionResult">ActionResult</a></p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.SoarAPI.list_actions">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">list_actions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">List</span></span></span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.SoarAPI.list_actions" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">print the methods/actions available in this API</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>list of methods that can be called</p>
+</dd>
+<dt class="field-even">Return type<span class="colon">:</span></dt>
+<dd class="field-even"><p>List</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.SoarDefaults">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.actions.splunk_soar.</span></span><span class="sig-name descname"><span class="pre">SoarDefaults</span></span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.SoarDefaults" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.SoarDefaults.SUPPORTED_ACTIONS">
+<span class="sig-name descname"><span class="pre">SUPPORTED_ACTIONS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['send_alerts',</span> <span class="pre">'create_container',</span> <span class="pre">'add_artifacts']</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.SoarDefaults.SUPPORTED_ACTIONS" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.SoarDefaults.artifact_defaults">
+<span class="sig-name descname"><span class="pre">artifact_defaults</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'label':</span> <span class="pre">'databricks_event',</span> <span class="pre">'name':</span> <span class="pre">'artifact_name'}</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.SoarDefaults.artifact_defaults" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.SoarDefaults.cef_fields">
+<span class="sig-name descname"><span class="pre">cef_fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">['ApplicationProtocol',</span> <span class="pre">'act',</span> <span class="pre">'app',</span> <span class="pre">'baseEventCount',</span> <span class="pre">'bytesIn',</span> <span class="pre">'bytesOut',</span> <span class="pre">'cat',</span> <span class="pre">'destinationAddress',</span> <span class="pre">'destinationDnsDomain',</span> <span class="pre">'destinationHostName',</span> <span class="pre">'destinationMacAddress',</span> <span class="pre">'destinationNtDomain',</span> <span class="pre">'destinationPort',</span> <span class="pre">'destinationProcessName',</span> <span class="pre">'destinationServiceName',</span> <span class="pre">'destinationTranslatedAddress',</span> <span class="pre">'destinationTranslatedPort',</span> <span class="pre">'destinationUserId',</span> <span class="pre">'destinationUserName',</span> <span class="pre">'destinationUserPrivileges',</span> <span class="pre">'deviceAction',</span> <span class="pre">'deviceAddress',</span> <span class="pre">'deviceDirection',</span> <span class="pre">'deviceDnsDomain',</span> <span class="pre">'deviceEventCategory',</span> <span class="pre">'deviceExternalId',</span> <span class="pre">'deviceFacility',</span> <span class="pre">'deviceHostname',</span> <span class="pre">'deviceInboundInterface',</span> <span class="pre">'deviceMacAddress',</span> <span class="pre">'deviceOutboundInterface',</span> <span class="pre">'deviceProcessName',</span> <span class="pre">'deviceTranslatedAddress',</span> <span class="pre">'dhost',</span> <span class="pre">'dmac',</span> <span class="pre">'dntdom',</span> <span class="pre">'dpriv',</span> <span class="pre">'dproc',</span> <span class="pre">'dpt',</span> <span class="pre">'dst',</span> <span class="pre">'duid',</span> <span class="pre">'duser',</span> <span class="pre">'dvc',</span> <span class="pre">'dvchost',</span> <span class="pre">'end',</span> <span class="pre">'endTime',</span> <span class="pre">'externalId',</span> <span class="pre">'fileCreateTime',</span> <span class="pre">'fileHash',</span> <span class="pre">'fileId',</span> <span class="pre">'fileModificationTime',</span> <span class="pre">'fileName',</span> <span class="pre">'filePath',</span> <span class="pre">'filePermission',</span> <span class="pre">'fileSize',</span> <span class="pre">'fileType',</span> <span class="pre">'fname',</span> <span class="pre">'fsize',</span> <span class="pre">'in',</span> <span class="pre">'message',</span> <span class="pre">'method',</span> <span class="pre">'msg',</span> <span class="pre">'oldfileCreateTime',</span> <span class="pre">'oldfileHash',</span> <span class="pre">'oldfileId',</span> <span class="pre">'oldfileModificationTime',</span> <span class="pre">'oldfileName',</span> <span class="pre">'oldfilePath',</span> <span class="pre">'oldfilePermission',</span> <span class="pre">'oldfileType',</span> <span class="pre">'oldfsize',</span> <span class="pre">'out',</span> <span class="pre">'proto',</span> <span class="pre">'receiptTime',</span> <span class="pre">'request',</span> <span class="pre">'requestClientApplication',</span> <span class="pre">'requestCookies',</span> <span class="pre">'requestMethod',</span> <span class="pre">'requestURL',</span> <span class="pre">'rt',</span> <span class="pre">'shost',</span> <span class="pre">'smac',</span> <span class="pre">'sntdom',</span> <span class="pre">'sourceAddress',</span> <span class="pre">'sourceDnsDomain',</span> <span class="pre">'sourceHostName',</span> <span class="pre">'sourceMacAddress',</span> <span class="pre">'sourceNtDomain',</span> <span class="pre">'sourcePort',</span> <span class="pre">'sourceServiceName',</span> <span class="pre">'sourceTranslatedAddress',</span> <span class="pre">'sourceTranslatedPort',</span> <span class="pre">'sourceUserId',</span> <span class="pre">'sourceUserName',</span> <span class="pre">'sourceUserPrivileges',</span> <span class="pre">'spriv',</span> <span class="pre">'spt',</span> <span class="pre">'src',</span> <span class="pre">'start',</span> <span class="pre">'startTime',</span> <span class="pre">'suid',</span> <span class="pre">'suser',</span> <span class="pre">'transportProtocol']</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.SoarDefaults.cef_fields" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.SoarDefaults.container_defaults">
+<span class="sig-name descname"><span class="pre">container_defaults</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'label':</span> <span class="pre">'events',</span> <span class="pre">'name':</span> <span class="pre">'databricks_event'}</span></em><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.SoarDefaults.container_defaults" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.SoarDefaults.get_literal_value">
+<span class="sig-name descname"><span class="pre">get_literal_value</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span></span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.SoarDefaults.get_literal_value" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">extract the literal value from its wrapper as it was from action.yaml</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>input_str</strong> (<em>str</em>) – example: lit(‘False’)</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>example: False</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Union[str, None]</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.actions.splunk_soar.SoarDefaults.snake_case_dict_values">
+<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">snake_case_dict_values</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">mapping</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">dict</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">dict</span></span></span><a class="headerlink" href="#databricks.sirens.actions.splunk_soar.SoarDefaults.snake_case_dict_values" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">return the dict with . substituted for _</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>mapping</strong> (<em>dict</em>) – the content of action.yaml. contains dot notation - we need to swap for _ for when a DF is flattened</p>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>_description_</p>
+</dd>
+<dt class="field-odd">Return type<span class="colon">:</span></dt>
+<dd class="field-odd"><p>dict</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.actions">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-databricks.sirens.actions" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="databricks.sirens.cjp.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">databricks.sirens.cjp package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="databricks.sirens.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">databricks.sirens package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Derek King
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">databricks.sirens.actions package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-databricks.sirens.actions.noop">databricks.sirens.actions.noop module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.actions.noop.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.actions.noop.Action.do_action"><code class="docutils literal notranslate"><span class="pre">Action.do_action()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.actions.plugins">databricks.sirens.actions.plugins module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.actions.plugins.Plugin"><code class="docutils literal notranslate"><span class="pre">Plugin</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.actions.plugins.Plugin.func"><code class="docutils literal notranslate"><span class="pre">Plugin.func</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.plugins.Plugin.name"><code class="docutils literal notranslate"><span class="pre">Plugin.name</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.actions.plugins.call"><code class="docutils literal notranslate"><span class="pre">call()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.plugins.call_factory"><code class="docutils literal notranslate"><span class="pre">call_factory()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.plugins.get"><code class="docutils literal notranslate"><span class="pre">get()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.plugins.get_factory"><code class="docutils literal notranslate"><span class="pre">get_factory()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.plugins.names"><code class="docutils literal notranslate"><span class="pre">names()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.plugins.names_factory"><code class="docutils literal notranslate"><span class="pre">names_factory()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.plugins.register"><code class="docutils literal notranslate"><span class="pre">register()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks-sirens-actions-slack-module">databricks.sirens.actions.slack module</a></li>
+<li><a class="reference internal" href="#module-databricks.sirens.actions.splunk_soar">databricks.sirens.actions.splunk_soar module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.APICommon"><code class="docutils literal notranslate"><span class="pre">APICommon</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.APICommon.to_dict"><code class="docutils literal notranslate"><span class="pre">APICommon.to_dict()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.Action"><code class="docutils literal notranslate"><span class="pre">Action</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.Action.do_action"><code class="docutils literal notranslate"><span class="pre">Action.do_action()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts"><code class="docutils literal notranslate"><span class="pre">AddArtifacts</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.cef"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.cef</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.cef_types"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.cef_types</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.container_id"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.container_id</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.data"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.data</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.description"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.description</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.end_time"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.end_time</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.ingest_app_id"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.ingest_app_id</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.kill_chain"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.kill_chain</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.label"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.label</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.name"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.name</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.owner_id"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.owner_id</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.run_automation"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.run_automation</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.severity"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.severity</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.source_data_identifier"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.source_data_identifier</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.start_time"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.start_time</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.tags"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.tags</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.AddArtifacts.type"><code class="docutils literal notranslate"><span class="pre">AddArtifacts.type</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer"><code class="docutils literal notranslate"><span class="pre">CreateContainer</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.artifacts"><code class="docutils literal notranslate"><span class="pre">CreateContainer.artifacts</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.asset_id"><code class="docutils literal notranslate"><span class="pre">CreateContainer.asset_id</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.authorized_users"><code class="docutils literal notranslate"><span class="pre">CreateContainer.authorized_users</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.close_time"><code class="docutils literal notranslate"><span class="pre">CreateContainer.close_time</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.container_type"><code class="docutils literal notranslate"><span class="pre">CreateContainer.container_type</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.custom_fields"><code class="docutils literal notranslate"><span class="pre">CreateContainer.custom_fields</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.data"><code class="docutils literal notranslate"><span class="pre">CreateContainer.data</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.description"><code class="docutils literal notranslate"><span class="pre">CreateContainer.description</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.due_time"><code class="docutils literal notranslate"><span class="pre">CreateContainer.due_time</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.end_time"><code class="docutils literal notranslate"><span class="pre">CreateContainer.end_time</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.ingest_app_id"><code class="docutils literal notranslate"><span class="pre">CreateContainer.ingest_app_id</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.kill_chain"><code class="docutils literal notranslate"><span class="pre">CreateContainer.kill_chain</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.label"><code class="docutils literal notranslate"><span class="pre">CreateContainer.label</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.name"><code class="docutils literal notranslate"><span class="pre">CreateContainer.name</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.open_time"><code class="docutils literal notranslate"><span class="pre">CreateContainer.open_time</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.owner_id"><code class="docutils literal notranslate"><span class="pre">CreateContainer.owner_id</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.role_id"><code class="docutils literal notranslate"><span class="pre">CreateContainer.role_id</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.run_automation"><code class="docutils literal notranslate"><span class="pre">CreateContainer.run_automation</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.sensitivity"><code class="docutils literal notranslate"><span class="pre">CreateContainer.sensitivity</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.severity"><code class="docutils literal notranslate"><span class="pre">CreateContainer.severity</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.source_data_identifier"><code class="docutils literal notranslate"><span class="pre">CreateContainer.source_data_identifier</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.start_time"><code class="docutils literal notranslate"><span class="pre">CreateContainer.start_time</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.status"><code class="docutils literal notranslate"><span class="pre">CreateContainer.status</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.tags"><code class="docutils literal notranslate"><span class="pre">CreateContainer.tags</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.template_id"><code class="docutils literal notranslate"><span class="pre">CreateContainer.template_id</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.CreateContainer.tenant_id"><code class="docutils literal notranslate"><span class="pre">CreateContainer.tenant_id</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.SoarAPI"><code class="docutils literal notranslate"><span class="pre">SoarAPI</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.SoarAPI.add_artifacts"><code class="docutils literal notranslate"><span class="pre">SoarAPI.add_artifacts()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.SoarAPI.create_container"><code class="docutils literal notranslate"><span class="pre">SoarAPI.create_container()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.SoarAPI.custom_rest"><code class="docutils literal notranslate"><span class="pre">SoarAPI.custom_rest()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.SoarAPI.list_actions"><code class="docutils literal notranslate"><span class="pre">SoarAPI.list_actions()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.SoarDefaults"><code class="docutils literal notranslate"><span class="pre">SoarDefaults</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.SoarDefaults.SUPPORTED_ACTIONS"><code class="docutils literal notranslate"><span class="pre">SoarDefaults.SUPPORTED_ACTIONS</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.SoarDefaults.artifact_defaults"><code class="docutils literal notranslate"><span class="pre">SoarDefaults.artifact_defaults</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.SoarDefaults.cef_fields"><code class="docutils literal notranslate"><span class="pre">SoarDefaults.cef_fields</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.SoarDefaults.container_defaults"><code class="docutils literal notranslate"><span class="pre">SoarDefaults.container_defaults</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.SoarDefaults.get_literal_value"><code class="docutils literal notranslate"><span class="pre">SoarDefaults.get_literal_value()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.actions.splunk_soar.SoarDefaults.snake_case_dict_values"><code class="docutils literal notranslate"><span class="pre">SoarDefaults.snake_case_dict_values()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.actions">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>

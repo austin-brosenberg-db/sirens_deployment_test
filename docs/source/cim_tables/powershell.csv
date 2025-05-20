@@ -1,0 +1,58 @@
+FieldName,Data Type,Type,Description,Allowed Values,Example
+_event_date,date,mandatory,The date of the original event,,2022-11-28
+_event_time,timestamp,mandatory,The timestamp of the original event,,
+_source,string,mandatory,The source of the data ingested,,"aws, checkpoint"
+_sourcetype,string,mandatory,The sourcetype of data ingested,,"cloud_trail, opsec_lea"
+actor_domain,string,recommended,the domain for the src user,,contoso
+actor_user_id,string,optional,the unique id for the users,,
+actor_user_name,string,recommended,the username initiating the powershell command,,contoso\mallory.park
+dest,string,recommended,alias from dvc_hostname,,
+dvc_hostname,string,mandatory,The device sending the data,,"fw-1, proxy-sg-1"
+event_message,string,recommended,Details of the event either from the record or generated,,
+event_result,string,recommended,The result of the event reported. Normalised to one of the examples,"Success, Failure",
+event_schema_file,string,optional,The version of CIM model used to create this dataset. Literal string assigned by the data engineer,,powershell_v0.1
+event_severity,string,recommended,"The severity of the event, normalized to one of example","Informational, Low, Medium, High",
+event_type,string,recommended,Describes the operation reported by the event,,
+message_number,string,optional,The message number reported in powershell logs,,
+message_total,string,optional,the message total reported in powershell logs,,
+module_payload,string,optional,the module payload reported in powershell logs,,
+powershell_context,string,optional,the powershell context reported in powershell logs,,
+process_pid,bigint,recommended,the process_id of the acting process,,
+script_block,string,optional,the script_block reported in powershell scriptblock logs,,
+script_block_id,string,optional,the script_block_id reported in powershell script block logs,,
+script_path,string,optional,the powershell script path,,
+src,string,recommended,aliased from src_hostname or dvc_hostname,,
+src_domain,string,recommended,the domain for the src user,,contoso
+src_hostname,string,recommended,the source hostname initiating the script,,DESKTOP-1023
+src_user_name,string,recommended,the source username initiating the script,,contoso\mallory.park
+user,string,recommended,aliased from actor_user_name,,
+event_schema_file,string,optional,The version of CIM model used to create this dataset. Literal string assigned by the data engineer,,network_v0.1
+event_severity,string,recommended,"The severity of the event, normalized to one of example","Informational, Low, Medium, High",
+event_sub_type,string,optional,Additional context for event_type,"Start, End",
+event_type,string,mandatory,Describes the operation reported by the event,"Endpoint, Network, L2, Flow","Endpoint for client/server, Network for intermediary systems and taps, L2 for intermediary systems where only MAC is available, Flow for Netflow or aggregated events"
+inner_vlan_id,string,optional,aliased to src_vlan_id,,110
+network_application,string,recommended,Derive from dst_port_number if not specified in the source record,,FTP
+network_bytes,long,optional,total bytes (sum dest_bytes and src_bytes) if exists,,
+network_direction,string,optional,"if event_type is NetworkSession, relative to org or cloud boundary.
+if event_type is EndpointNetworkSession, relative to the endpoint.","Inbound, Outbound, Local, External, NA, Listen",
+network_duration,integer,optional,the time taken in milliseconds for a session or connection,,
+network_protocol,integer,recommended,The IP protocol used,,"tcp,udp,icmp"
+network_protocol_version,string,optional,The network protocol version used,"ipv4,ipv6","ipv4,ipv6"
+network_session_id,string,optional,concatenated string <src_ip>_<src_port>_<dest_ip>_<dest_port>,,172\_12\_23\22\_4322\_\_263\_23\_43\_22\_80
+outer_vlan_id,string,optional,aliased to dest_vlan_id,,110
+src,string,recommended,The unique identifier for the source. Alias from src_hostname or src_ip_addr,,
+src_bytes,long,recommended,bytes sent from source to destination,,34532
+src_domain,string,recommended,The domain of the dest_hostname,,contoso
+src_geo_city,string,optional,City,,London
+src_geo_country,string,optional,Country,,United Kingdom
+src_geo_lat,string,optional,Latitude,,53.143514
+src_geo_lon,string,optional,Longitude,,-0.694232
+src_geo_region,string,optional,Region,,England
+src_hostname,string,recommended,The source device name,,MALLORY-PC
+src_interface_guid,string,optional,The GUID of the network interface used on the device,,46ad544b-eaf0-47ef-827c-266030f545a6
+src_interface_name,string,optional,The network interface used for the connection by the source device,,eth01
+src_ip_addr,string,optional,The source IP address,,10.10.10.10
+src_mac_address,string,optional,The MAC address of the network interface used for the connection or session by the source device.,,06:10:9f:eb:8f:14
+src_packets,long,optional,number of packets sent from source to destination,,
+src_vlan_id,string,optional,The VLAN id related to the source device,,110
+total_packets,long,optional,total packets sent between source and destination,,

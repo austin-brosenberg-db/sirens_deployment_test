@@ -1,0 +1,111 @@
+{
+    "name": "actor",
+    "version": "0.1",
+    "description": "contains details about the user, role, application, service, or process that initiated or performed a specific activity.",
+    "fields": [
+        {
+            "name": "app_uid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique identifier of the client application or service that initiated the activity.",
+            "example": ""
+        },
+        {
+            "name": "app_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The client application or service that initiated the activity.",
+            "example": ""
+        },
+        {
+            "name": "authorizations",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Provides details about an authorization, such as authorization outcome, and any associated policies related to the activity/event.",
+            "example": ""
+        },
+        {
+            "name": "idp",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "This object describes details about the Identity Provider used.",
+            "example": ""
+        },
+        {
+            "name": "invoked_by",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The name of the service that invoked the activity as described in the event.",
+            "example": ""
+        },
+        {
+            "name": "process",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The process that initiated the activity.",
+            "example": ""
+        },
+        {
+            "name": "session",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The user session from which the activity was initiated.",
+            "example": ""
+        },
+        {
+            "name": "user",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The user that initiated the activity or the user context from which the activity was initiated.",
+            "example": ""
+        }
+    ]
+}

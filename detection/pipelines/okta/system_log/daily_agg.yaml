@@ -1,0 +1,17 @@
+name: okta_system_log_daily_agg_pipeline
+input_table: sirens.okta_system_log_daily_agg
+output_table: sirens.alerts
+rule_dir: system_log/daily_agg
+enabled: true
+dlt_read: true
+depends_on:
+  - daily_agg_preprocessing
+  - hourly_agg_preprocessing
+streamType: batch
+interval: 1 hour
+filter: _event_date > CURRENT_DATE - 1
+rules:
+  - name: excessive_rate_limit_exceeded_errors
+    enabled: true
+  - name: unauthorized_app_access_attempts
+    enabled: true

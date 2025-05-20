@@ -1,0 +1,86 @@
+{
+    "name": "cloud",
+    "version": "0.1",
+    "description": "contains information about a cloud account such as AWS Account ID, regions, etc.",
+    "fields": [
+        {
+            "name": "account",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The account object describes details about the account that was the source or target of the activity.",
+            "example": ""
+        },
+        {
+            "name": "zone",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The availability zone in the cloud region, as defined by the cloud provider.",
+            "example": ""
+        },
+        {
+            "name": "org",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Organization and org unit relevant to the event or object.",
+            "example": ""
+        },
+        {
+            "name": "project_uid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique identifier of a Cloud project.",
+            "example": ""
+        },
+        {
+            "name": "provider",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique name of the Cloud services provider",
+            "example": ""
+        },
+        {
+            "name": "region",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The name of the cloud region, as defined by the cloud provider.",
+            "example": ""
+        }
+    ]
+}
+        

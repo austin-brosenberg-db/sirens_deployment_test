@@ -1,0 +1,91 @@
+config:
+  version: 1.0
+  updated: 2023-02-13
+  author: Derek King
+  description: Corelight Logs
+input:
+  source: corelight
+  sourcetype: json_streaming_dns
+  parser: corelight
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/corelight_json/json_streaming_dns.log
+  connector:
+    name: json
+    options:
+  streamType: batch
+transforms:
+  bronze:
+    sourcetype: corelight_dns
+    meta:
+      timestamp_column: "entries.ts"
+      timestamp_column_type: timestamp
+      host_column: "entries._system_name"
+  silver:
+    event_type:
+     - target_table: dns
+       filter: _sourcetype = "corelight_dns"
+       fields:
+        - event_type:
+            action: add
+            type: literal
+            value: Query
+        - event_message:
+            action: add
+            type: literal
+            value: DNS Request
+        - event_result:
+            action: add
+            type: expression
+            value: case when (rejected == "False") then "Success" else "Failure" end
+        - event_schema_file:
+            action: add
+            type: literal
+            value: dns
+        - event_severity:
+            action: add
+            type: literal
+            value: Informational
+        - dest_port:
+            action: alias
+            value: "`id.resp_p`"
+        - dest:
+            action: alias
+            value: "`id.resp_h`"
+        - dest_host_name:
+            action: alias
+            value: _system_name
+        - dest_ip_addr:
+            action: alias
+            value: "`id.resp_h`"
+        - dns_query:
+            action: alias
+            value: query
+        - dns_query_type:
+            action: alias
+            value: qtype
+        - dns_query_type_name:
+            action: alias
+            value: qtype_name
+        - dns_response_answers:
+            action: alias
+            value: AA
+        - dns_response_code:
+            action: expression
+            value: case when isnotnull(rcode) then rcode else "unknown" end
+        - dns_response_name:
+            action: expression
+            value: case when isnotnull(rcode_name) then rcode_name else "unknown" end
+        - network_protocol:
+            action: alias
+            value: proto
+        - process:
+            action: alias
+            value: trans_id
+        - src:
+            action: alias
+            value: "`id.orig_h`"
+        - src_ip_addr:
+            action: alias
+            value: "`id.orig_h`"
+        - src_port:
+            action: alias
+            value: "`id.orig_p`"

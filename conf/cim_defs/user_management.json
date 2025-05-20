@@ -1,0 +1,358 @@
+{
+    "name": "user_management",
+    "version": "0.1",
+    "description": "used to describe user management events from operating systems, identity management systems, active directory such as new, or changing users and / or groups",
+    "fields": [
+        {
+            "name": "_event_date",
+            "datatype": "date",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_event_time",
+            "datatype": "timestamp",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_sourcetype",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_source",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "dvc_hostname",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "UserCreated- UserDeleted- UserModified- UserLocked- UserUnlocked- UserDisabled- UserEnabled- PasswordChanged- PasswordReset- GroupCreated- GroupDeleted- GroupModified- UserAddedToGroup- UserRemovedFromGroup- GroupEnumerated- UserRead- GroupRead"
+        },
+        {
+            "name": "event_message",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_result",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "Success, Failure"
+        },
+        {
+            "name": "event_schema_file",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_severity",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "target_user_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "target_user_id",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "target_user_type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "Regular- Machine- Admin- System- Application- Service Principal- Other"
+        },
+        {
+            "name": "target_original_user_type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "Regular- Machine- Admin- System- Application- Service Principal- Other"
+        },
+        {
+            "name": "actor_user_id",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "actor_user_type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "actor_user_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "group_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "group_id",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "src_ip_addr",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "src_hostname",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "src_domain",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "acting_app_id",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "acting_app_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "ip_addr",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "alias fom src_ip_addr",
+            "example": ""
+        },
+        {
+            "name": "user",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "alias from actor_user_name",
+            "example": ""
+        },
+        {
+            "name": "src",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "alias from src_hostname, or src_ip_addr",
+            "example": ""
+        }
+    ]
+}

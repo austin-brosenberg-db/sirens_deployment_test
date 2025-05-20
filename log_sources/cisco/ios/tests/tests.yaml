@@ -1,0 +1,23 @@
+test_cases:
+  - name: cisco_ios
+    connector: txt
+    sample: cisco_ios_sample.txt
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, value
+        expected_values:
+          - _source: 'cisco'
+          - _sourcetype: 'ios'
+      silver:
+        expected_columns: _event_date, _event_time, _source, _sourcetype, dvc_hostname, priority_value, seq_no, facility, severity, mnemonic, description, interface, ip_addr, port, state,
+        expected_values:
+          - facility: 'SYS'
+          - severity: 6
+          - mnemonic: LOGOUT
+      normalized:
+        authentication:
+          expected_columns: _event_date, _event_time, _source, _sourcetype, dvc_hostname, event_message, event_original_severity, event_product, event_result, event_schema_file, event_severity, event_sub_type, event_type, event_vendor, src, src_ip_addr, user
+          expected_values:
+            - event_schema_file: 'authentication_v0.1'
+            - event_result: 'Success'
+            - event_vendor: 'Cisco'

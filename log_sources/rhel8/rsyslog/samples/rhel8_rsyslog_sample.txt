@@ -1,0 +1,5 @@
+<38>Sep 24 2024 06:23:24 hostingdevice systemd-logind[1211]: New session 56789 of user serviceaccount.
+<38>Sep 24 2024 06:23:28 hostingdevice systemd-logind[1195]: Removed session 17843.
+<30>Sep 24 2024 06:23:28 iotdevice systemd[1]: session-17847.scope: Succeeded.
+<142>Sep 24 2024 06:23:30 iot__device tag_audit_log: node=abc.ds.domain type=CWD msg=audit(56788888:15156614): cwd="/"
+<142>Sep 24 2024 06:23:30 iot-stream-device tag_audit_log: node=abc.ds.domain type=PROCTITLE msg=audit(12324565.037:657899): proctitle="-bash"

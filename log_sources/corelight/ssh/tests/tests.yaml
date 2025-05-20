@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_ssh
+    connector: json
+    sample: ssh_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_ssh'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, mac_alg, id.resp_h, host_key_alg, _write_ts, server, auth_attempts, id.orig_h,compression_alg, ts, id.orig_p, _path, version, cipher_alg, host_key, inferences, client,id.resp_p, uid, kex_alg, auth_success, _system_name
+        expected_values:
+          - auth_attempts: '1'
+          - compression_alg: 'none'
+          - client: 'SSH-2.0-OpenSSH_5.0'

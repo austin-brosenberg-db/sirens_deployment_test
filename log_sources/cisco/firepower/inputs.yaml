@@ -1,0 +1,144 @@
+config:
+  version: 1.2
+  updated: 2024-08-27
+  author: Garrett R Peternel
+  description: Cisco Firepower (https://www.cisco.com/c/en/us/td/docs/security/firepower/Syslogs/b_fptd_syslog_guide/about.html?bookSearch=true#syslog-message-format)
+input:
+  source: cisco
+  sourcetype: firepower
+  parser: generic_text
+  rawPath: s3://<path_to_dir>/ # change me [required]
+  connector:
+    name: autoloader  # json|kafka|csv|txt|autoloader [required]
+    options:
+      cloudFiles.format: text
+      cloudFiles.includeExistingFiles: true
+  streamType: streaming # batch|streaming [required]
+transforms:
+  bronze:
+    meta:
+      timestamp_column: value
+      timestamp_regex: '(\w+\s+\d+\s+\d+\s+\d+:\d+:\d+)'
+      timestamp_regex_group: 0
+      timestamp_format: 'MMM dd yyyy HH:mm:ss'
+      host_column: value
+      host_regex: '(\w+\s+\d+\s+\d+\s+\d+:\d+:\d+)\s+(\w+)'
+      host_regex_group: 2
+      optimize_write: true
+      auto_compact: true
+  silver:
+    meta:
+      source_column_name: value
+      source_column_regex: >
+        ^<(\d+)>(\w+\s+\d+\s+\d+\s+\d+:\d+:\d+)\s+(\w+)\s+:\s+%(\w+)-(\d+)-(\d+):\s+(.+)$
+      mappings:
+        - name: priority_value
+          index: 1
+          type: integer
+        - name: device_id
+          index: 3
+        - name: message_facility_code
+          index: 4
+        - name: level
+          index: 5
+        - name: message_number
+          index: 6
+        - name: message_text
+          index: 7
+      post_transforms:
+        - name: src_interface
+          action: add
+          expression: >
+            CASE WHEN message_text LIKE '%(type 3, code 3)%' THEN regexp_extract(message_text, '([^\\s:]+):(\\d+\\.\\d+\\.\\d+\\.\\d+)(?::(\\d+))?\\s+dst\\s+([^\\s:]+):(\\d+\\.\\d+\\.\\d+\\.\\d+)(?::(\\d+))?', 1)
+            ELSE regexp_extract(message_text, '(?:([^\\s:]+):)??((?:\\d{1,3}\.){3}\\d{1,3}|(?:[a-fA-F0-9:]+))\/(\\d+)\\s+(?:to|src|dst)\\s+(?:([^\\s:]+):)??((?:\\d{1,3}\.){3}\\d{1,3}|(?:[a-fA-F0-9:]+))\/(\\d+)', 1) END
+        - name: src_ip
+          action: add
+          expression: >
+            CASE WHEN message_text LIKE '%(type 3, code 3)%' THEN regexp_extract(message_text, '([^\\s:]+):(\\d+\\.\\d+\\.\\d+\\.\\d+)(?::(\\d+))?\\s+dst\\s+([^\\s:]+):(\\d+\\.\\d+\\.\\d+\\.\\d+)(?::(\\d+))?', 2)
+            ELSE regexp_extract(message_text, '(?:([^\\s:]+):)??((?:\\d{1,3}\.){3}\\d{1,3}|(?:[a-fA-F0-9:]+))\/(\\d+)\\s+(?:to|src|dst)\\s+(?:([^\\s:]+):)??((?:\\d{1,3}\.){3}\\d{1,3}|(?:[a-fA-F0-9:]+))\/(\\d+)', 2) END
+        - name: src_port
+          action: add
+          expression: >
+            CASE WHEN message_text LIKE '%(type 3, code 3)%' THEN regexp_extract(message_text, '([^\\s:]+):(\\d+\\.\\d+\\.\\d+\\.\\d+)(?::(\\d+))?\\s+dst\\s+([^\\s:]+):(\\d+\\.\\d+\\.\\d+\\.\\d+)(?::(\\d+))?', 3)
+            ELSE regexp_extract(message_text, '(?:([^\\s:]+):)??((?:\\d{1,3}\.){3}\\d{1,3}|(?:[a-fA-F0-9:]+))\/(\\d+)\\s+(?:to|src|dst)\\s+(?:([^\\s:]+):)??((?:\\d{1,3}\.){3}\\d{1,3}|(?:[a-fA-F0-9:]+))\/(\\d+)', 3) END
+          type: integer
+        - name: dest_interface
+          action: add
+          expression: >
+            CASE WHEN message_text LIKE '%(type 3, code 3)%' THEN regexp_extract(message_text, '([^\\s:]+):(\\d+\\.\\d+\\.\\d+\\.\\d+)(?::(\\d+))?\\s+dst\\s+([^\\s:]+):(\\d+\\.\\d+\\.\\d+\\.\\d+)(?::(\\d+))?', 4)
+            ELSE regexp_extract(message_text, '(?:([^\\s:]+):)??((?:\\d{1,3}\.){3}\\d{1,3}|(?:[a-fA-F0-9:]+))\/(\\d+)\\s+(?:to|src|dst)\\s+(?:([^\\s:]+):)??((?:\\d{1,3}\.){3}\\d{1,3}|(?:[a-fA-F0-9:]+))\/(\\d+)', 4) END
+        - name: dest_ip
+          action: add
+          expression: >
+            CASE WHEN message_text LIKE '%(type 3, code 3)%' THEN regexp_extract(message_text, '([^\\s:]+):(\\d+\\.\\d+\\.\\d+\\.\\d+)(?::(\\d+))?\\s+dst\\s+([^\\s:]+):(\\d+\\.\\d+\\.\\d+\\.\\d+)(?::(\\d+))?', 5)
+            ELSE regexp_extract(message_text, '(?:([^\\s:]+):)??((?:\\d{1,3}\.){3}\\d{1,3}|(?:[a-fA-F0-9:]+))\/(\\d+)\\s+(?:to|src|dst)\\s+(?:([^\\s:]+):)??((?:\\d{1,3}\.){3}\\d{1,3}|(?:[a-fA-F0-9:]+))\/(\\d+)', 5) END
+        - name: dest_port
+          action: add
+          expression: >
+            CASE WHEN message_text LIKE '%(type 3, code 3)%' THEN regexp_extract(message_text, '([^\\s:]+):(\\d+\\.\\d+\\.\\d+\\.\\d+)(?::(\\d+))?\\s+dst\\s+([^\\s:]+):(\\d+\\.\\d+\\.\\d+\\.\\d+)(?::(\\d+))?', 6)
+            ELSE regexp_extract(message_text, '(?:([^\\s:]+):)??((?:\\d{1,3}\.){3}\\d{1,3}|(?:[a-fA-F0-9:]+))\/(\\d+)\\s+(?:to|src|dst)\\s+(?:([^\\s:]+):)??((?:\\d{1,3}\.){3}\\d{1,3}|(?:[a-fA-F0-9:]+))\/(\\d+)', 6) END
+          type: integer
+    event_type:
+      - target_table: network
+        fields:
+        - _event_date:
+            action: copy
+        - _event_time:
+            action: copy
+        - _source:
+            action: copy
+        - _sourcetype:
+            action: copy
+        - dest:
+            action: alias
+            value: dest_ip
+        - dest_interface_name:
+            action: alias
+            value: dest_interface
+        - dest_ip_addr:
+            action: alias
+            value: dest_ip
+        - dest_port_number:
+            action: alias
+            value: dest_port
+        - dvc_hostname:
+            action: copy
+        - event_message:
+            action: alias
+            value: message_text
+        - event_result:
+            action: add
+            type: expression
+            value: CASE WHEN message_text RLIKE '(?i)deny.*|(?i)denied' THEN 'deny' WHEN message_text RLIKE '(?i)reject.*|(?i)fail.*' THEN 'Failure' WHEN message_text RLIKE '(?i)drop.*' THEN 'drop' WHEN message_text RLIKE '(?i)allow.*' THEN 'allow' ELSE 'Success' END
+        - event_schema_file:
+            action: add
+            type: literal
+            value: network_v0.1
+        - event_severity:
+            action: add
+            type: expression
+            value: CASE WHEN level IN ('6', '7') THEN 'Informational' WHEN level IN ('3', '4', '5') THEN 'Medium' WHEN level IN ('0', '1', '2') THEN 'High' END
+        - event_sub_type:
+            action: add
+            type: expression
+            value: CASE WHEN message_number IN ('725001') THEN 'Start' WHEN message_number IN ('725007') THEN 'End' END
+        - event_type:
+            action: add
+            type: literal
+            value: Network
+        - network_session_id:
+            action: add
+            type: expression
+            value: CONCAT_WS("-", src_ip, src_port, dest_ip, dest_port)
+        - src:
+            action: alias
+            value: src_ip
+        - src_interface_name:
+            action: alias
+            value: src_interface
+        - src_ip_addr:
+            action: alias
+            value: src_ip
+        - src_port_number:
+            action: alias
+            value: src_port

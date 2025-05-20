@@ -1,0 +1,51 @@
+name: modify_cloudtrail
+summary: Modified Cloudtrail configuration
+severity: high
+source: cloudtrail
+sourceDetails: 
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <timestamp>
+actor:
+  type: USER
+  domain: userIdentity.accountId
+  id: userIdentity.arn
+  role: 
+  beliefCompromised: 0.5
+target:
+  type: INFRASTRUCTURE
+  domain: recipientAccountId
+  id: 
+  role: 
+  beliefCompromised: 0.5
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: DEFENSE_EVASION
+    techniqueId: T1562
+    technique: Impair Defenses
+    subtechniqueId: T1562.008
+    subtechnique: Disable Cloud Logs
+observables:
+  ipAddresses:
+  - '[ipAddress]'
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  who: <userName> at <sourceIPAddress> change configuration to <eventName>
+filter: |-
+  eventName in ('DeleteTrail','UpdateTrail','StopLogging')
+test_cases:
+- test_name: expected hit
+  expected_result: true
+  expected_summary: Modified Cloudtrail configuration
+  expected_severity: high
+  # expected_context: {}
+  test_input:
+    {
+        "eventName": "DeleteTrail",
+        "sourceIPAddress": "1.2.3.4",
+        "timestamp": "2022-01-01 00:00:00",
+        "userName": "Alice",
+    }

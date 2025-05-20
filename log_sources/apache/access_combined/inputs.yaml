@@ -1,0 +1,119 @@
+config:
+  version: 1.0
+  updated: 2022-06-20
+  author: Derek King
+  description: Process apache common log format (access_combined) logs
+input:
+  source: apache # [required]
+  sourcetype: access_combined # [required]
+  parser: generic_text
+  rawPath: LocalPath://apache/access_combined/samples/
+  connector:
+    name: autoloader  # json|kafka|csv|txt [required]
+    options:
+      cloudFiles.format: text
+      cloudFiles.includeExistingFiles: true
+  streamType: streaming # batch|streaming [required]
+transforms:
+    bronze:
+      enrichments:
+       - iana_ports
+      meta:
+        host_column: value
+        host_regex: '^(?<host>[^ ]*)'
+        timestamp_column: value
+        timestamp_regex: '^(?<host>[^ ]*) [^ ]* ([^ ]*) \[(?<time>[^\]]*)\]'
+        timestamp_format: "dd/MMM/yyyy:HH:mm:ss Z"
+        timestamp_regex_group: 3
+    silver:
+      meta:
+        source_column_name: value
+        source_column_regex: >
+          ^([\d.]+) (\S+) (\S+) \[.+] "(\w+) (\S+) ([^"]+)" (\d{3}) (\d+) "(.+)" "(.+)"?$
+        mappings:
+          - name: host
+            index: 1
+          - name: user
+            index: 3
+          - name: method
+            index: 4
+          - name: path
+            index: 5
+          - name: version
+            index: 6
+          - name: code
+            index: 7
+            type: integer
+          - name: size
+            index: 8
+            type: long
+          - name: referer
+            index: 9
+          - name: agent
+            index: 10
+        post_transforms:
+          - name: query_parameters
+            action: add
+            expression: transform(split(parse_url(path, "QUERY"), "&"), x -> url_decode(x))
+      event_type:
+       - target_table: web
+         filter: _sourcetype == "access_combined"
+         enrichments:
+            - iana_ports
+         fields:
+          - event_message:
+              action: add
+              type: literal
+              value: success
+          - event_message_result:
+              action: add
+              type: literal
+              value: success
+          - event_schema_version:
+              action: add
+              type: literal
+              value: 1.0
+          - event_schema_file:
+              action: add
+              type: literal
+              value: access_log
+          - event_result:
+              action: add
+              type: literal
+              value: success
+          - _sourcetype:
+              action: copy
+          - _event_date:
+              action: copy
+          - _event_time:
+              action: copy
+          - src_hostname:
+              action: alias
+              value: host
+          - user_name:
+              action: alias
+              value: user
+          - http_method:
+              action: alias
+              value: method
+          - url_path:
+              action: alias
+              value: path
+          - http_status_code:
+              action: alias
+              value: code
+          - http_response_body_bytes:
+              action: alias
+              value: size
+          - http_referrer_original:
+              action: alias
+              value: referer
+          - http_version:
+              action: alias
+              value: version
+          - http_user_agent:
+              action: alias
+              value: agent
+    # gold:
+    #   aggregate:
+    #       - apache_web_stats_by_hour

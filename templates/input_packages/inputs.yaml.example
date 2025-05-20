@@ -1,0 +1,166 @@
+config:
+  version: 1.0
+  updated: 07/July/2022
+  author: Derek King
+  description: Process OKTA IM2 Logs
+input:
+  source: okta
+  sourcetype: oktaIM2_log
+  parser: okta_oktaIM2_log
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/okta/oktaIM2_log/okta_logs.json #[optional]
+  rawSchemaFile: schema.txt  #[optional] - must be in the same directory as inputs.yaml
+  rawSchemaHintsFile: #schema_hints.txt #[optional] - must be in the same directory as inputs.yaml
+  connector: 
+    name: json
+    options:
+      multiLine: "True"
+      #cloudFiles.format: json
+      #cloudFiles.schemaEvolutionMode: addNewColumns
+      #cloudFiles.inferColumnTypes: true
+      #cloudFiles.schemaLocation: dbfs:/tmp
+      #cloudFiles.schemaHints: schema_hints
+  streamType: batch # batch|streaming [required]
+  bronze_table_name: adhoc_dev_okta_bronze
+  silver_table_name: adhoc_dev_okta_silver #defaults to source_sourcetype_silver [optional]
+transforms:
+    bronze:
+      meta:
+        timestamp_column: published
+        timestamp_regex: 
+        timestamp_format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+        source: okta_dev # sometimes you need to rewite a new source/sourcetype from the original.
+        sourcetype: okta:im2:authentication # sometimes you need to rewite a new source/sourcetype from the original.
+    silver:
+      event_type:
+       - target_table: authentication
+         filter: eventType == "user.authentication.auth_via_mfa" or eventType == "user.authentication.sso" or eventType == "user.session.start"
+         fields:
+          - _event_date:
+              action: rename
+              value: _event_date
+          - _event_time:
+              action: rename
+              value: _event_time
+          - _sourcetype:
+              action: rename
+              value: _sourcetype
+          - _source:
+              action: rename
+              value: _source
+          - dvc_hostname:
+              action: rename
+              value: dvc_hostname
+          - event_type:
+              action: add
+              type: literal
+              value: Logon
+          - event_sub_type:
+              action: alias
+              value: eventType
+          - event_message:
+              action: alias
+              value: displayMessage
+          - event_result:
+              action: add
+              type: expression
+              value: case when outcome_result = 'SUCCESS' then 'success' when outcome_result = 'ALLOW' then 'success' when outcome_result = 'FAILURE' then 'failure' when outcome_result = 'CHALLENGE' then 'partial' else 'unknown' end
+          - event_schema_file:
+              action: add
+              type: literal
+              value: authentication
+          - event_severity:
+              action: add
+              type: expression
+              value: case when severity = 'DEBUG' then 'Informational' when severity = 'INFO' then 'Informational' when severity = 'WARN' then 'Medium' when severity = 'ERROR' then 'High' when severity = 'FATAL' then 'High' else 'unknown' end
+          - event_original_severity:
+              action: alias
+              value: severity
+          - http_user_agent:
+              action: alias
+              value: client_userAgent_rawUserAgent
+          - src:
+              action: alias
+              value: client_ipAddress
+          - src_ip_addr:
+              action: alias
+              value: client_ipAddress
+          - src_isp:
+              action: alias
+              value: securityContext_isp
+          - src_geo_country:
+              action: alias
+              value: client_geographicalContext_country
+          - src_geo_city:
+              action: alias
+              value: client_geographicalContext_city
+          - src_geo_region: 
+              action: alias
+              value: client_geographicalContext_state
+          - src_geo_lon: 
+              action: alias
+              value: client_geographicalContext_geolocation_lon
+          - src_geo_lat:
+              action: alias
+              value: client_geographicalContext_geolocation_lat
+          - dst:
+              action: add
+              type: expression
+              value: array_join(target_displayName, ',')
+          - target_app_name:
+              action: add
+              type: expression
+              value: array_join(target_displayName, ',')
+          - target_app_type:
+              action: add
+              type: expression
+              value: array_join(target_type, ',')
+          - target_app_id:
+              action: add
+              type: expression
+              value: array_join(target_id, ',')
+          - target_hostname:
+              action: add
+              type: expression
+              value: coalesce(debugContext_debugData_origin, debugContext_debugData_redirectUri, debugContext_debugData_requestUri)
+          - target_user_id:
+              action: alias
+              value: actor_id
+          - target_user_name:
+              action: alias
+              value: actor_displayName
+          - target_user_type:
+              action: alias
+              value: actor_type
+          - target_session_id:
+              action: alias
+              value: authenticationContext_externalSessionId
+          - logon_guid:
+              action: alias
+              value: transaction_id
+          - logon_type:
+              action: alias
+              value: debugContext_debugData_signOnMode
+          - login_id:
+              action: alias
+              value: transaction_id
+          - logon_authentication_package_name:
+              action: alias
+              value: authenticationContext_credentialProvider
+          - logon_method:
+              action: alias
+              value: debugContext_debugData_factor
+          - user:
+              action: alias
+              value: actor_displayName
+          - event_product:
+              action: add
+              type: literal
+              value: okta
+          - event_vendor:
+              action: add
+              type: literal
+              value: okta
+          - logon_target:
+              action: add
+              type: expression
+              value: array_join(target_displayName,',')

@@ -1,0 +1,23 @@
+test_cases:
+  - name: okta_system_log
+    connector: json
+    sample: okta_logs.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, actor, authenticationContext, client, debugContext, device, displayMessage, dvc_hostname, eventType, legacyEventType, outcome, published, request, securityContext, severity, target, transaction, uuid, version
+        expected_values:
+          - _source: 'okta'
+          - _sourcetype: 'system_log'
+      silver:
+        expected_columns: _event_date, _event_time, _source, _sourcetype, dvc_hostname, _ingest_time, _source_file, date, time, time_taken, c_ip, cs_username, cs_auth_group, x_exception_id, sc_filter_result, cs_categories, cs_Referer, sc_status, s_action, cs_method, rs_Content_Type, cs_uri_scheme, cs_host, cs_uri_port, cs_uri_path, cs_uri_query, cs_uri_extension, cs_User_Agent, s_ip, sc_bytes, cs_bytes, x_virus_id, x_bluecoat_application_name, x_bluecoat_application_operation
+      normalized:
+        web:
+          expected_columns: _event_date, _event_time, _source, _sourcetype, dest_bytes, dest_ip, dest_port, dest_user_name, dst, dvc_hostname, event_message, event_original_result, event_product, event_result, event_schema_file, event_severity, event_sub_type, event_type, event_vendor, http_content_format, http_content_type, http_referrer, http_request_method, http_status_code, http_user_agent, network_application, network_bytes, network_duration, network_session_id, src_bytes, src_ip, threat_id, threat_name, url, url_category
+          expected_values:
+            - _source: 'bluecoat'
+            - _sourcetype: 'proxysg'
+            - event_sub_type: "DENIED"
+            - http_request_method: "CONNECT"
+            - network_bytes: 74
+            - src: '10.174.6.4'
+            - dst: 'proxysg_01'

@@ -1,0 +1,17 @@
+name: apache
+input_table: sirens.apache_access_combined_silver
+output_table: sirens.alerts
+rule_dir: access_combined
+enabled: true
+streamType: streaming
+transformation: 
+  file: event_date_cutoff 
+rules:
+  - name: directory_traversal
+    enabled: true
+  - name: sqli
+    enabled: true
+  - name: xss
+    enabled: true
+  - name: exfil
+    enabled: true

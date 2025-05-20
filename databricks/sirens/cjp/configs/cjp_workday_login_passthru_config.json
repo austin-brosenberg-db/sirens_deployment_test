@@ -1,0 +1,23 @@
+{
+  "poller_type": "workday",
+  "url" : "{YOUR_URL_HERE}",
+  "credentials": {
+    "location" : "{YOUR_PATH_HERE}/creds/workday"
+  },
+  "authentication" : {
+    "type" : "Basic",
+    "auth_criteria": {
+      "login" : "str",
+      "password": "str"
+    }
+  },
+  "api_response" : {
+    "format" : "json",
+    "root_entry": "Report_Entry"
+  },
+  "output" : {
+    "prefix" : "workday_login2"
+  },
+  "test_interval" : 120,
+  "timestamp_format" : "%Y-%m-%d %H:%M:%S.%f+00:00"
+}

@@ -1,0 +1,86 @@
+name: new_mfa_device_added_to_admin_account
+summary: <actor.alternateId> added a new <client.device> MFA device on <oktaURL>
+severity: medium
+source: okta
+sourceDetails: <oktaURL>
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <published>
+actor:
+  type: USER
+  domain: <oktaURL>
+  id: <actor.alternateId>
+  beliefCompromised: 0.5
+target:
+  type: UNDEFINED
+  domain: <oktaURL>
+  id: 
+  beliefCompromised: 0.0
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: PERSISTANCE
+    techniqueId: T1098
+    technique: Account Manipulation
+    subtechniqueId: T1098.005
+    subtechnique: Device Registration
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: CREDENTIAL_ACCESS
+    techniqueId: T1556
+    technique: Modify Authentication Process
+    subtechniqueId: T1556.006
+    subtechnique: Multi-Factor Authentication
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: PERSISTANCE
+    techniqueId: T1556
+    technique: Modify Authentication Process
+    subtechniqueId: T1556.006
+    subtechnique: Multi-Factor Authentication
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: DEFENSE_EVASION
+    techniqueId: T1556
+    technique: Modify Authentication Process
+    subtechniqueId: T1556.006
+    subtechnique: Multi-Factor Authentication
+observables:
+  ipAddresses:
+  - <client.ipAddress>
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  Okta URL: <oktaURL>
+  UserAgent: <client.userAgent.rawUserAgent>
+  ipAddress: <client.ipAddress>
+filter: |-
+  LOWER(actor.alternateId) RLIKE "admin"
+  AND eventType = "user.mfa.factor.activate"
+  AND (outcome.reason = "User set up OKTA_SOFT_TOKEN factor" AND target IS NOT NULL)
+test_cases:
+- test_name: 'expected hit'
+  expected_result: true
+  expected_summary: 'imAadmin@example.com added a new phone MFA device on okta.example.com'
+  expected_severity: medium
+  expected_context: 
+    {
+      "Okta URL": "okta.example.com",
+      "UserAgent": "OktaVerify",
+      "ipAddress": "1.2.3.4"
+    }
+  test_input:
+    {
+        "actor": {"alternateId": "imAadmin@example.com"},
+        "eventType": "user.mfa.factor.activate",
+        "target": [{"id": "1"}],
+        "outcome": {"reason": "User set up OKTA_SOFT_TOKEN factor"},
+        "oktaURL": "okta.example.com",
+        "client": {
+          "ipAddress": "1.2.3.4",
+          "userAgent": {"rawUserAgent": "OktaVerify"},
+          "device": "phone"
+        },
+        "published": "2022-01-01"
+    }

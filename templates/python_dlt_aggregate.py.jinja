@@ -1,0 +1,90 @@
+# Databricks notebook source
+# DBTITLE 1,Install Sirens on the DLT cluster
+# MAGIC %pip install pyyaml inflection {spark.conf.get('sirens_wheel', '')} --force-reinstall
+
+# COMMAND ----------
+
+# DBTITLE 1,Set working directory to Sirens home
+import os
+
+sirens_home = spark.conf.get("sirens.home", None)
+if sirens_home is not None:
+  os.chdir(sirens_home)
+
+# COMMAND ----------
+
+# DBTITLE 1,Imports
+import dlt
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+from databricks.sirens.datasource import DataSource
+from databricks.sirens.aggregate import Aggregate
+from databricks.sirens.expectations import Expectations
+from databricks.sirens.exceptions import SirensAggregationException
+from databricks.sirens.utils.global_opts import GlobalOpts
+from databricks.sirens.logging import get_logger
+from databricks.sirens.utils.base_utils import BaseUtils
+logger = get_logger(__name__)
+
+# COMMAND ----------
+input_source = {{input_source}}
+source = input_source.get("source")
+sourcetype = input_source.get("sourcetype")
+database = input_source.get("database")
+
+# COMMAND ----------
+
+dataSourceObj = DataSource(spark, database, source, sourcetype)
+config = dataSourceObj.read()
+
+# COMMAND ----------
+def generate_aggregate_tables(dataSourceObj, source_table, target_table, aggregate_item, table_config):
+    
+    # build spark_conf and table_properties based on table_config
+    spark_conf = {conf: str(table_config[key]) for conf,key in [
+        ("pipelines.trigger.interval","trigger_interval")
+    ] if table_config.get(key)}
+    spark_conf["spark.sql.caseSensitive"] = "true"
+
+    table_properties = {conf: str(table_config[key]) for conf,key in [
+        ("pipelines.autoOptimize.managed","dlt_auto_optimize_managed"),
+        ("delta.autoOptimize.optimizeWrite","optimize_write"),
+        ("delta.autoOptimize.autoCompact","auto_compact")
+    ] if table_config.get(key)}
+    table_properties["pipelines.autoOptimize.zOrderCols"] = ",".join(table_config.get("zorder_cols", []))
+
+    input_config = dataSourceObj["input"].copy()
+    input_config["dlt_read"] = True
+    read_method = BaseUtils.get_read_method(spark, input_config)
+
+    @dlt.table(
+        name=source_table+"_"+target_table+"_agg",
+        comment="aggregate table",
+        spark_conf=spark_conf,
+        partition_cols=table_config.get("partition_cols", ["_event_date"]),
+        table_properties=table_properties
+    )
+    def aggregate_table():
+        df = read_method(source_table)
+
+        df, status = Aggregate(dataSourceObj).pipeline_aggregation(df, aggregate_item)
+        if not status:
+            logger.info(f'Skipped Aggregation for source: {source_table}. See logs for more details.')
+            return False
+
+        return df
+
+# COMMAND ----------
+
+# DBTITLE 1,Generate Aggregate tables for each aggregate defined in config.
+try:
+    for aggregate_item in dataSourceObj.dataSourceConfig.get("transforms").get("gold").get("aggregate"):
+        
+        target_table = aggregate_item.get("target_table")
+        table_config = dataSourceObj.get_table_config(aggregate_item, target_table)
+
+        generate_aggregate_tables(dataSourceObj, aggregate_item.get("source_table"), target_table, table_config)
+      
+except (AttributeError, TypeError) as exc:
+    logger.warn(f"{exc}:\n to fix run sirens.py validate")
+    pass

@@ -1,0 +1,131 @@
+config:
+  version: 1.0
+  updated: 2024-01-27
+  author: Garrett R Peternel
+  description: Cisco Internetwork Operating System (https://www.cisco.com/c/en/us/td/docs/routers/access/wireless/software/guide/SysMsgLogging.html#wp1054470)
+input:
+  source: cisco
+  sourcetype: ios
+  parser: generic_text
+  rawPath: s3://<path_to_dir>/ # change me [required]
+  host: Cisco Internetwork Operating System
+  connector:
+    name: autoloader # json|kafka|csv|txt|autoloader [required]
+    options:
+      cloudFiles.format: text
+  streamType: streaming # batch|streaming [required]
+transforms:
+  bronze:
+    meta:
+      timestamp_column: value
+      timestamp_regex: '(\w{3}\s+\d{1,2}\s+\d{4}\s+\d{1,2}:\d{1,2}:\d{1,2}(?:\.\d{1,3})?)'
+      timestamp_regex_group: 1
+  silver:
+    enrichments:
+       - message_logging_level_keywords
+    meta:
+      source_column_name: value
+      source_column_regex: >
+        ^<(\d+)>(\d+):\s+(\w{3}\s+\d{1,2}\s+\d{4}\s+\d{1,2}:\d{1,2}:\d{1,2}(?:\.\d{1,3})?):\s+%([A-Za-z0-9\-_]+)-(\d+)-([A-Za-z0-9\-_]+):\s(.+)$
+      mappings:
+        - name: priority_value
+          index: 1
+          type: integer
+        - name: seq_no
+          index: 2
+          type: integer
+        - name: facility
+          index: 4
+        - name: severity
+          index: 5
+          type: integer
+        - name: mnemonic
+          index: 6
+        - name: description
+          index: 7
+      post_transforms:
+        - name: interface
+          action: add
+          expression: >
+            regexp_extract(description, '(?:[Ii]nterface)\\s+([A-Za-z0-9/]+)', 1)
+        - name: ip_addr
+          action: add
+          expression: >
+            regexp_extract(description, '(\\d+\\.\\d+\\.\\d+\\.\\d+)', 1)
+        - name: port
+          action: add
+          expression: >
+            regexp_extract(description, '(?:port|localport:)\\s*(\\d+)', 1)
+          type: integer
+        - name: state
+          action: add
+          expression: >
+            regexp_extract(description, ', changed state to (\\w+)', 1)
+    event_type:
+       - target_table: authentication
+         filter: mnemonic == "LOGIN_SUCCESS" or mnemonic == "LOGOUT" or mnemonic == "CONFIG_I"
+         fields:
+          - _event_date:
+              action: copy
+          - _event_time:
+              action: copy
+          - _sourcetype:
+              action: copy
+          - _source:
+              action: copy
+          - dvc_hostname:
+              action: copy
+          - event_message:
+              action: alias
+              value: description
+          - event_original_severity:
+              action: alias
+              value: syslog_definition
+          - event_product:
+              action: add
+              type: literal
+              value: IOS
+          - event_result:
+              action: add
+              type: literal
+              value: Success
+          - event_schema_file:
+              action: add
+              type: literal
+              value: authentication_v0.1
+          - event_severity:
+              action: add
+              type: expression
+              value: > 
+               CASE WHEN severity IN ("6", "7") THEN "Informational"
+               WHEN severity IN ("3", "4", "5") THEN "Medium"
+               WHEN severity IN ("0", "1", "2") THEN "High"
+               END
+          - event_sub_type:
+              action: alias
+              value: mnemonic
+          - event_type:
+              action: add
+              type: expression
+              value: > 
+               CASE WHEN mnemonic == "LOGIN_SUCCESS" THEN "Logon"
+               WHEN mnemonic == "LOGOUT" THEN "Logoff"
+               END
+          - event_vendor:
+              action: add
+              type: literal
+              value: Cisco
+          - src:
+              action: alias
+              value: ip_addr
+          - src_ip_addr:
+              action: alias
+              value: ip_addr
+          - user:
+              action: add
+              type: expression
+              value: > 
+               CASE WHEN mnemonic == "LOGOUT" THEN regexp_extract(description, 'User\\s+(\\w+)\\s+', 1)
+               WHEN mnemonic == "LOGIN_SUCCESS" THEN regexp_extract(description, '\\[user:\\s+(\\w+)\\]', 1)
+               WHEN mnemonic == "CONFIG_I" THEN regexp_extract(description, 'by\\s+(\\w+)\\s+', 1)
+               END

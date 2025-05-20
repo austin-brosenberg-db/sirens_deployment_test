@@ -1,0 +1,504 @@
+{
+    "name": "network",
+    "version": "0.1",
+    "description": "used to describe network activity from generated from firewalls, operating systems, cloud provider traffic flows",
+    "fields": [
+        {
+            "name": "_event_date",
+            "datatype": "date",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_event_time",
+            "datatype": "timestamp",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_sourcetype",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_source",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "dvc_hostname",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_message",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_result",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_schema_file",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_severity",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "event_type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "dvc_action",
+            "datatype": "string",
+            "allowed_values": [
+                "allow",
+                "deny",
+                " drop",
+                " encrypt",
+                " decrypt",
+                " reset"
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "network_application",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Derive from dst_port_number if not specified in the source record",
+            "example": "FTP"
+        },
+        {
+            "name": "network_protocol",
+            "datatype": "integer",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "tcp,udp,icmp"
+        },
+        {
+            "name": "network_protocol_version",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "ipv4,ipv6"
+        },
+        {
+            "name": "network_direction",
+            "datatype": "string",
+            "allowed_values": [
+                "Inbound",
+                " Outbound",
+                " Local",
+                " External",
+                " NA",
+                " Listen"
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "if event_type is NetworkSession, relative to org or cloud boundary.if event_type is EndpointNetworkSession, relative to the endpoint.",
+            "example": ""
+        },
+        {
+            "name": "network_duration",
+            "datatype": "integer",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "the time taken in milliseconds for a session or connection",
+            "example": ""
+        },
+        {
+            "name": "dest_bytes",
+            "datatype": "long",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "bytes sent from destination to source",
+            "example": ""
+        },
+        {
+            "name": "src_bytes",
+            "datatype": "long",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "bytes sent from source to destination",
+            "example": ""
+        },
+        {
+            "name": "network_bytes",
+            "datatype": "long",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "total bytes (sum dest_bytes and src_bytes) if exists",
+            "example": ""
+        },
+        {
+            "name": "dest_packets",
+            "datatype": "long",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "number of packets sent from destination to source",
+            "example": ""
+        },
+        {
+            "name": "src_packets",
+            "datatype": "long",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "number of packets sent from source to destination",
+            "example": ""
+        },
+        {
+            "name": "total_packets",
+            "datatype": "long",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "total packets sent between source and destination",
+            "example": ""
+        },
+        {
+            "name": "network_session_id",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "concatenated string <src_ip>_<src_port>_<dest_ip>_<dest_port>",
+            "example": "172\\_12\\_23\\22\\_4322\\_\\_263\\_23\\_43\\_22\\_80"
+        },
+        {
+            "name": "dest_ip_addr",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "192.168.23.92"
+        },
+        {
+            "name": "dest_port_number",
+            "datatype": "long",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "1433"
+        },
+        {
+            "name": "dest_hostname",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "MALLORY-PC"
+        },
+        {
+            "name": "dest_domain",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "contoso"
+        },
+        {
+            "name": "dest_dvc_id",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The id of the destination device",
+            "example": "ac7e9755-8eae-4ffc-8a02-50ed7a2216c3"
+        },
+        {
+            "name": "dest_dvc_id_type",
+            "datatype": "string",
+            "allowed_values": [
+                "MSFTDefenderId",
+                " AzureResourceId",
+                " MSFTDefenderIoTId",
+                " VMConnectionId",
+                " AwsVpcId",
+                " VectraId",
+                " Other"
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The type of dest_dvc_id",
+            "example": ""
+        },
+        {
+            "name": "dest_zone",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "DMZ"
+        },
+        {
+            "name": "dest_interface_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The network interface used for the connection or session by the destination device",
+            "example": "Microsoft Hyper-V Network Adapter"
+        },
+        {
+            "name": "dest_interface_guid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The GUID of the network interface used on the destination device",
+            "example": "46ad544b-eaf0-47ef-827c-266030f545a6"
+        },
+        {
+            "name": "dest_mac_address",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The MAC address of the network interface used for the connection or session by the destination device.",
+            "example": "06:10:9f:eb:8f:14"
+        },
+        {
+            "name": "dest_vlan_id",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "outer_vlan_id",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "aliased to dest_vlan_id",
+            "example": ""
+        },
+        {
+            "name": "src_interface_guid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        }
+    ]
+}

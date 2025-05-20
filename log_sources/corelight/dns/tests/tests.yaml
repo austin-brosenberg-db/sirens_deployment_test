@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_dns
+    connector: json
+    sample: dns_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_dns'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, TC, RA, id.resp_h, _write_ts, id.orig_h, ts, query, proto, AA, id.orig_p, qclass_name, _path, qtype_name, RD, qtype, qclass, id.resp_p, uid, rejected, _system_name,Z, trans_id
+        expected_values:
+          - query: '_adisk._tcp.local'
+          - proto: 'udp'
+          - rejected: 'false'

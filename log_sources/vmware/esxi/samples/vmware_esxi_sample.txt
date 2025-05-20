@@ -1,0 +1,5 @@
+<14>2024-08-15T16:01:00.928Z hostdevice1 backup.sh[567890]: Creating ConfigStore Backup
+<166>2024-08-15T16:06:53.933Z host_deviceABC hostd-probe: quiet hostd-probe[123456] [Originator@3456 sub=Default] Start probe request
+<14>2024-08-15T15:01:00.835Z HOST-99 backup.sh[237655]: Creating archive
+<14>2024-08-15T18:01:01.419Z device-iot backup.sh[111111]: Unlocked esx.conf
+<78>2024-08-15T16:00:00.517Z device123 crond[123123]: USER root pid 88888888 cmd /bin/crx-cli gc

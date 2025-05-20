@@ -1,0 +1,85 @@
+{
+    "name": "api",
+    "version": "0.1",
+    "description": "represents information pertaining to an API request and response.",
+    "fields": [
+        {
+            "name": "request",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Details pertaining to the API request.",
+            "example": ""
+        },
+        {
+            "name": "response",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Details pertaining to the API response.",
+            "example": ""
+        },
+        {
+            "name": "group",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The information pertaining to the API group.",
+            "example": ""
+        },
+        {
+            "name": "operation",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Verb/Operation associated with the request",
+            "example": ""
+        },
+        {
+            "name": "service",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The information pertaining to the API service.",
+            "example": ""
+        },
+        {
+            "name": "version",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The version of the API service.",
+            "example": ""
+        }
+    ]
+}

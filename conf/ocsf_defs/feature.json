@@ -1,0 +1,46 @@
+{
+    "name": "feature",
+    "version": "0.1",
+    "description": "provides information about the software product feature that generated a specific event.",
+    "fields": [
+        {
+            "name": "name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The name of the feature.",
+            "example": ""
+        },
+        {
+            "name": "uid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique identifier of the feature.",
+            "example": ""
+        },
+        {
+            "name": "version",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The version of the feature.",
+            "example": ""
+        }
+    ]
+}

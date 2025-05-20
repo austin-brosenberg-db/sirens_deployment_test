@@ -1,0 +1,70 @@
+# Databricks notebook source
+# MAGIC %pip install pyyaml inflection
+
+# COMMAND ----------
+
+# DBTITLE 1,Setup Widgets
+dbutils.widgets.text("source", '', label="source")
+dbutils.widgets.text("sourcetype", '', label="sourcetype")
+dbutils.widgets.text("database", '', label="database")
+
+# COMMAND ----------
+
+# DBTITLE 1,Read Widgets
+source = dbutils.widgets.get("source")
+sourcetype = dbutils.widgets.get("sourcetype")
+database = dbutils.widgets.get("database")
+if source == '' or sourcetype == '' or database == '':
+    raise Exception('please pass parameters to multi-task job, or fill out notebook widget values')
+else:
+    input_source = {'source': source, 'sourcetype': sourcetype, 'database': database}
+
+import databricks
+import os
+databricks.__path__.append(os.path.abspath("../../../../databricks"))
+
+
+# COMMAND ----------
+
+# DBTITLE 1,Imports
+from databricks.sirens.config_reader import AggregateReader
+from databricks.sirens.datasource import DataSource
+from databricks.sirens import connectors
+from databricks.sirens.aggregate import Aggregate
+from databricks.sirens.logging import get_logger
+logger = get_logger(__name__)
+
+# COMMAND ----------
+
+# DBTITLE 1,Read data source config file (inputs.yaml)
+dataSourceObj = DataSource(spark, database, source, sourcetype)
+config = dataSourceObj.read()
+logger.info(f"working on: {config.get('input').get('sourcetype')} aggregations: {config.get('transforms').get('gold')}")
+
+# COMMAND ----------
+
+# DBTITLE 1,create delta reader/writer objects
+delta_reader = connectors.Reader('readDelta', spark, dataSourceObj)
+delta_writer = connectors.Writer('writeDelta', spark, dataSourceObj)
+
+# COMMAND ----------
+
+# DBTITLE 1,Process Aggregations
+aggregate_yaml_configs = AggregateReader().read(source, sourcetype)
+for named_aggregate in dataSourceObj.dataSourceConfig.get("transforms").get("gold").get("aggregate"):
+
+    aggregate_item = AggregateReader.get_named_conf(aggregate_yaml_configs, named_aggregate)
+
+    source_table = aggregate_item.get('source_table')
+
+    # read source table
+    df = delta_reader.read(source_table)
+    
+    # process aggregations
+    df, status = Aggregate(dataSourceObj).pipeline_aggregation(df, aggregate_item)
+    if not status:
+        logger.info(f'Skipped Aggregation for source: {source_table}. See logs for more details.')
+        continue
+
+    # output aggregated dataframe to delta
+    delta_writer.write_agg(df, aggregate_item, aggregate_item.get('target_table'))

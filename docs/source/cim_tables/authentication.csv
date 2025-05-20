@@ -1,0 +1,43 @@
+FieldName,Data Type,Type,Description,Allowed Values,Example
+_event_date,date,mandatory,The date of the original event,,2022-11-28
+_event_time,timestamp,mandatory,The timestamp of the original event,,
+_source,string,mandatory,The source of the data ingested,,"aws, checkpoint"
+_sourcetype,string,mandatory,The sourcetype of data ingested,,"cloud_trail, opsec_lea"
+dest,string,mandatory,normalized field represented as either a dest hostname or dest IP address,,"alias from dest_hostname, dst_ip_addr"
+dest_hostname,string,optional,The targeted hostname excluding any domain information,,DESKTOP-1023
+dest_ip_addr,string,optional,The IP address of the targeted host,,
+dvc_hostname,string,mandatory,The device sending the data,,"fw-1, proxy-sg-1"
+event_message,string,recommended,Details of the event,,
+event_original_severity,string,,The original severity as reported by the sending host,,information
+event_product,string,mandatory,The product from the event_vendor,,"Cloudtrail, Sysmon, ZIA Firewall"
+event_result,string,recommended,The result of the event reported. Normalised to one of the examples,"Success, Failure, Partial, Unknown",
+event_schema_file,string,optional,The version of CIM model used to create this dataset. Literal string assigned by the data engineer,,authentication_v1
+event_severity,string,recommended,"The severity of the event, normalized to one of example","Informational, Low, Medium, High",
+event_sub_type,string,recommended,Sub Type of event_type,,"Interactive, RemoteService, AssumeRole, RemoteInteractive"
+event_type,string,recommended,Describes the operation reported by the event,"Logon, Logoff",
+event_vendor,string,mandatory,The vendor of the product reporting the event,,"Microsoft, Checkpoint"
+http_user_agent,string,optional,used when authentication is over https (aws console as an example),,"Mozilla/5.0 (Windows NT 6.3; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/56.0.2924.87 Safari/537.36"
+logon_elevated_token,string,optional,If an elevated token is being used by the source,,No
+logon_impersonation_level,string,optional,The impersonation level reported in windows logon events,,Impersonation
+logon_target,string,recommended,The system being targeted for a logon event,,"alias from target_app, target_url, target_hostname"
+src,string,mandatory,normalized field represented as either the src hostname or src IP address,,"alias from src_hostname, src_ip_addr"
+src_domain,string,optional,The domain of the source system,,Contoso
+src_geo_city,string,optional,City,,London
+src_geo_country,string,optional,Country,,United Kingdom
+src_geo_lat,string,optional,Latitude,,53.143514
+src_geo_lon,string,optional,Longitude,,-0.694232
+src_geo_region,string,optional,Region,,England
+src_hostname,string,optional,The source device hostname. If not present use the IP address of the sending host,,DESKTOP-1023
+src_ip_addr,string,optional,The IP address of the source device,,2.216.8.199
+src_isp,string,optional,The ISP used by the source device,,Sky Broadband
+target_app_name,string,optional,The name of the application requiring authorization,,"Okta, Workday"
+target_app_type,string,optional,The type of application authorizing on behalf of the user,"Process, Service, Resource, URL, SaaS, CloudService, Other",
+target_domain,string,optional,The target domain name,,Contoso
+target_hostname,string,recommended,The target hostname excluding the domain name,,DESKTOP-1023
+target_ip_addr,string,optional,The IP address of the target device,,10.10.10.10
+target_session_id,string,optional,The sign-in session Id on the target_hostname,,{00000000-0000-0000-0000-000000000000}
+target_url,string,optional,The URL associated with the target application,,https://console.aws.com/console/home
+target_user_id,string,optional,The unique user id of the target user,,0xFD5113F
+target_user_name,string,optional,The target username including domain information when available,,Contoso\mallory-park
+target_user_type,string,optional,Type of user account being targeted,"Regular, Machine, Admin, System, Application, Service Principal, Other",
+user,string,mandatory,alias to target_user_name or target_user_id,,Contoso\mallory-park

@@ -1,0 +1,9 @@
+build
+coverage
+numpy<2.0
+pyspark[sql,connect]>=3.4.0,<4.0
+pytest-mock
+pytest-spark
+pytest==7.1.2
+python-terraform==0.10.1
+requests-mock==1.12.1

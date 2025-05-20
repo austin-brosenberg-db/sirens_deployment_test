@@ -1,0 +1,1 @@
+{{unique_num}}-{{detection_type}}-{{event_source}}-{{report_category}}-{{description}}

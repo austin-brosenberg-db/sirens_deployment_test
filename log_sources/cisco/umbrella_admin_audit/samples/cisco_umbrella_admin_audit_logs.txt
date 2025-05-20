@@ -1,0 +1,3 @@
+"123","2021-07-22 10:00:00","admin1@domain.com","","logexportconfigurations","create","999.165.200.227","version: 1","version: 5"
+"456","2021-07-23 12:00:00","admin2@domain.com","","logexportconfigurations","update","209.777.200.227","version: 2","version: 5"
+"789","2021-07-24 13:00:00","admin3@domain.com","","logexportconfigurations","delete","209.165.200.666","version: 3","version: 5"

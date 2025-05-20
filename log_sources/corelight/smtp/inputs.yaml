@@ -1,0 +1,21 @@
+config:
+  version: 1.0
+  updated: 2023-02-13
+  author: Derek King
+  description: Corelight Logs
+input:
+  source: corelight
+  sourcetype: json_streaming_smtp
+  parser: corelight
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/corelight_json/json_streaming_smtp.log
+  connector:
+    name: json
+    options:
+  streamType: batch
+transforms:
+  bronze:
+    sourcetype: corelight_smtp
+    meta:
+      timestamp_column: "entries.ts"
+      timestamp_column_type: timestamp
+      host_column: "entries._system_name"

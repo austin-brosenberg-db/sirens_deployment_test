@@ -1,0 +1,59 @@
+name: serial_console_access_enabled
+summary: <userName> enabled access to the EC2 serial console of all instances for their account
+severity: medium
+source: cloudtrail
+sourceDetails: 
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <timestamp>
+actor:
+  type: USER
+  domain: userIdentity.accountId
+  id: userIdentity.arn
+  role: 
+  beliefCompromised: 0.5
+target:
+  type: INFRASTRUCTURE
+  domain: recipientAccountId
+  id: 
+  role: 
+  beliefCompromised: 0.5
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: PRIVILEGE_ESCALATION
+    techniqueId: T1078
+    technique: Valid Accounts
+    subtechniqueId: T1078.004
+    subtechnique: Cloud Accounts
+observables:
+  ipAddresses:
+  - '[ipAddress]'
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  Inbound Assume: <userIdentity.accountId>
+  requestAccountRole: <ar_resp_assumedRoleUser.assumedRoleId>
+  requestRoleArn: <requestParameters.roleArn>
+  who: <userName> at <sourceIPAddress>
+filter: |-
+  eventName = 'EnableSerialConsoleAccess' AND
+  eventSource = "ec2.amazonaws.com"
+test_cases:
+- test_name: expected hit
+  expected_result: true
+  expected_summary: Alice enabled access to the EC2 serial console of all instances for their account
+  expected_severity: medium
+  # expected_context: {}
+  test_input: 
+    {
+        "eventName": "EnableSerialConsoleAccess",
+        "eventSource": "ec2.amazonaws.com",
+        "ar_resp_assumedRoleUser": {"assumedRoleId": "123456789"},
+        "requestParameters": {"roleArn": ""},
+        "sourceIPAddress": "1.2.3.4",
+        "timestamp": "2022-01-01 00:00:00",
+        "userIdentity": {"arn": "arn:aws:iam::123456789012:user/Alice", "accountId": "123456789"},
+        "userName": "Alice",
+    }

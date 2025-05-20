@@ -1,0 +1,97 @@
+config:
+  version: 1.0
+  updated: 2022-10-24
+  author: derek.king@databricks.com
+  description: process zeek conn_lof in json format
+input:
+  source: zeek
+  sourcetype: conn_json
+  parser: zeek
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/zeek/conn_json
+  host: syslog_host_1
+  connector:
+    name: json
+    options:
+  streamType: batch
+transforms:
+    bronze:
+      meta:
+        timestamp_column: ts
+        timestamp_column_type: timestamp
+        host: id_orig_h
+    silver:
+      event_type:
+       - target_table: network
+         filter: _source == 'zeek' and _sourcetype == 'conn_json'
+         fields:
+          - _event_date:
+              action: copy
+          - _event_time:
+              action: copy
+          - event_type:
+              action: add
+              type: literal
+              value: NetworkSession
+          - event_message:
+              action: add
+              type: literal
+              value: NetworkSession
+          - event_result:
+              action: add
+              type: literal
+              value: Success
+          - event_schema_file:
+              action: add
+              type: literal
+              value: network_v1.0
+          - event_severity:
+              action: add
+              type: literal
+              value: Informational
+          - dvc_action:
+              action: add
+              type: literal
+              value: allow
+          - network_duration:
+              action: alias
+              value: duration
+          - src_ip_addr:
+              action: alias
+              value: id_orig_h
+          - src:
+              action: alias
+              value: id_orig_h
+          - src_port:
+              action: alias
+              value: id_orig_p
+          - dest_ip_addr:
+              action: alias
+              value: id_resp_h
+          - dest:
+              action: alias
+              value: id_resp_h
+          - dest_port:
+              action: alias
+              value: id_resp_p
+          - src_bytes:
+              action: alias
+              value: orig_bytes
+          - src_packets:
+              action: alias
+              value: orig_pkts
+          - network_protocol:
+              action: alias
+              value: proto
+          - dest_bytes:
+              action: alias
+              value: resp_bytes
+          - dest_packets:
+              action: alias
+              value: resp_pkts
+          - network_application:
+              action: alias
+              value: service
+          - uid:
+              action: copy
+
+

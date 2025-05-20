@@ -1,0 +1,14 @@
+name: okta_system_log_mfa_agg_pipeline
+input_table: sirens.okta_system_log_mfa_agg
+output_table: sirens.alerts
+rule_dir: system_log/mfa_agg
+enabled: true
+dlt_read: true
+depends_on:
+  - mfa_agg_preprocessing
+streamType: batch
+interval: 1 hour
+filter: _event_date > CURRENT_DATE - 1
+rules:
+  - name: suspicious_mfa_pushes
+    enabled: true

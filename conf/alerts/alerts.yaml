@@ -1,0 +1,33 @@
+- alert_table:
+    name: alert_table
+    description: Send Alerts to slack
+    suppress: false
+    conditions:
+      - condition:
+          name: all_alerts
+          filter:
+          timeout: 20
+          destination_table: slack_sent_alerts # optional
+          action:
+            module: slack
+            request: post_message
+            options:
+              channel: apis
+              template: sirt
+    scheduling:
+      stream_type: streaming # or batch
+      #cron_schedule: 0 30 * * *
+- alerts:
+    name: alerts
+    description: processing alerts table
+    conditions:
+      - condition:
+          name: all_alerts
+          filter: 
+          timeout: 180
+          destination_table: soar_sent_alerts
+          action:
+            module: splunk_soar
+            request: send_alerts
+    scheduling:
+      stream_type: streaming

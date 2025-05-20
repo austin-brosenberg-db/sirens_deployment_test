@@ -1,0 +1,20 @@
+FieldName,Data Type,Type,Description,Allowed Values,Example
+_event_date,date,mandatory,The date of the original event,,2022-11-28
+_event_time,timestamp,mandatory,The timestamp of the original event,,
+_source,string,mandatory,The source of the data ingested,,"aws, checkpoint"
+_sourcetype,string,mandatory,The sourcetype of data ingested,,"cloud_trail, opsec_lea"
+dest,string,mandatory,"alias from dest_hostname, dest_ip_addr or dvc_hostname",,
+dest_domain,string,recommended,The domain name of dest_hostname if available,,
+dest_hostname,string,recommended,The hostname (if available) of the dns server receiving the request,,
+dest_ip_addr,string,recommended,The IP address of dest_hostname,,
+dvc_hostname,string,mandatory,The device sending the data,,"fw-1, proxy-sg-1"
+event_message,string,recommended,Details of the event either from the record or generated,,
+event_result,string,recommended,The result of the event reported. Normalised to one of the examples,"Success, Failure, Partial, Unknown",
+event_schema_file,string,optional,The version of CIM model used to create this dataset. Literal string assigned by the data engineer,,dhcp_v1
+event_severity,string,recommended,"The severity of the event, normalized to one of example","Informational, Low, Medium, High",
+event_type,string,recommended,Describes the operation reported by the event,"Assign, Renew, Release, DNS Update",
+src,string,mandatory,Alias from src_hostname or src_ip_addr,,
+src_domain,string,optional,The domain of the source device,,CONTOSO
+src_hostname,string,mandatory,The hostname (if available) of the device requesting the IP address. Store the src_ip_addr if not available,,MALLORY-PC
+src_ip_addr,string,mandatory,The IP assigned to the client by the DHCP server,,10.10.10.10
+src_mac_addr,string,mandatory,The MAC address of the source device requesting an IP address,,00-B0-D0-63-C2-26

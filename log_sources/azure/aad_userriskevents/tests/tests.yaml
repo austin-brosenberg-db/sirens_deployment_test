@@ -1,0 +1,24 @@
+test_cases:
+  - name: aad_userriskevents
+    connector: json
+    sample: AADUserRiskEvents.json
+    transforms:
+      bronze:
+        expected_columns: _event_time, _event_date, _ingest_time, _source, _sourcetype, dvc_hostname, _source_file, Activity, ActivityDateTime, AdditionalInfo, CorrelationId, DetectedDateTime, DetectionTimingType, Id, IpAddress, LastUpdatedDateTime, Location, OperationName, RequestId, RiskDetail, RiskEventType, RiskLevel, RiskState, Source, SourceSystem, TenantId, TimeGenerated, TokenIssuerType, Type, UserDisplayName, UserId, UserPrincipalName, _BilledSize, _IsBillable, _rescued_data
+        expected_values:
+          - _source: 'azure'
+          - _sourcetype: 'aad_userriskevents'
+      silver:
+        expected_columns: _event_time, _event_date, _ingest_time, _source, _sourcetype, dvc_hostname, _source_file, Activity, ActivityDateTime, CorrelationId, DetectedDateTime, DetectionTimingType, Id, IpAddress, LastUpdatedDateTime, Location_city, Location_countryOrRegion, Location_geoCoordinates_latitude, Location_geoCoordinates_longitude, Location_state, OperationName, RequestId, RiskDetail, RiskEventType, RiskLevel, RiskState, Source, SourceSystem, TenantId, TimeGenerated, TokenIssuerType, Type, UserDisplayName, UserId, UserPrincipalName, _BilledSize, _IsBillable, _rescued_data, additional_info_kv
+        expected_values:
+          - dvc_hostname: 'AzureAD'
+          - SourceSystem: 'Azure'
+      normalized:
+        authentication:
+          expected_columns: _event_date, _event_time, _source, _sourcetype, dvc_hostname, email_addr, event_message, event_original_severity, event_product, event_result, event_schema_file, event_severity, event_sub_type, event_type, event_vendor, http_user_agent, login_id, logon_guid, logon_type, src, src_domain, src_geo_city, src_geo_country, src_geo_lat, src_geo_lon, src_geo_region, src_ip_addr, target_user_id, target_user_name, user
+          expected_values:
+            - event_type: 'Logon'
+        user_management:
+          expected_columns: _event_date, _event_time, _source, _sourcetype, actor_user_type, dvc_hostname, email_addr, event_message, event_original_severity, event_product, event_result, event_schema_file, event_severity, event_type, event_vendor, src, src_domain, src_geo_city, src_geo_country, src_geo_lat, src_geo_lon, src_geo_region, src_ip_addr, user
+          expected_values:
+            - event_product: 'azureAD'

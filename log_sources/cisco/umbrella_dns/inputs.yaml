@@ -1,0 +1,84 @@
+config:
+  version: 1.0
+  updated: 2024-08-27
+  author: Garrett R Peternel
+  description: Cisco Umbrella DNS (https://docs.umbrella.com/deployment-umbrella/docs/dns-log-formats)
+input:
+  source: cisco
+  sourcetype: umbrella_dns
+  parser: cisco_umbrella
+  rawPath: s3://<path_to_dir>/ # change me [required]
+  host: umbrella
+  connector:
+    name: autoloader  # json|kafka|csv|txt|autoloader [required]
+    options:
+      cloudFiles.format: text
+      cloudFiles.includeExistingFiles: true
+  streamType: streaming # batch|streaming [required]
+transforms:
+  bronze:
+    meta:
+      timestamp_column: value
+      timestamp_regex: '(\d+-\d+-\d+\s+\d+:\d+:\d+)'
+      timestamp_regex_group: 0
+      timestamp_format: 'yyyy-MM-dd HH:mm:ss'
+  silver:
+      event_type:
+      - target_table: dns
+        fields:
+        - _event_date:
+            action: copy
+        - _event_time:
+            action: copy
+        - _source:
+            action: copy
+        - _sourcetype:
+            action: copy
+        - dest:
+            action: alias
+            value: external_ip
+        - dest_ip_addr:
+            action: alias
+            value: external_ip
+        - dns_query:
+            action: alias
+            value: domain
+        - dns_query_type:
+            action: add
+            type: literal
+            value: Query
+        - dns_query_type_name:
+            action: add
+            type: expression
+            value: TRIM(SUBSTRING_INDEX(SUBSTRING_INDEX(query_type, '(', -1), ')', 1))
+        - dns_response_code:
+            action: add
+            type: expression
+            value: CASE WHEN response_code = 'NOERROR' THEN 0 WHEN response_code = 'FORMERR' THEN 1 WHEN response_code = 'SERVFAIL' THEN 2 WHEN response_code = 'NXDOMAIN' THEN 3 WHEN response_code = 'NOTIMP' THEN 4 WHEN response_code = 'REFUSED' THEN 5 WHEN response_code = 'YXDOMAIN' THEN 6 WHEN response_code = 'XRRSET' THEN 7 WHEN response_code = 'NOTAUTH' THEN 8 WHEN response_code = 'NOTZONE' THEN 9 END
+        - dns_response_name:
+            action: alias
+            value: response_code
+        - dvc_hostname:
+            action: copy
+        - event_result:
+            action: add
+            type: literal
+            value: Success
+        - event_schema_file:
+            action: add
+            type: literal
+            value: dns_v0.1
+        - event_severity:
+            action: add
+            type: literal
+            value: Informational
+        - event_type:
+            action: add
+            type: literal
+            value: Query
+        - src:
+            action: alias
+            value: internal_ip
+        - src_ip_addr:
+            action: alias
+            value: internal_ip

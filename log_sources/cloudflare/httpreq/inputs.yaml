@@ -1,0 +1,116 @@
+config:
+  version: 1.0
+  updated: 2024-02-20
+  author: Alex Ott
+  description: 'Process Cloudflare HTTP Requests logs: https://developers.cloudflare.com/logs/reference/log-fields/zone/http_requests/'
+input:
+  source: cloudflare
+  sourcetype: httpreq
+  parser: generic_json
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/cloudflare/httprequests/
+  rawSchemaFile: schema.json # only needed for non-autoloader sources
+  streamType: streaming
+#  connector: # enable it for debugging and disable autoloader
+#    name: json
+  connector:
+    name: autoloader
+    options:
+      cloudFiles.format: json
+      cloudFiles.schemaEvolutionMode: addNewColumns
+      cloudFiles.inferColumnTypes: true
+      cloudFiles.schemaHints: 'EdgeEndTimestamp timestamp, EdgeStartTimestamp timestamp, ClientASN int, OriginResponseStatus int, WAFAttackScore int, WAFRCEAttackScore int, WAFSQLiAttackScore int, WAFXSSAttackScore int, WorkerSubrequest boolean, ClientRequestBytes long, EdgeResponseBytes long, OriginResponseDurationMs long, SecurityActions array<string>, SecurityRuleIDs array<string>, SecuritySources array<string>'
+transforms:
+  bronze:
+    meta:
+      timestamp_column: EdgeStartTimestamp
+      host_column: ZoneName
+  silver:
+    meta:
+      use_snake_case: true
+    event_type:
+      - target_table: web
+        filter:
+        fields:
+          - dest:
+              action: alias
+              value: ClientRequestHost
+          - dest_host:
+              action: alias
+              value: ClientRequestHost
+          - dest_ip_addr:
+              action: alias
+              value: OriginIP
+          - event_message:
+              action: add
+              type: literal
+              value: Success
+          - event_result:
+              action: add
+              type: literal
+              value: Success
+          - event_schema_file:
+              action: add
+              type: literal
+              value: web_v0.1.2
+          - event_severity:
+              action: add
+              type: literal
+              value: Informational
+          - event_type:
+              action: add
+              type: literal
+              value: HTTP Session
+          - http_content_type:
+              action: alias
+              value: EdgeResponseContentType
+          - http_referrer:
+              action: alias
+              value: ClientRequestReferer
+          - http_request_length:
+              action: alias
+              value: ClientRequestBytes
+          - http_request_method:
+              action: alias
+              value: ClientRequestMethod
+          - http_response_length:
+              action: alias
+              value: EdgeResponseBytes
+          - http_response_time:
+              action: alias
+              value: OriginResponseDurationMs
+          - http_status_code:
+              action: add
+              type: expression
+              value: case when (EdgeServerIP != "") then OriginResponseStatus else EdgeResponseStatus end
+          - http_user_agent:
+              action: alias
+              value: ClientRequestUserAgent
+          - http_version:
+              action: add
+              type: expression
+              value: concat_ws("+", ClientRequestProtocol, ClientSSLProtocol)
+          - src:
+              action: alias
+              value: ClientIP
+          - src_ip_addr:
+              action: alias
+              value: ClientIP
+          - threat_name:
+              action: add
+              type: literal
+              value: WAFAttackScore, WAFRCEAttackScore, WAFSQLiAttackScore, WAFXSSAttackScore
+          - threat_risk_level:
+              action: add
+              type: expression
+              value: concat_ws(",", WAFAttackScore, WAFRCEAttackScore, WAFSQLiAttackScore, WAFXSSAttackScore)
+          - url:
+              action: add
+              type: expression
+              value: concat(ClientRequestHost, ClientRequestPath)
+          - url_category:
+              action: alias
+              type: expression
+              value: array_join(SecuritySources, ", ")
+          - user_agent:
+              action: alias
+              value: ClientRequestUserAgent

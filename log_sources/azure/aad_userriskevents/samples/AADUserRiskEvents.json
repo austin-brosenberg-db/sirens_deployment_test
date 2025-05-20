@@ -1,0 +1,113 @@
+[
+  {
+    "Activity": "signin",
+    "ActivityDateTime": "2024-09-22T14:30:00.000Z",
+    "AdditionalInfo": "[{\"Key\":\"userAgent\",\"Value\":\"Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Safari/537.36\"},{\"Key\":\"relatedEventTimeInUtc\",\"Value\":\"2024-09-21T07:12:03.070941100Z\"},{\"Key\":\"relatedUserAgent\",\"Value\":\"\"},{\"Key\":\"deviceInformation\",\"Value\":\"\"},{\"Key\":\"relatedLocation\",\"Value\":{\"clientIP\":\"999.0.2.10\",\"latitude\":null,\"longitude\":null,\"asn\":null,\"countryCode\":\"US\",\"countryName\":\"United States\",\"state\":\"WA\",\"city\":\"Seattle\"}},{\"Key\":\"requestId\",\"Value\":\"123e4567-e89b-12d3-a456-426614174000\"},{\"Key\":\"correlationId\",\"Value\":\"654e3210-b09b-21d3-a456-426614174000\"}]",
+    "_BilledSize": 128.50,
+    "CorrelationId": "fake-correlation-id-001",
+    "DetectedDateTime": "2024-09-22T14:31:00.000Z",
+    "DetectionTimingType": "realtime",
+    "Id": "risk-event-002",
+    "IpAddress": "203.0.113.999",
+    "_IsBillable": "false",
+    "LastUpdatedDateTime": "2024-09-22T14:32:00.000Z",
+    "Location": {
+      "city": "Fake City",
+      "countryOrRegion": "Fictionland",
+      "geoCoordinates": {
+        "latitude": 45.1234,
+        "longitude": -93.1234
+      },
+      "state": "FC"
+    },
+    "OperationName": "UserSignIn",
+    "RequestId": "req-789-request-id",
+    "RiskDetail": "userPassedMFADrivenByRiskBasedPolicy",
+    "RiskEventType": "signInRisk",
+    "RiskLevel": "low",
+    "RiskState": "none",
+    "Source": "activeDirectory",
+    "SourceSystem": "Azure",
+    "TenantId": "fake-tenant-id-001",
+    "TimeGenerated": "2024-09-22T14:33:00.000Z",
+    "TokenIssuerType": "AzureAD",
+    "Type": "RiskEvent",
+    "UserDisplayName": "Jane Doe",
+    "UserId": "user-id-123",
+    "UserPrincipalName": "jane.doe@fakeexample.com"
+  },
+  {
+    "Activity": "signin",
+    "ActivityDateTime": "2024-09-22T15:00:00.000Z",
+    "AdditionalInfo": "[{\"Key\":\"userAgent\",\"Value\":\"Mozilla/5.0 (Linux; Android 12; Pixel 6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/100.0.4896.127 Mobile Safari/537.36\"},{\"Key\":\"relatedEventTimeInUtc\",\"Value\":\"2024-09-21T08:15:00.070941100Z\"},{\"Key\":\"relatedUserAgent\",\"Value\":\"\"},{\"Key\":\"deviceInformation\",\"Value\":\"\"},{\"Key\":\"relatedLocation\",\"Value\":{\"clientIP\":\"198.51.777.30\",\"latitude\":null,\"longitude\":null,\"asn\":null,\"countryCode\":\"US\",\"countryName\":\"United States\",\"state\":\"CA\",\"city\":\"Los Angeles\"}},{\"Key\":\"requestId\",\"Value\":\"abc12345-e89b-12d3-a456-426614174000\"},{\"Key\":\"correlationId\",\"Value\":\"xyz98765-b09b-21d3-a456-426614174000\"}]",
+    "_BilledSize": 150.75,
+    "CorrelationId": "fake-correlation-id-002",
+    "DetectedDateTime": "2024-09-22T15:01:00.000Z",
+    "DetectionTimingType": "realtime",
+    "Id": "risk-event-003",
+    "IpAddress": "198.51.800.30",
+    "_IsBillable": "false",
+    "LastUpdatedDateTime": "2024-09-22T15:02:00.000Z",
+    "Location": {
+      "city": "Los Angeles",
+      "countryOrRegion": "United States",
+      "geoCoordinates": {
+        "latitude": 34.0522,
+        "longitude": -118.2437
+      },
+      "state": "CA"
+    },
+    "OperationName": "UserSignIn",
+    "RequestId": "req-101-request-id",
+    "RiskDetail": "adminConfirmedSigninSafe",
+    "RiskEventType": "signInRisk",
+    "RiskLevel": "low",
+    "RiskState": "none",
+    "Source": "activeDirectory",
+    "SourceSystem": "Azure",
+    "TenantId": "fake-tenant-id-002",
+    "TimeGenerated": "2024-09-22T15:03:00.000Z",
+    "TokenIssuerType": "AzureAD",
+    "Type": "RiskEvent",
+    "UserDisplayName": "Alice Smith",
+    "UserId": "user-id-456",
+    "UserPrincipalName": "alice.smith@fakeexample.com"
+  },
+  {
+    "Activity": "user",
+    "ActivityDateTime": "2024-09-22T15:30:00.000Z",
+    "AdditionalInfo": "[{\"Key\":\"userAgent\",\"Value\":\"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/14.0.3 Safari/605.1.15\"},{\"Key\":\"relatedEventTimeInUtc\",\"Value\":\"2024-09-21T09:45:00.070941100Z\"},{\"Key\":\"relatedUserAgent\",\"Value\":\"\"},{\"Key\":\"deviceInformation\",\"Value\":\"\"},{\"Key\":\"relatedLocation\",\"Value\":{\"clientIP\":\"203.888.113.40\",\"latitude\":null,\"longitude\":null,\"asn\":null,\"countryCode\":\"US\",\"countryName\":\"United States\",\"state\":\"NY\",\"city\":\"New York\"}},{\"Key\":\"requestId\",\"Value\":\"def45678-e89b-12d3-a456-426614174000\"},{\"Key\":\"correlationId\",\"Value\":\"uvw65432-b09b-21d3-a456-426614174000\"}]",
+    "_BilledSize": 200.50,
+    "CorrelationId": "fake-correlation-id-003",
+    "DetectedDateTime": "2024-09-22T15:31:00.000Z",
+    "DetectionTimingType": "offline",
+    "Id": "risk-event-004",
+    "IpAddress": "703.0.113.40",
+    "_IsBillable": "true",
+    "LastUpdatedDateTime": "2024-09-22T15:32:00.000Z",
+    "Location": {
+      "city": "New York",
+      "countryOrRegion": "United States",
+      "geoCoordinates": {
+        "latitude": 40.7128,
+        "longitude": -74.0060
+      },
+      "state": "NY"
+    },
+    "OperationName": "UserUpdate",
+    "RequestId": "req-202-request-id",
+    "RiskDetail": "userPerformedSecuredPasswordChange",
+    "RiskEventType": "userRisk",
+    "RiskLevel": "medium",
+    "RiskState": "atRisk",
+    "Source": "activeDirectory",
+    "SourceSystem": "Azure",
+    "TenantId": "fake-tenant-id-003",
+    "TimeGenerated": "2024-09-22T15:33:00.000Z",
+    "TokenIssuerType": "AzureAD",
+    "Type": "RiskEvent",
+    "UserDisplayName": "Bob Johnson",
+    "UserId": "user-id-789",
+    "UserPrincipalName": "bob.johnson@fakeexample.com"
+  }
+]

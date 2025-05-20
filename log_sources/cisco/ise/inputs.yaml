@@ -1,0 +1,28 @@
+config:
+  version: 1.0
+  updated: 2025-02-28
+  author: Garrett R Peternel
+  description: Cisco ISE (https://www.cisco.com/c/en/us/td/docs/security/ise/syslog/Cisco_ISE_Syslogs/m_IntrotoSyslogs.html)
+input:
+  source: cisco
+  sourcetype: ise
+  parser: cisco_ise
+  rawPath: s3://<path_to_dir>/ # change me [required]
+  host: Cisco Identity Services Engine
+  connector:
+    name: autoloader  # json|kafka|csv|txt|autoloader [required]
+    options:
+      cloudFiles.format: text
+      cloudFiles.includeExistingFiles: true
+  streamType: streaming # batch|streaming [required]
+transforms:
+  bronze:
+    meta:
+      timestamp_column: value
+      timestamp_regex: '(\d+-\d+-\d+\s+\d+:\d+:\d+\.\d+)'
+      timestamp_regex_group: 0
+      timestamp_format: 'yyyy-MM-dd HH:mm:ss.SSS'
+  silver:
+    meta:
+      source: cisco
+      sourcetype: ise

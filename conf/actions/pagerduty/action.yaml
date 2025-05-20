@@ -1,0 +1,6 @@
+name: pagerduty
+connection:
+  api_endpoint:
+  api_timeout:
+  api_key:
+  api_header: {"Content-Type": "application/json"}

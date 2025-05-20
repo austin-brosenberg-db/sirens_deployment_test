@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_files
+    connector: json
+    sample: files_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_files'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, sha1, duration, source, _write_ts, ts, rx_hosts, overflow_bytes, seen_bytes, total_bytes, _path, md5, missing_bytes, fuid, timedout, tx_hosts, depth, analyzers, conn_uids, is_orig, _system_name
+        expected_values:
+          - sha1: '62b202f5b16623bb073ee0ea64858f1aacb2262f'
+          - is_orig: 'false'
+          - overflow_bytes: '0'

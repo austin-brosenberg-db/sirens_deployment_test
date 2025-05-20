@@ -1,0 +1,18 @@
+test_cases:
+  - name: cisco_ise
+    connector: txt
+    sample: cisco_ise_samples.txt
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time,  _source, _source_file, _sourcetype, dvc_hostname, value
+        expected_values:
+          - _source: 'cisco'
+          - _sourcetype: 'ise'
+      silver:
+        expected_columns: _event_time, _event_date, _ingest_time, _source, _sourcetype, dvc_hostname, _source_file, pri_num, time, ip_addr_host_name, cat_name, msg_id, total_seg, seg_num, split_syslog, split_key_value, Metadata, meta_seq_num, meta_code, meta_severity, meta_desc, meta_text, Step_list, SelectedAuthenticationIdentityStores_list, NetworkDeviceGroups_list, StepData_list, SysStatsUtilizationNetwork_list, SysStatsUtilizationDiskSpace_list
+        expected_values:
+          - meta_seq_num: '0076725626'
+          - meta_code: '5202'
+          - meta_severity: 'NOTICE'
+          - meta_desc: 'Device-Administration'
+          - meta_text: 'Command Authorization succeeded'

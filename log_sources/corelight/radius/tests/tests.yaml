@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_radius
+    connector: json
+    sample: radius_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_radius'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype,dvc_hostname, id.resp_h, _write_ts, id.orig_h, result, ts, id.orig_p, _path, id.resp_p,uid, _system_name
+        expected_values:
+          - id.resp_h: '192.168.27.102'
+          - id.resp_p: '1812'
+          - result: 'unknown'

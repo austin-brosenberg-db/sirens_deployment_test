@@ -1,0 +1,129 @@
+[
+    {
+    "date": "2020-08-21",
+    "actor": {
+      "id": "00u1AAAAAAAAAAAe31d8",
+      "type": "User",
+      "alternateId": "firstname.lastname@example.com",
+      "displayName": "Firstname Lastname",
+      "detailEntry": null
+    },
+    "client": {
+      "userAgent": {
+        "rawUserAgent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36",
+        "os": "Mac OS X",
+        "browser": "CHROME"
+      },
+      "zone": "null",
+      "device": "Computer",
+      "id": null,
+      "ipAddress": "1.2.3.4",
+      "geographicalContext": {
+        "city": "Boardman",
+        "state": "Oregon",
+        "country": "United States",
+        "postalCode": "97818",
+        "geolocation": {
+          "lat": 45.8491,
+          "lon": -119.7143
+        }
+      }
+    },
+    "authenticationContext": {
+      "authenticationProvider": null,
+      "credentialProvider": null,
+      "credentialType": null,
+      "issuer": null,
+      "interface": null,
+      "authenticationStep": 0,
+      "externalSessionId": "102ki5kAAAAAAAAAV06oGAM0wA"
+    },
+    "displayMessage": "User single sign on to app",
+    "eventType": "user.authentication.sso",
+    "outcome": {
+      "result": "SUCCESS",
+      "reason": null
+    },
+    "published": "2020-08-21T21:01:50.925Z",
+    "securityContext": {
+      "asNumber": 16509,
+      "asOrg": "amazon technologies inc.",
+      "isp": "amazon.com%2C inc",
+      "domain": "amazonaws.com",
+      "isProxy": false
+    },
+    "severity": "INFO",
+    "debugContext": {
+      "debugData": {
+        "initiationType": "SP_INITIATED",
+        "authnRequestId": "X0AAKybAAAAAAAAbZuHczQAAA@0",
+        "requestId": "X0A2AAAAAAAA3o@nnAAAAAAAoo",
+        "signOnMode": "SAML 2.0",
+        "requestUri": "/app/pagerduty/exkAAAAAAAAAAgPx1d8/sso/saml",
+        "threatSuspected": "false",
+        "url": "/app/pagerduty/exkAAAAAAAAAAgPx1d8/sso/saml?"
+      }
+    },
+    "legacyEventType": "app.auth.sso",
+    "transaction": {
+      "type": "WEB",
+      "id": "X0A2AAAAAAA@nnAAAAAAAAoo",
+      "detail": "{\"requestApiTokenId\":\"ABCDEF\"}"
+    },
+    "uuid": "88c1d879-e3f1-11ea-a3d5-15aa93b05531",
+    "version": "0",
+    "request": {
+      "ipChain": [
+        {
+          "ip": "1.2.3.4",
+          "geographicalContext": {
+            "city": "Boardman",
+            "state": "Oregon",
+            "country": "United States",
+            "postalCode": "97818",
+            "geolocation": {
+              "lat": 45.8491,
+              "lon": -119.7143
+            }
+          },
+          "version": "V4",
+          "source": null
+        }
+      ]
+    },
+    "target": [
+      {
+        "id": "0oa192aAAAAAAAAA1d8",
+        "type": "AppInstance",
+        "alternateId": "PagerDuty",
+        "displayName": "PagerDuty",
+        "detailEntry": {
+          "signOnModeType": "SAML_2_0"
+        }
+      },
+      {
+        "id": "0ua1AAAAAAAAAAHIY1d8",
+        "type": "AppUser",
+        "alternateId": "firstname.lastname@example.com",
+        "displayName": "Firstname Lastname",
+        "detailEntry": null
+      },
+      {
+        "id": "0ua1AAAAAAAAAAHIY1d9",
+        "type": "UserGroup",
+        "alternateId": "blah",
+        "displayName": "My User Group",
+        "detailEntry": null
+      },
+      {
+        "id": "0ua1AAAAAAAAAAHIY110",
+        "type": "User",
+        "alternateId": "first.last@otherexample.com",
+        "displayName": "First Last",
+        "detailEntry": null
+      }
+    ],
+    "recordJson": "{   \"date\": \"2020-08-21\",   \"actor\": {    \"id\": \"00u1AAAAAAAAAAAe31d8\",    \"type\": \"User\",    \"alternateId\": \"firstname.lastname@ example.com\",    \"displayName\": \"Firstname Lastname\",    \"detailEntry\": null   },   \"client\": {    \"userAgent\": {     \"rawUserAgent\": \"Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/84.0.4147.135 Safari/537.36\",     \"os\": \"Mac OS X\",     \"browser\": \"CHROME\"    },    \"zone\": \"null\",    \"device\": \"Computer\",    \"id\": null,    \"ipAddress\": \"1.2.3.4\",    \"geographicalContext\": {     \"city\": \"Boardman\",     \"state\": \"Oregon\",     \"country\": \"United States\",     \"postalCode\": \"97818\",     \"geolocation\": {       \"lat\": 45.8491,       \"lon\": -119.7143     }    }   },   \"authenticationContext\": {    \"authenticationProvider\": null,    \"credentialProvider\": null,    \"credentialType\": null,    \"issuer\": null,    \"interface\": null,    \"authenticationStep\": 0,    \"externalSessionId\": \"102ki5kAAAAAAAAAV06oGAM0wA\"   },   \"displayMessage\": \"User single sign on to app\",   \"eventType\": \"user.authentication.sso\",   \"outcome\": {    \"result\": \"SUCCESS\",    \"reason\": null   },   \"published\": \"2020-08-21T21:01:50.925Z\",   \"securityContext\": {    \"asNumber\": 16509,    \"asOrg\": \"amazon technologies inc.\",    \"isp\": \"amazon.com%2C inc\",    \"domain\": \"amazonaws.com\",    \"isProxy\": false   },   \"severity\": \"INFO\",   \"debugContext\": {    \"debugData\": {     \"initiationType\": \"SP_INITIATED\",     \"authnRequestId\": \"X0AAKybAAAAAAAAbZuHczQAAA@0\",     \"requestId\": \"X0A2AAAAAAAA3o@nnAAAAAAAoo\",     \"signOnMode\": \"SAML 2.0\",     \"requestUri\": \"/app/pagerduty/exkAAAAAAAAAAgPx1d8/sso/saml\",     \"threatSuspected\": \"false\",     \"url\": \"/app/pagerduty/exkAAAAAAAAAAgPx1d8/sso/saml?\"    }   },   \"legacyEventType\": \"app.auth.sso\",   \"transaction\": {    \"type\": \"WEB\",    \"id\": \"X0A2AAAAAAA@nnAAAAAAAAoo\",    \"detail\": {}   },   \"uuid\": \"88c1d879-e3f1-11ea-a3d5-15aa93b05531\",   \"version\": \"0\",   \"request\": {    \"ipChain\": [     {       \"ip\": \"1.2.3.4\",       \"geographicalContext\": {        \"city\": \"Boardman\",        \"state\": \"Oregon\",        \"country\": \"United States\",        \"postalCode\": \"97818\",        \"geolocation\": {         \"lat\": 45.8491,         \"lon\": -119.7143        }       },       \"version\": \"V4\",       \"source\": null     }    ]   },   \"target\": [    {     \"id\": \"0oa192aAAAAAAAAA1d8\",     \"type\": \"AppInstance\",     \"alternateId\": \"PagerDuty\",     \"displayName\": \"PagerDuty\",     \"detailEntry\": {       \"signOnModeType\": \"SAML_2_0\"     }    },    {     \"id\": \"0ua1AAAAAAAAAAHIY1d8\",     \"type\": \"AppUser\",     \"alternateId\": \"firstname.lastname@example.com\",     \"displayName\": \"Firstname Lastname\",     \"detailEntry\": null    }   ]}"
+  }
+]
+

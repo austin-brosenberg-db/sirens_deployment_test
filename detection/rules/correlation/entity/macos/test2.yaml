@@ -1,0 +1,11 @@
+name: 'test_rule2'
+summary: 'this is another test rule for <key>'
+source: 'correlation_by_entity'
+severity: 'low'
+ruleVersion: '1'
+time_window: 'eventTime >= current_timestamp - INTERVAL 45 DAYS'
+filter:
+  - type: 'count'
+    condition: 'severity IN ("medium", "high")'
+    threshold: ">= 1"
+    event_id: 'med_high_sev'

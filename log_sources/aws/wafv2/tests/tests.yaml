@@ -1,0 +1,38 @@
+test_cases:
+  - name: aws_waf
+    connector: json
+    sample: aws_waf_log_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname
+        expected_values:
+          - _source: 'aws'
+          - _sourcetype: 'wafv2'
+          - dvc_hostname: 'arn:aws:wafv2:us-east-2:5812312353232:regional/webacl/waf-lb-abc-123-int-IB-nonProd-01/24470b93-25a4-a96f-985e-7066b79044f6'
+          - terminatingRuleType: REGULAR
+      silver:
+        expected_columns: _event_time, _event_date, _ingest_time, _source, _sourcetype, dvc_hostname, _source_file, action, format_version, http_request, http_source_id, http_source_name, ja3_fingerprint, non_terminating_matching_rules, rate_based_rule_list, request_headers_inserted, response_code_sent, rule_group_list, terminating_rule_id, terminating_rule_match_details, terminating_rule_type, timestamp, webacl_id
+        expected_values:
+          - terminating_rule_type: REGULAR
+          - terminating_rule_id: Custom
+      normalized:
+        web:
+          expected_columns: _event_time, _event_date, _ingest_time, _source, _sourcetype, dest, dest_host, dest_ip_address, event_result, event_schema_file, event_severity, event_type, http_content_type, http_request_method, http_user_agent, http_version, src, src_ip_addr, uid, uri
+          expected_values:
+            uri: /
+            uid: '1-66148631-34948bc25b8a4565241d3dd9'
+            src: '192.55.91.20'
+            dest: '118.223.11.14'
+            event_result: 'BLOCK'
+            http_version: 'HTTP/1.1'
+            http_request_method: 'GET'
+        network:
+          expected_columns: _event_time, _event_date, _ingest_time, _source, _sourcetype, dest, dest_hostname, dest_geo_country, dest_ip_address, event_result, event_schema_file, event_severity, event_type, network_application, network_session_id, src, src_ip_addr, uid
+          expected_values:
+            uid: '1-66148631-34948bc25b8a4565241d3dd9'
+            src: '192.55.91.20'
+            dest: '118.223.11.14'
+            event_result: 'BLOCK'
+            dest_geo_country: 'US'
+          
+          

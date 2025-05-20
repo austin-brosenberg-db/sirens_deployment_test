@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_dce_rpc
+    connector: json
+    sample: dce_rpc_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_dce_rpc'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, id.resp_h, _write_ts, id.orig_h, ts, id.orig_p,_path, operation, named_pipe, id.resp_p, endpoint, uid, rtt, system_name
+        expected_values:
+          - id.orig_h: '172.16.1.101'
+          - id.orig_p: '65269'
+          - uid: 'Crg5fK177lsBnkYsd4'

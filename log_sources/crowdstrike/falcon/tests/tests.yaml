@@ -1,0 +1,12 @@
+test_cases:
+  - name: falcon
+    connector: txt
+    sample: sample.txt
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, value
+        expected_values:
+          - _source: 'crowdstrike'
+          - _sourcetype: 'falcon'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, event_name, ProcessGroupId, Entitlements, UnixMode, InterfaceIndex, aid, FileIdentifier, RegConfigValueType, UserLogonFlags, CNAMERecords, SubStatus, LogonServer, SyntheticPR2Flags, UID, PatternId, DomainName, RGID, event_platform, RemoteAddressIP4, IP4Records, RegConfigIndex, ParentProcessId, FirstIP6Record, RegConfigClass, SVGID, RegStringValue, RegObjectName, ContextProcessId, LocalPort, ProcessEndTime, LogonType, UserPrincipal, id, UserLogoffType, EventOrigin, SVUID, TreeId, RegKeyName, RegValueName, SHA256HashData, AuthenticationId, GID, BoundingLimitDuration, LinkedAuthenticationId, SHA1HashData, CommandLine, UserComputer, ContextTimeStamp, RemotePort, TargetCommandLineParameters, IcmpType, Status, TargetProcessId, UserIsAdmin, BoundingLimitCount, cid, DnsRequestCount, name, UserSid, ContextThreadId, RequestType, TargetSHA256HashData, PrivilegesBitmask, UserName, USN, RemoteAccount, ImageFileName, MD5HashData, ConfigStateHash, DualRequest, timestamp, TargetFileName, ConnectionDirection, PasswordLastSet, RegType, event_simpleName, RemoteAddressString, ClientComputerName, SessionProcessId, RespondingDnsServer, FirstIP4Record, InContext, RegConfigFlags, UserGroupsBitmask, LogonDomain, DnsResponseType, SourceProcessId, EnabledPrivilegesBitmask, LogonTime, AuthenticationPackage, IcmpCode, EffectiveTransmissionClass, RawProcessId, Protocol, UserFlags, RegOperationType, LogoffTime, aip, ProcessStartTime, ConfigBuild, IP6Records, AuditSessionId, ConnectionFlags, LocalAddressIP4, QueryStatus, SourceThreadId, RUID

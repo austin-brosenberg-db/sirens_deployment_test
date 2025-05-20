@@ -1,0 +1,149 @@
+config:
+  version: 1.0
+  updated: 2024-02-13
+  author: Derek King, Li Yu
+  description: Palo Alto traffic logs
+input:
+  source: paloalto
+  sourcetype: traffic
+  parser: paloalto
+  rawPath: path to the raw logs
+  connector:
+    name: txt
+    options:
+  streamType: batch
+transforms:
+  bronze:
+    meta:
+      timestamp_column: "log_time"
+      timestamp_format: "yyyy/MM/dd HH:mm:ss"
+  silver:
+    event_type:
+     - target_table: network
+       fields:
+        - _event_date:
+            action: copy
+        - _event_time:
+            action: copy
+        - _sourcetype:
+            action: copy
+        - _source:
+            action: copy
+        - dvc_hostname:
+            action: copy
+        - dest:
+            action: add
+            type: expression
+            value: coalesce(dest_ip, log_source_name)
+        - dest_bytes:
+            action: alias
+            value: bytes_received
+        - dest_geo_country:
+            action: alias
+            value: dest_location
+        - dest_hostname:
+            action: alias
+            value: log_source_name
+        - dest_interface_name:
+            action: alias
+            value: outbound_if
+        - dest_ip_addr:
+            action: alias
+            value: dest_ip
+        - dest_ac_address:
+            action: alias
+            value: dest_device_mac
+        - dest_packets:
+            action: alias
+            value: packets_received
+        - dest_port_number:
+            action: alias
+            value: dest_port
+        - dest_vlan_id:
+            action: alias
+            value: to_zone
+        - dest_zone:
+            action: alias
+            value: to_zone
+        - dvc_action:
+            action: alias
+            value: action
+        - event_message:
+            action: add
+            type: expression
+            value: case when lower(trim(sub_type)) = "start" then "session started" when lower(trim(sub_type)) = "end" then "session ended" when lower(trim(sub_type)) = "drop" then "session dropped before the application is identified and there is no rule that allows the session." when lower(trim(sub_type)) = "deny" then "session dropped after the application is identified and there is a rule to block or no rule that allows the session." end
+        - event_result:
+            action: add
+            type: literal
+            value: Success
+        - event_severity:
+            action: add
+            type: literal
+            value: Informational
+        - event_sub_type:
+            action: alias
+            value: sub_type
+        - event_type:
+            action: add
+            type: literal
+            value: traffic
+        - inner_vlan_id:
+            action: alias
+            value: from_zone
+        - network_application:
+            action: alias
+            value: app
+        - network_bytes:
+            action: alias
+            value: bytes_total
+        - network_direction:
+            action: add
+            type: expression
+            value: case when source_ip_type = "Private" then "outbound" when dest_ip_type = "Private" then "inbound" end
+        - network_duration:
+            action: alias
+            value: total_time_elapsed
+        - network_protocol:
+            action: alias
+            value: protocol
+        - network_session_id:
+            action: add
+            type: expression
+            value: concat_ws("-", source_ip, source_port, dest_ip, dest_port)
+        - outer_vlan_id:
+            action: alias
+            value: to_zone
+        - src:
+            action: alias
+            value: source_ip
+        - src_bytes:
+            action: alias
+            value: bytes_sent
+        - src_geo_location:
+            action: alias
+            value: source_location
+        - src_hostname:
+            action: alias
+            value: source_device_host
+        - src_interface_name:
+            action: alias
+            value: inbound_if
+        - src_ip_addr:
+            action: alias
+            value: source_ip
+        - src_mac_address:
+            action: alias
+            value: source_device_mac
+        - src_packets:
+            action: alias
+            value: packets_sent
+        - src_vlan_id:
+            action: alias
+            value: from_zone
+        - total_packets:
+            action: alias
+            value: packets_total
+        - uid:
+            action: alias
+            value: log_source_id
+

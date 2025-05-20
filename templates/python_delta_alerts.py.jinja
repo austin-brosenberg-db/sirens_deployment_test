@@ -1,0 +1,19 @@
+# Databricks notebook source
+# MAGIC %pip install pyyaml inflection
+# COMMAND ----------
+
+dbutils.widgets.text("database", '{{ database }}', label="database")
+dbutils.widgets.text("input_table", '{{ input_table }}', label="input_table")
+
+# COMMAND ----------
+
+database = dbutils.widgets.get("database")
+input_table = dbutils.widgets.get("input_table")
+
+if '' in (database, input_table):
+    raise Exception('please pass parameters to multi-task job, or fill out notebook widget values')
+
+# COMMAND ----------
+from databricks.sirens.alertmanager import AlertHandler
+alertObj = AlertHandler(database=database, tables=[input_table])
+alertObj.process_alerts()

@@ -1,0 +1,16 @@
+test_cases:
+  - name: zscaler_users
+    connector: json
+    sample: browser_access.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, UserAgent
+        expected_values:
+          - _event_date: '2019-07-03'
+          - _sourcetype: 'browser_access'
+          - UserAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_14_5) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/12.1.1 Safari/605.1.15'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, Protocol, Method
+        expected_values:
+          - Protocol: 'HTTPS'
+          - Method: 'GET'

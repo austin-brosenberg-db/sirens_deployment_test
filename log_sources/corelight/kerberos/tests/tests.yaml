@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_kerberos
+    connector: json
+    sample: kerberos_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_kerberos'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype,dvc_hostname, forwardable, till, success, id.resp_h, _write_ts, id.orig_h, ts, request_type,id.orig_p, service, _path, renewable, cipher, client, id.resp_p, uid, _system_name
+        expected_values:
+          - id.orig_h: '172.16.1.101'
+          - request_type: 'TGS'
+          - success: 'true'

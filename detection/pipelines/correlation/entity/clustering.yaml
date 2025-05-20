@@ -1,0 +1,8 @@
+name: clustering_by_entity
+input_table: notifications.siren_alerts_final
+streamType: batch
+interval: 5 MINUTES
+grouping_keys:
+  - actor.id
+  - target.id
+filter: eventDate >= CURRENT_DATE-90

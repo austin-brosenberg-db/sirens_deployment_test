@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_pe
+    connector: json
+    sample: pe_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_pe'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype,dvc_hostname, uses_seh, _write_ts, ts, uses_aslr, os, has_cert_table, has_import_table,section_names, _path, is_exe, compile_ts, id, machine, has_debug_data, uses_dep,uses_dep, is_64bit, subsystem, uses_code_integrity, _system_name, has_export_table
+        expected_values:
+          - has_debug_data: 'false'
+          - uses_seh: 'true'
+          - uses_code_integrity: 'false'

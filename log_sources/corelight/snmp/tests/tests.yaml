@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_snmp
+    connector: json
+    sample: snmp_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_snmp'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname,duration, community, id.resp_h, _write_ts, id.orig_h, ts, get_responses, id.orig_p, _path,version, get_requests, id.resp_p, uid, set_requests, _system_name, get_bulk_requests
+        expected_values:
+          - duration: '56.039047956466675'
+          - get_responses: '0'
+          - set_requests: '0'

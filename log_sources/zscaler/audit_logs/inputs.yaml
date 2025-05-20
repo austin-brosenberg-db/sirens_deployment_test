@@ -1,0 +1,28 @@
+config:
+  version: 1.0
+  updated: 2023-02-21
+  author: Arun Pamulapati
+  description: Process Zscaler Audit Logs
+input:
+  source: zscaler
+  sourcetype: audit_logs
+  parser: zscaler
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/zscaler/audit_logs/sample
+  rawSchemaFile: schema.json
+  connector: 
+    name: autoloader
+    options:
+      cloudFiles.format: json
+      cloudFiles.schemaLocation: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/zscaler/audit_logs/schema/
+  streamType: streaming
+
+transforms:
+    bronze:
+      meta:
+        timestamp_column: modifiedTime
+        timestamp_regex: 
+        timestamp_format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+    silver:
+        event_type:
+           
+

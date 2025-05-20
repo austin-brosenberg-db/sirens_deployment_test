@@ -1,0 +1,10 @@
+- name: apache_web_stats_by_hour
+  target_table: apache_web_stats_by_hour
+  aggregation_name: per_hour
+  source_table: web
+  stream_type: streaming
+  save_mode: append
+  groupby: _sourcetype
+  filter: _sourcetype == "access_combined"
+  window_duration: 1 hour
+  wait_for_late_data: 1 minute

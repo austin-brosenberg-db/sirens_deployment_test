@@ -1,0 +1,204 @@
+config:
+  version: 1.1
+  updated: 10-31-2022
+  author: Derek King, Silvio Fiorito
+  description: Process AWS CloudTrail Logs
+input:
+  source: aws
+  sourcetype: cloudtrail
+  parser: aws_cloudtrail
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/aws/cloud_trail/flaws_cloudtrail_logs/
+  # rawSchemaFile: schema.json # only needed for non-autoloader sources
+  connector: 
+    name: autoloader
+    options:
+      cloudFiles.format: json
+      cloudFiles.schemaEvolutionMode: addNewColumns
+      cloudFiles.inferColumnTypes: true
+      cloudFiles.schemaLocation: dbfs:/FileStore/sirens_dev/schemas/aws_cloud_trail # not needed for DLT
+      cloudFiles.schemaHints: 'Records.element.requestParameters map<string, string>,Records.element.responseElements map<string, string>,Records.element.resources array<map<string, string>>,Records.element.serviceEventDetails map<string, string>,Records.element.additionalEventData map<string, string>,Records.element.userIdentity.sessionContext.webIdFederationData struct<federatedProvider:string, attributes:map<string,string>>'
+  streamType: streaming
+transforms:
+    bronze:
+      meta:
+        timestamp_column: record.eventTime
+        timestamp_regex: 
+        timestamp_format: "yyyy-MM-dd'T'HH:mm:ss'Z'"
+    silver:
+      event_type:
+        - target_table: authentication
+          name: console_logins
+          filter: eventName == "ConsoleLogin" or "additionalEventData.MFAUsed" == "Yes"
+          fields:
+           - _event_date:
+               action: copy
+           - _event_time:
+               action: copy
+           - _sourcetype:
+               action: copy
+           - _source:
+               action: copy
+           - dvc_hostname:
+               action: copy
+           - dvc: 
+               action: alias
+               value: dvc_hostname
+           - event_type:
+               action: add
+               type: literal
+               value: Logon
+           - event_sub_type:
+               action: alias
+               value: eventName
+           - event_message:
+               action: add
+               type: expression
+               value: coalesce(errorCode,'success')
+           - event_result:
+               action: add
+               type: expression
+               value: case when isnotnull(responseElements.ConsoleLogin) then lower(responseElements.ConsoleLogin) when (isnull(responseElements.ConsoleLogin) and isnotnull(credentials.sessionToken)) then lower(credentials.sessionToken) end
+           - event_schema_file:
+               action: add
+               type: literal
+               value: authentication
+           - event_severity:
+               action: add
+               type: literal
+               value: Informational
+           - http_user_agent:
+               action: alias
+               value: userAgent
+           - logon_target:
+               action: alias
+               value: eventSource
+           - src:
+               action: alias
+               value: sourceIPAddress
+           - src_ip_addr:
+               action: alias
+               value: sourceIPAddress
+           - dst:
+               action: alias
+               value: eventSource
+           - target_app_name:
+               action: alias
+               value: eventSource
+           - target_url:
+               action: alias
+               value: additionalEventData.LoginTo
+           - target_hostname:
+               action: alias
+               value: eventSource
+           - target_domain:
+               action: alias
+               value: awsRegion
+           - event_vendor:
+               action: add
+               type: literal
+               value: aws
+           - event_product:
+               action: alias
+               value: eventSource
+           - target_user_id:
+               action: alias
+               value: accountId
+           - target_user_name:
+               action: add
+               type: expression
+               value: coalesce(userName, userIdentity.userName,  substring_index(userIdentity.arn, ':', -1))
+           - target_user_type:
+               action: add
+               type: literal
+               value: AWSId
+           - user:
+               action: alias
+               value: target_user_name
+        - target_table: file
+          name: s3_access
+          filter: eventSource == "s3.amazonaws.com"
+          fields:
+           - _event_date:
+               action: copy
+           - _event_time:
+               action: copy
+           - _sourcetype:
+               action: copy
+           - _source:
+               action: copy
+           - dvc_hostname:
+               action: copy
+           - dvc: 
+               action: alias
+               value: dvc_hostname
+           - event_type:
+               action: add
+               type: expression
+               value: case when eventName like 'Get%' then 'FileAccessed' when eventName = 'PutObject' then 'FileCreated' when eventName like 'Put%' then 'FileModified' when eventName = 'DeleteObject' then 'FileDeleted' when eventName like 'DeleteObject%' then 'FileModified' end
+           - event_sub_type:
+               action: alias
+               value: eventName
+           - event_message:
+               action: add
+               type: expression
+               value: coalesce(errorCode,'success')
+           - event_result:
+               action: add
+               type: expression
+               value: coalesce(errorCode,'success')
+           - event_schema_file:
+               action: add
+               type: literal
+               value: FileEvent
+           - event_severity:
+               action: add
+               type: literal
+               value: Informational
+           - http_user_agent:
+               action: alias
+               value: userAgent
+           - logon_target:
+               action: alias
+               value: eventSource
+           - src:
+               action: alias
+               value: sourceIPAddress
+           - src_ip_addr:
+               action: alias
+               value: sourceIPAddress
+           - dst:
+               action: expression
+               value: coalesce(requestParameters.bucket, requestParameters.bucketName)
+           - target_app_name:
+               action: alias
+               value: eventSource
+           - target_url:
+               action: expression
+               value: concat('s3://', coalesce(requestParameters.bucket, requestParameters.bucketName), coalesce(requestParameters.key, ''))
+           - target_hostname:
+               action: alias
+               value: eventSource
+           - target_domain:
+               action: alias
+               value: awsRegion
+           - event_vendor:
+               action: add
+               type: literal
+               value: aws
+           - event_product:
+               action: alias
+               value: eventSource
+           - target_user_id:
+               action: alias
+               value: recipientAccountId
+           - target_user_name:
+               action: add
+               type: expression
+               value: coalesce(userIdentity.userName,  substring_index(userIdentity.arn, ':', -1))
+           - target_user_type:
+               action: add
+               type: literal
+               value: AWSId
+           - user:
+               action: alias
+               value: target_user_name

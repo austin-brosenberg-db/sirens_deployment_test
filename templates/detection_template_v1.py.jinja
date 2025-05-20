@@ -1,0 +1,21 @@
+# Databricks notebook source
+# MAGIC %md
+# MAGIC # {{detection_config.playbook.description}}
+# MAGIC 
+# MAGIC |Detection|Context|
+# MAGIC |--|--|
+# MAGIC |<table><tr><td><b>Created</b></td><td>{{detection_config.created}}</td></tr><tr><td><b>Version</b></td><td>{{detection_config.version}}</td></tr><tr><td><b>Last Updated</b></td><td>{{detection_config.last_updated}}</td></tr><tr><td><b>Author</b></td><td>{{detection_config.author}}</td></tr><tr><td><b>Query Type</b></td><td>{{detection_config.playbook.detection_type}}</td></tr><tr><td><b>Schedule</b></td><td>{{detection_config.scheduler.cron_schedule}}</td></tr> </table>| <table><tr><td><b>Description</b></td><td>{{detection_config.playbook.description}}</td></tr><tr><td><b>Mitre Techniques</b></td><td>{{detection_config.context.mitre_techniques}}</td></tr><tr><td><b>Mitre Tactics</b></td><td>{{detection_config.context.mitre_tactics}}</td></tr><tr><td><b>References</b></td><td>{{detection_config.context.references}}</td></tr> <tr><td><b>Tags</b></td><td>{{detection_config.tags}}</td></tr></table>|
+
+# COMMAND ----------
+
+# MAGIC %sql
+# MAGIC {{detection_config.search.query}}
+
+# COMMAND ----------
+
+# MAGIC %md
+# MAGIC ### Playbook
+# MAGIC 
+# MAGIC |Response Playbook|
+# MAGIC |--|
+# MAGIC |<table> <tr><td><b>Objective</b></td><td>{{detection_config.playbook.objective}}</td></tr><tr><td><b>Response Analysis</b></td><td>{{detection_config.playbook.analysis}}</td></tr><tr><td><b>Known Falseys</b></td><td>{{detection_config.search.known_falseys}}</td></tr><tr><td><b>Detection Type</b></td><td>{{detection_config.playbook.detection_type}}</td></tr><tr><td><b>Report Category</b></td><td>{{detection_config.playbook.report_category}}</td></tr><tr><td><b>Event Source</b></td><td>{{detection_config.playbook.event_source}}</td></tr> </table>|

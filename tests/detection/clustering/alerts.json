@@ -1,0 +1,708 @@
+[
+  {
+    "schemaVersion": 4,
+    "name": "opal_service_account_job_activity_baseline_deviation",
+    "summary": "7a2884ed2a8e6b7c1aec206abd01fa73172e825c",
+    "severity": "medium",
+    "source": "okta",
+    "sourceDetails": "example.okta.com",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-04-24 00:00:00",
+    "alertedTime": "2023-04-24 00:00:00",
+    "eventDate": "2023-04-24",
+    "actor": {},
+    "target": {
+      "type": "USER",
+      "domain": "example.okta.com",
+      "id": "-2140846185@gmail.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "f478918b51fff39d3029291be12edb7d7aae155f",
+    "uuid": "712c5387-93b2-49cb-b11d-9f21288342a9",
+    "filter": "1=1",
+    "moduleName": "opal_okta_detections"
+  },
+  {
+    "schemaVersion": 4,
+    "name": "opal_service_account_job_activity_baseline_deviation",
+    "summary": "7a2884ed2a8e6b7c1aec206abd01fa73172e825c",
+    "severity": "medium",
+    "source": "okta",
+    "sourceDetails": "example.okta.com",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-04-11 00:00:00",
+    "alertedTime": "2023-04-11 00:00:00",
+    "eventDate": "2023-04-11",
+    "actor": {},
+    "target": {
+      "type": "USER",
+      "domain": "example.okta.com",
+      "id": "-2140846185@gmail.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "9660315937641196aaea57941db2977513ed0c8b",
+    "uuid": "53e94764-0336-41f1-96b4-58ad1aaf589c",
+    "filter": "1=1",
+    "moduleName": "opal_okta_detections"
+  },
+  {
+    "schemaVersion": 4,
+    "name": "opal_service_account_job_activity_baseline_deviation",
+    "summary": "7a2884ed2a8e6b7c1aec206abd01fa73172e825c",
+    "severity": "medium",
+    "source": "okta",
+    "sourceDetails": "example.okta.com",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-04-06 00:00:00",
+    "alertedTime": "2023-04-06 00:00:00",
+    "eventDate": "2023-04-06",
+    "actor": {},
+    "target": {
+      "type": "USER",
+      "domain": "example.okta.com",
+      "id": "-2140846185@gmail.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "4e926a75bf7fce1eec480ad606310668bf456637",
+    "uuid": "c6962064-ce41-4d6c-8d73-1deb46f0012b",
+    "filter": "1=1",
+    "moduleName": "opal_okta_detections"
+  },
+  {
+    "schemaVersion": 4,
+    "name": "opal_service_account_job_activity_baseline_deviation",
+    "summary": "7a2884ed2a8e6b7c1aec206abd01fa73172e825c",
+    "severity": "medium",
+    "source": "okta",
+    "sourceDetails": "example.okta.com",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-03-30 00:00:00",
+    "alertedTime": "2023-03-30 00:00:00",
+    "eventDate": "2023-03-30",
+    "actor": {},
+    "target": {
+      "type": "USER",
+      "domain": "example.okta.com",
+      "id": "-2140846185@gmail.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "fe8b50daa0afd979888d098dc3776dcfa1d2caf3",
+    "uuid": "a435f11e-ecbf-4302-bed1-8a99f8fade52",
+    "filter": "1=1",
+    "moduleName": "opal_okta_detections"
+  },
+  {
+    "schemaVersion": 4,
+    "name": "opal_api_token_eventtype_baseline_deviation",
+    "summary": "fa59c71715f6211bc283dcb66c7bcc3089014132",
+    "severity": "medium",
+    "source": "okta",
+    "sourceDetails": "example.okta.com",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-03-06 00:00:00",
+    "alertedTime": "2023-03-06 00:00:00",
+    "eventDate": "2023-03-06",
+    "actor": {},
+    "target": {
+      "type": "USER",
+      "domain": "example.okta.com",
+      "id": "-2140846185@gmail.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "b5d068e6350e1bd1b49670b015355c6fbfe0ae0b",
+    "uuid": "828903ab-f0d0-44e2-8fe2-8c48e0492b40",
+    "filter": "1=1",
+    "moduleName": "opal_okta_detections"
+  },
+  {
+    "schemaVersion": 4,
+    "name": "opal_service_account_job_activity_baseline_deviation",
+    "summary": "7a2884ed2a8e6b7c1aec206abd01fa73172e825c",
+    "severity": "medium",
+    "source": "okta",
+    "sourceDetails": "example.okta.com",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-04-14 00:00:00",
+    "alertedTime": "2023-04-14 00:00:00",
+    "eventDate": "2023-04-14",
+    "actor": {},
+    "target": {
+      "type": "USER",
+      "domain": "example.okta.com",
+      "id": "-2140846185@gmail.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "fbe15677bd2badeb3fc05e9c558f64a50306a905",
+    "uuid": "c1b4e384-74d9-4f59-a846-b8af0ba7380c",
+    "filter": "1=1",
+    "moduleName": "opal_okta_detections"
+  },
+  {
+    "schemaVersion": 4,
+    "name": "dbadmin_granted_their_own_accounts_as_admin",
+    "summary": "4cb4d3b0d0fcd403cb39f1cdf17667ab87e2572b",
+    "severity": "medium",
+    "source": "audit_logs",
+    "sourceDetails": "oregon-prod",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-04-14 00:00:00",
+    "alertedTime": "2023-04-14 00:00:00",
+    "eventDate": "2023-04-26",
+    "actor": {
+      "type": "USER",
+      "domain": "1062072028138634",
+      "id": "-652625790@example.com",
+      "beliefCompromised": 0.1
+    },
+    "target": {
+      "type": "APPLICATION",
+      "domain": "example Workspace",
+      "id": "340984778@example.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "cf8c132ae0ed1ee55ddac6c7384f8228fb8f9b39",
+    "uuid": "ada3fc08-874f-494b-8244-bdeac2c63535",
+    "filter": "1=1",
+    "moduleName": "dbadmin_suspicious_activity_customer_workspaces",
+    "observables": {
+      "ipAddresses": [
+        "127.0.0.1"
+      ],
+      "domains": [],
+      "fileHashes": [],
+      "urls": []
+    }
+  },
+  {
+    "schemaVersion": 4,
+    "name": "opal_service_account_job_activity_baseline_deviation",
+    "summary": "7a2884ed2a8e6b7c1aec206abd01fa73172e825c",
+    "severity": "medium",
+    "source": "okta",
+    "sourceDetails": "example.okta.com",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-04-14 00:00:00",
+    "alertedTime": "2023-04-14 00:00:00",
+    "eventDate": "2023-04-03",
+    "actor": {},
+    "target": {
+      "type": "USER",
+      "domain": "example.okta.com",
+      "id": "-2140846185@gmail.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "fa1ad7b4ba403ae8f2dcd307ea9443645e4aee40",
+    "uuid": "33fbbe13-7997-40f1-8a49-530c6707a6aa",
+    "filter": "1=1",
+    "moduleName": "opal_okta_detections"
+  },
+  {
+    "schemaVersion": 4,
+    "name": "opal_service_account_job_activity_baseline_deviation",
+    "summary": "7a2884ed2a8e6b7c1aec206abd01fa73172e825c",
+    "severity": "medium",
+    "source": "okta",
+    "sourceDetails": "example.okta.com",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-04-14 00:00:00",
+    "alertedTime": "2023-04-14 00:00:00",
+    "eventDate": "2023-04-03",
+    "actor": {},
+    "target": {
+      "type": "USER",
+      "domain": "example.okta.com",
+      "id": "-2140846185@gmail.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "1de98f5f56b11b8906be86c25a6504bb54263a5b",
+    "uuid": "db7aca5c-50c4-47e1-b7bc-a040b4a7ca90",
+    "filter": "1=1",
+    "moduleName": "opal_okta_detections"
+  },
+  {
+    "schemaVersion": 4,
+    "name": "dbadmin_granted_their_own_accounts_as_admin",
+    "summary": "3dffa46c7c82104c25bc14e9fc850aed6cb344ef",
+    "severity": "medium",
+    "source": "audit_logs",
+    "sourceDetails": "oregon-prod",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-04-14 00:00:00",
+    "alertedTime": "2023-04-14 00:00:00",
+    "eventDate": "2023-04-19",
+    "actor": {
+      "type": "USER",
+      "domain": "50622708969627",
+      "id": "924900171@example.com",
+      "beliefCompromised": 0.1
+    },
+    "target": {
+      "type": "APPLICATION",
+      "domain": "example Workspace",
+      "id": "-2075130288@example.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "51ed9e7a8742c326c927441945fc4da686098dbb",
+    "filter": "1=1",
+    "moduleName": "dbadmin_suspicious_activity_customer_workspaces",
+    "observables": {
+      "ipAddresses": [
+        "127.0.0.1"
+      ],
+      "domains": [],
+      "fileHashes": [],
+      "urls": []
+    }
+  },
+  {
+    "schemaVersion": 4,
+    "name": "dbadmin_granted_their_own_accounts_as_admin",
+    "summary": "4cb4d3b0d0fcd403cb39f1cdf17667ab87e2572b",
+    "severity": "medium",
+    "source": "audit_logs",
+    "sourceDetails": "oregon-prod",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-04-14 00:00:00",
+    "alertedTime": "2023-04-14 00:00:00",
+    "eventDate": "2023-04-07",
+    "actor": {
+      "type": "USER",
+      "domain": "4363508190409175",
+      "id": "-652625790@example.com",
+      "beliefCompromised": 0.1
+    },
+    "target": {
+      "type": "APPLICATION",
+      "domain": "example Workspace",
+      "id": "340984778@example.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "299ce432ca9bca3b25f11c31ea74f6a0e0a6383d",
+    "filter": "1=1",
+    "moduleName": "dbadmin_suspicious_activity_customer_workspaces",
+    "observables": {
+      "ipAddresses": [
+        "127.0.0.1"
+      ],
+      "domains": [],
+      "fileHashes": [],
+      "urls": []
+    }
+  },
+  {
+    "schemaVersion": 4,
+    "name": "opal_service_account_job_activity_baseline_deviation",
+    "summary": "7a2884ed2a8e6b7c1aec206abd01fa73172e825c",
+    "severity": "medium",
+    "source": "okta",
+    "sourceDetails": "example.okta.com",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-04-14 00:00:00",
+    "alertedTime": "2023-04-14 00:00:00",
+    "eventDate": "2023-03-07",
+    "actor": {},
+    "target": {
+      "type": "USER",
+      "domain": "example.okta.com",
+      "id": "-2140846185@gmail.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "64331131e990a456159a472a3010d9a5059f6e84",
+    "uuid": "7cba686c-0f2a-4cc7-9371-1004b1d331aa",
+    "filter": "1=1",
+    "moduleName": "opal_okta_detections"
+  },
+  {
+    "schemaVersion": 4,
+    "name": "okta_unreconciled_user_membership_add",
+    "summary": "6f5139715d7aa10df5269e891f9c6b81077feb21",
+    "severity": "medium",
+    "source": "okta",
+    "sourceDetails": "example.okta.com",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-04-14 00:00:00",
+    "alertedTime": "2023-04-14 00:00:00",
+    "eventDate": "2023-03-29",
+    "actor": {
+      "type": "USER",
+      "domain": "example.okta.com",
+      "id": "258175271@example.com",
+      "beliefCompromised": 0.1
+    },
+    "target": {
+      "type": "APPLICATION",
+      "domain": "app.opal.com",
+      "id": "885366572@example.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "1d777d5bf910abfa763e94b234d922cb39063c45",
+    "uuid": "012faa1c-a2c8-4763-9510-bcdab4e6f1e5",
+    "filter": "1=1",
+    "moduleName": "opal_okta_user_membership_add_reconciliation"
+  },
+  {
+    "schemaVersion": 4,
+    "name": "okta_unreconciled_user_membership_remove",
+    "summary": "6eb38bb602577f7f483404c5aa776a7db3cd09b5",
+    "severity": "medium",
+    "source": "okta",
+    "sourceDetails": "example.okta.com",
+    "alertClass": "ALERT",
+    "ruleVersion": "1",
+    "eventTime": "2023-04-14 00:00:00",
+    "alertedTime": "2023-04-14 00:00:00",
+    "eventDate": "2023-03-29",
+    "actor": {
+      "type": "USER",
+      "domain": "example.okta.com",
+      "id": "258175271@example.com",
+      "beliefCompromised": 0.1
+    },
+    "target": {
+      "type": "APPLICATION",
+      "domain": "app.opal.com",
+      "id": "885366572@example.com",
+      "beliefCompromised": 0.1
+    },
+    "attacks": [
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PRIVILEGE_ESCALATION",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      },
+      {
+        "mitre": {
+          "taxonomy": "ENTERPRISE",
+          "tactic": "PERSISTENCE",
+          "techniqueId": "T1078",
+          "technique": "Valid Accounts",
+          "subtechniqueId": "T1078.004",
+          "subtechnique": "Cloud Accounts"
+        }
+      }
+    ],
+    "context": {},
+    "rawJson": "98a31f0d8a6d0ad75e9355d21c479b1eb2c5b842",
+    "uuid": "4222d1ea-554d-4dcc-9c7d-223060dfc4b4",
+    "filter": "1=1",
+    "moduleName": "opal_okta_user_membership_remove_reconciliation"
+  }
+]
+

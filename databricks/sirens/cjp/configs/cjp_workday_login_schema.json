@@ -1,0 +1,39 @@
+{
+  "accountStatus" : {
+    "field_in" : "Account_Locked__Disabled_or_Expired"
+  },
+  "browserType" : {
+    "field_in": "Browser_Type"
+  },
+  "date" : {
+    "field_in" : "Created_Moment",
+    "type_in" : "datetime",
+    "type_out" : "date"
+  },
+  "deviceType": {
+    "field_in": "Device_Type"
+  },
+  "elapsedTime" : {
+    "field_in": "Elapse_Time__Minutes_"
+  },
+  "signOnWorker": {
+    "field_in": "Signon_Worker"
+  },
+  "signOnIpAddress": {
+    "field_in": "Signon_IP_Address"
+  },
+  "signOnTime": {
+    "field_in": "Sign-on_Time"
+  },
+  "signOffTime": {
+    "field_in": "Signoff_Time"
+  },
+  "systemAcccount": {
+    "field_in": "System_Account"
+  },
+  "timestamp" : {
+    "field_in": "Created_Moment",
+    "required": true,
+    "cursor": true
+  }
+}

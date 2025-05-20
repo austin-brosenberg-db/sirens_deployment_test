@@ -1,0 +1,169 @@
+config:
+  version: 1.0
+  updated: 2022-09-14
+  author: Derek King
+  description: Databricks Audit Logs
+input:
+  source: databricks
+  sourcetype: db_audit
+  parser: db_audit
+  rawPath: s3://sfe-log-data/databricks-auditlogs/
+  host: workspace.cloud.databricks.com
+  connector:
+    name: autoloader    # <txt|csv|json|kafka|autoloader|parquet>
+    options:
+      cloudFiles.format: json
+      cloudFiles.inferColumnTypes: true
+      cloudFiles.schemaEvolutionMode: addNewColumns
+      cloudFiles.schemaHints: 'workspaceId long, requestParams map<string, string>, response struct<errorMessage: string, result: string, statusCode: bigint>'
+  streamType: streaming
+transforms:
+  bronze:
+    meta:
+      timestamp_column: "timestamp"
+      timestamp_format: "yyyy-MM-dd'T'HH:mm:ss"
+  silver:
+    event_type:
+     - target_table: authentication
+       filter: (serviceName == "accounts" and (actionName == "login" or actionName == "gcpWorkspaceBrowserLogin" or actionName == "oidcBrowserLogin" or actionName == "logout")) OR (serviceName == "accounts" AND (actionName == "login" or actionName == "jwtLogin" or actionName == "logout" or actionName == "samlLogin" or actionName == "tokenLogin")) OR (serviceName == "genie" AND (actionName == "databricksAccess")) OR (serviceName == "ssh" and (actionName == "login" or actionName == "logout"))
+       fields:
+        - _event_date:
+            action: copy
+        - _event_time:
+            action: copy
+        - _sourcetype:
+            action: copy
+        - _source:
+            action: copy
+        - dvc_hostname:
+            action: copy
+        - event_type:
+            action: add
+            type: expression
+            value: case when actionName == "logout" then "Logout" else "Login" end
+        - event_sub_type:
+            action: alias
+            value: serviceName
+        - event_message:
+            action: alias
+            value: actionName
+        - event_result:
+            action: add
+            type: literal
+            value: Success 
+        - event_schema_file:
+            action: add
+            type: literal
+            value: authentication
+        - event_severity:
+            action: add
+            type: literal
+            value: Informational
+        - http_user_agent:
+            action: alias
+            value: userAgent
+        - src:
+            action: add
+            type: expression
+            value: coalesce(sourceIPAddress, email)
+        - src_ip_addr:
+            action: alias
+            value: sourceIPAddress
+        - dst:
+            action: add
+            type: expression
+            value: case when auditLevel == "ACCOUNT_LEVEL" then "AccountsConsole" when serviceName == "ssh" then requestParams_instanceId_ when auditLevel == "WORKSPACE_LEVEL" then workspace end
+        - target_app_name:
+            action: add
+            type: expression
+            value: case when auditLevel == "ACCOUNT_LEVEL" then "Accounts Console" when serviceName == "ssh" then "Cluster Worker" when auditLevel == "WORKSPACE_LEVEL" then "Workspace" end
+        - target_user_name:
+            action: add
+            type: expression
+            value: case when (serviceName == "accounts" and (actionName == "login" or actionName == "jwtLogin" or actionName == "logout" or actionName == "samlLogin" or actionName = "tokenLogin")) then requestParams_user_ when serviceName == "ssh" then requestParams_userName_ when (serviceName == "genie" and actionName == "databricksAccess") then requestParams_user_ end
+        - target_session_id:
+            action: alias
+            value: sessionId
+        - logon_type:
+            action: add
+            type: expression
+            value: case when serviceName == "genie" and actionName == "databricksAccess" then requestParams_authType_ when serviceName == "ssh" then "ssh" else "https" end
+        - logon_method:
+            action: add
+            type: expression
+            value: case when serviceName == "ssh" then "ssh" else "https" end
+        - user:
+            action: add
+            type: expression
+            value: case when (serviceName == "accounts" and (actionName == "login" or actionName == "jwtLogin" or actionName == "logout" or actionName == "samlLogin" or actionName = "tokenLogin")) then requestParams_user_ when serviceName == "ssh" then requestParams_userName_ when (serviceName == "genie" and actionName == "databricksAccess") then requestParams_user_ end
+        - event_product:
+            action: add
+            type: literal
+            value: databricks_audit
+        - event_vendor:
+            action: add
+            type: literal
+            value: databricks
+     - target_table: user_management
+       filter: (serviceName == "accountsManager" and (actionName == "updateAccount" or actionName == "changeAccountOwner" or actionName == "createCredentialsConfiguration")) OR (serviceName == "accounts" and (actionName == "add" or actionName == "addPrincipalToGroup" or actionName == "changePassword" or actionName == "createGroup" or actionName == "delete" or actionName == "removeAdmin" or actionName == "removeGroup" or actionName == "resetPassword" or actionName == "setAdmin")) OR (serviceName == "groups" and (actionName == "addPrincipalToGroup" or actionName == "createGroup"))
+       fields:
+        - _event_date:
+            action: copy
+        - _event_time:
+            action: copy
+        - _sourcetype:
+            action: copy
+        - _source:
+            action: copy
+        - dvc_hostname:
+            action: copy
+        - event_type:
+            action: add
+            type: expression
+            value: case when serviceName == "accounts" and (actionName == "add") then "User Created" when serviceName == "accounts" and (actionName == "delete") then "User Deleted" when serviceName == "accounts" and (actionName == "addPrincipalToGroup" or actionName == "changePassword" or actionName == "removeAdmin" or actionName == "resetPassword" or actionName == "setAdmin" ) then "User Modified" when (serviceName == "accounts" or serviceName == "groups") and (actionName == "createGroup") then "Group Created" when (serviceName == "accounts" or serviceName == "groups") and (actionName == "removeGroup") then "Group Deleted" else "User Modified" end
+        - event_message:
+            action: alias
+            value: actionName
+        - event_result:
+            action: add
+            type: literal
+            value: Success
+        - event_schema_file:
+            action: add
+            type: literal
+            value: user_management
+        - event_severity:
+            action: add
+            type: literal
+            value: Informational
+        - user:
+            action: add 
+            type: expression
+            value: coalesce(requestParams_user_, requestParams_user_name_, email)
+        - event_product:
+            action: add
+            type: literal
+            value: databricks_audit
+        - event_vendor:
+            action: add
+            type: literal
+            value: databricks
+        - src_ip_addr:
+            action: alias
+            value: sourceIPAddress
+        - target_user_type:
+            action: add
+            type: literal
+            value: Regular
+        - actor_user_name:
+            action: add 
+            type: expression
+            value: coalesce(requestParams_user_, requestParams_user_name_, email)
+        - group_name:
+            action: add 
+            type: expression
+            value: case when serviceName == "accounts" and (actionName == "createGroup" or actionName == "removeGroup") then requestParams_targetGroupName_ end
+        - src:
+            action: add
+            type: expression
+            value: coalesce(requestParams_user_, requestParams_user_name_, email, sourceIPAddress, dvc_hostname)

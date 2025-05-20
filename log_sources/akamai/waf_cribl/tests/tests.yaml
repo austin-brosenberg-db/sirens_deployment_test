@@ -1,0 +1,12 @@
+test_cases:
+  - name: waf
+    connector: txt
+    sample: sample.txt
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, value
+        expected_values:
+          - _source: 'akamai'
+          - _sourcetype: 'waf_cribl'
+      silver:
+        expected_columns: _event_date,_event_time,_ingest_time,_source,_source_file,_sourcetype,dvc_hostname,host,source,content,cp,format,geo,id,message,nested_values,netPerf,network,reqHdr,respHdr,type,version,waf

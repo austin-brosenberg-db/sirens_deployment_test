@@ -1,0 +1,6 @@
+Records.element.requestParameters map<string, string>,
+Records.element.responseElements map<string, string>,
+Records.element.resources array<map<string, string>>,
+Records.element.serviceEventDetails map<string, string>,
+Records.element.additionalEventData map<string, string>,
+Records.element.userIdentity.sessionContext.webIdFederationData struct<federatedProvider:string, attributes:map<string,string>>

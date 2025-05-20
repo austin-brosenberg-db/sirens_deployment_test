@@ -1,0 +1,4 @@
+- name: message_logging_level_keywords
+  file: message_logging_level_keywords
+  source_column: severity
+  target_column: level # https://www.cisco.com/c/en/us/td/docs/routers/access/wireless/software/guide/SysMsgLogging.html#wp1054858

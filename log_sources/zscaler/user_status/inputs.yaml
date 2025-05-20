@@ -1,0 +1,127 @@
+config:
+  version: 1.1
+  updated: 2025-02-07
+  author: Arun Pamulapati, Garrett R Peternel
+  description: Process Zscaler User Status Logs (https://help.zscaler.com/zpa/about-user-status-log-fields)
+input:
+  source: zscaler
+  sourcetype: user_status
+  parser: zscaler
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/zscaler/user_status/sample
+  rawSchemaFile: schema.json
+  connector: 
+    name: autoloader
+    options:
+      cloudFiles.format: json
+      cloudFiles.rescuedDataColumn: _rescued_data
+  streamType: streaming
+transforms:
+    bronze:
+      meta:
+        timestamp_column: LogTimestamp
+    silver:
+          event_type:
+            - target_table: authentication
+              name: User Status Log Fields
+              fields:
+              - _event_date:
+                  action: copy
+              - _event_time:
+                  action: copy
+              - _sourcetype:
+                  action: copy
+              - _source:
+                  action: copy
+              - dvc_hostname:
+                  action: copy
+              - event_product:
+                  action: add
+                  type: literal
+                  value: zscaler
+              - event_result:
+                  action: alias
+                  value: SessionStatus
+              - event_schema_file:
+                  action: add
+                  type: literal
+                  value: authentication
+              - event_type:
+                  action: alias
+                  value: ClientType
+              - event_vendor:
+                  action: add
+                  type: literal
+                  value: zscaler
+              - src:
+                  action: add
+                  value: PublicIP
+              - src_geo_country:
+                  action: alias
+                  value: CountryCode
+              - src_geo_lat:
+                  action: alias
+                  value: Latitude
+              - src_geo_lon:
+                  action: alias
+                  value: Longitude
+              - src_ip_addr:
+                  action: alias
+                  value: PublicIP
+              - user:
+                  action: alias
+                  value: Username
+              - customer_name:
+                  action: alias
+                  value: Customer
+              - session_id:
+                  action: alias
+                  value: SessionID
+              - event_status:
+                  action: alias
+                  value: SessionStatus
+              - product_version:
+                  action: alias
+                  value: Version
+              - host:
+                  action: alias
+                  value: ZEN
+              - auth_name:
+                  action: alias
+                  value: CertificateCN             
+              - auth_granted:
+                  action: add
+                  type: expression
+                  value: case when TimestampAuthentication is not NULL then 'True' when TimestampUnAuthentication is not NULL then 'False' else 'unknown' end
+              - bytes_in:
+                  action: alias
+                  value: TotalBytesRx
+              - bytes_out:
+                  action: alias
+                  value: TotalBytesTx
+              - identity:
+                  action: alias
+                  value: Idp
+              - host_name:
+                  action: alias
+                  value: Hostname
+              - host_platform:
+                  action: alias
+                  value: Platform
+              - customer_id:
+                  action: alias
+                  value: TrustedNetworks
+              - trusted_networks_names:
+                  action: alias
+                  value: TrustedNetworksNames
+              - user_name:
+                  action: alias
+                  value: SAMLAttributes.myname
+              - dst_lat: 
+                  action: alias
+                  value: ZENLatitude
+              - dst_long:
+                  action: alias
+                  value: ZENLongitude
+              - dst_country:    
+                  action: alias
+                  value: ZENCountryCode

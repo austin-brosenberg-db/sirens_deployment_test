@@ -1,0 +1,101 @@
+databricks.sirens.connectors package
+====================================
+
+Submodules
+----------
+
+databricks.sirens.connectors.common module
+------------------------------------------
+
+.. automodule:: databricks.sirens.connectors.common
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+databricks.sirens.connectors.okta\_api module
+---------------------------------------------
+
+.. automodule:: databricks.sirens.connectors.okta_api
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+databricks.sirens.connectors.plugins module
+-------------------------------------------
+
+.. automodule:: databricks.sirens.connectors.plugins
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+databricks.sirens.connectors.readAutoloader module
+--------------------------------------------------
+
+.. automodule:: databricks.sirens.connectors.readAutoloader
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+databricks.sirens.connectors.readCsv module
+-------------------------------------------
+
+.. automodule:: databricks.sirens.connectors.readCsv
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+databricks.sirens.connectors.readDelta module
+---------------------------------------------
+
+.. automodule:: databricks.sirens.connectors.readDelta
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+databricks.sirens.connectors.readJson module
+--------------------------------------------
+
+.. automodule:: databricks.sirens.connectors.readJson
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+databricks.sirens.connectors.readKafka module
+---------------------------------------------
+
+.. automodule:: databricks.sirens.connectors.readKafka
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+databricks.sirens.connectors.readParquet module
+-----------------------------------------------
+
+.. automodule:: databricks.sirens.connectors.readParquet
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+databricks.sirens.connectors.readTxt module
+-------------------------------------------
+
+.. automodule:: databricks.sirens.connectors.readTxt
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+databricks.sirens.connectors.writeDelta module
+----------------------------------------------
+
+.. automodule:: databricks.sirens.connectors.writeDelta
+   :members:
+   :undoc-members:
+   :show-inheritance:
+
+Module contents
+---------------
+
+.. automodule:: databricks.sirens.connectors
+   :members:
+   :undoc-members:
+   :show-inheritance:

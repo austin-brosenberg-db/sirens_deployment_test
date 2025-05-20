@@ -1,0 +1,76 @@
+config:
+  version: 1.0
+  updated: 2023-02-13
+  author: Derek King
+  description: Corelight Logs
+input:
+  source: corelight
+  sourcetype: json_streaming_conn
+  parser: corelight
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/corelight_json/json_streaming_conn.log
+  connector:
+    name: json
+    options:
+  streamType: batch
+transforms:
+  bronze:
+    sourcetype: corelight_conn
+    meta:
+      timestamp_column: "entries.ts"
+      timestamp_column_type: timestamp
+      host_column: "entries._system_name"
+  silver:
+    event_type:
+      - target_table: dhcp
+        filter: _sourcetype = "corelight_dhcp"
+        fields:
+        - event_type:
+            action: add
+            type: literal
+            value: DNS Query
+        - event_message:
+            action: add
+            type: expression
+            value: concat('DHCP ', lcase(message_type))
+        - event_result:
+            action: add
+            type: expression
+            value: case when rlike(msg_types, "NACK") then "Failure" else "Success" end
+        - event_schema_file:
+            action: add
+            type: literal
+            value: dhcp
+        - event_severity:
+            action: add
+            type: literal
+            value: Informational
+        - dest:
+            action: alias
+            value: server_addr
+        - dest_ip_addr:
+            action: alias
+            value: server_addr
+        - dhcp_lease_time:
+            action: alias
+            value: lease_time
+        - requested_ip_addr:
+            action: alias
+            value: requested_addr
+        - server_message:
+            action: alias
+            value: server_message
+        - src:
+            action: alias
+            value: client_addr
+        - src_ip_addr:
+            action: alias
+            value: client_addr
+        - src_domain:
+            action: alias
+            value: domain
+        - src_hostname:
+            action: alias
+            value: host_name
+        - src_mac_addr:
+            action: alias
+            value: mac

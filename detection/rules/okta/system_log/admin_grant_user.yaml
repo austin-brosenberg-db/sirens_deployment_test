@@ -1,0 +1,61 @@
+name: admin_grant_user
+summary: admin permission granted to user on <oktaURL>
+severity: medium
+source: okta
+sourceDetails: <oktaURL>
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <published>
+actor:
+  type: USER
+  domain: <oktaURL>
+  id: <actor.alternateId>
+  beliefCompromised: 0.1
+target:
+  type: USER
+  domain: <oktaURL>
+  id: <targetUser>
+  beliefCompromised: 0.1
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: PRIVILEGE_ESCALATION
+    techniqueId: T1548
+    technique: Abuse Elevation Control Mechanism
+observables:
+  ipAddresses:
+  - <client.ipAddress>
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  Okta URL: <oktaURL>
+  UserAgent: <client.userAgent.rawUserAgent>
+  ipAddress: <client.ipAddress>
+  who: <actor.alternateId> from <client.ipAddress> grant <privilegeGranted> privilege to <targetUser>
+filter: |-
+  eventType = 'user.account.privilege.grant' and
+  privilegeGranted IS NOT NULL and
+  (actor.type is NULL or actor.type != 'SystemPrincipal' or actor.alternateId != 'system@okta.com')
+test_cases:
+- test_name: 'expected hit'
+  expected_result: true
+  expected_summary: 'admin permission granted to user on okta.example.com'
+  expected_severity: medium
+  expected_context: 
+    {
+      "Okta URL": "okta.example.com",
+      "UserAgent": "OktaVerify",
+      "ipAddress": "1.2.3.4",
+      "who": "bob@example.com from 1.2.3.4 grant app123-admin privilege to alice@example"
+    }
+  test_input: 
+    {
+      "actor": {"type": "User", "alternateId": "bob@example.com"},
+      "eventType": "user.account.privilege.grant",
+      "oktaURL": "okta.example.com",
+      "client": {"userAgent": {"rawUserAgent": "OktaVerify"}, "ipAddress": "1.2.3.4"},
+      "targetUser": "alice@example",
+      "privilegeGranted": "app123-admin",
+      "published": "2022-01-01"
+    }

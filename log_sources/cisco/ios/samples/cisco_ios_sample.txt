@@ -1,0 +1,20 @@
+<190>12345: Jan 8 2024 15:59:01: %SYS-6-LOGOUT: User admin has exited tty session 2(99.99.99.999)
+<190>67890: Feb 11 2025 20:46:01: %SYS-6-LOGOUT: User myname has exited tty session 2(77.77.77.777)
+<190>77777: Mar 9 2024 15:01:50.456: %SYS-6-LOGOUT: User admin has exited tty session 2(11.11.11.111)
+<190>60741: Apr 28 2025 06:23:01: %SYS-6-LOGOUT: User cisco has exited tty session 2(22.22.2.2)
+<11>12849: Apr 4 2024 16:48:02.123: %LINK-3-UPDOWN: Interface GigabitEthernet1/0/3, changed state to down
+<51>33013: Feb 28 2024 22:19:54.1: %XXX12-3-THRESHOLD_VIOLATION: Te1/1/2: Rx power high warning; Operating value:  -0.7 dBm, Threshold value:  -1.0 dBm.
+<13>12851: May 12 2024 16:48:06.50: %LINEPROTO-5-UPDOWN: Line protocol on Interface GigabitEthernet1/0/3, changed state to up
+<46>32877: Jul 1 2024 15:12:48: %SYS-6-LOGGINGHOST_STARTSTOP: Logging to host 77.777.77.77 port 0 CLI Request Triggered
+<15>14567: Nov 17 2024 14:02:55.521: %DEBUG-7-TRAFFIC: Debugging interface GigabitEthernet1/0/5 for incoming traffic.
+<54>22210: Aug 8 2024 13:30:10: %LINEPROTO-6-UPDOWN: Line protocol on Interface GigabitEthernet2/0/1, changed state to up
+<45>19832: Oct 24 2025 12:45:33.555: %SYS-5-RELOAD: Reload requested by user admin. Reason: Maintenance update.
+<189>17656: Dec 31 2025 23:57:11: %SEC_LOGIN-5-LOGIN_SUCCESS: Login Success [user: admin][Source: 10.10.8.999] [localport: 22] at 23:57:11 UTC Mon Dec 31 2025
+<189>43444: Feb 1 2025 11:11:11: %SEC_LOGIN-5-LOGIN_SUCCESS: Login Success [user: cisco][Source: 09.13.12.77] [localport: 22] at 11:11:11 UTC Tue Feb 1 2025
+<189>09521: Mar 27 2025 05:35:09: %SEC_LOGIN-5-LOGIN_SUCCESS: Login Success [user: myuser][Source: 10.10.8.999] [localport: 22] at 23:57:11 UTC Wed Mar 27 2025
+<11>11475: Dec 11 2024 11:18:21: %LINK-3-FAILURE: Interface GigabitEthernet1/0/10, lost connection due to CRC errors.
+<15>20234: Sep 29 2024 10:02:35.431: %SYS-0-SYSTEM_FAILURE: System failure due to hardware fault on CPU 0.
+<13>20234: Mar 1 2025 18:47:02.95: %LINEPROTO-5-UPDOWN: Line protocol on Interface Vlan1, changed state to down
+<37>20234: Jun 6 2024 10:23:45: %CPU-5-HIGH: CPU utilization exceeded 90%
+<45>20234: Jan 1 2024 00:00:01.777: %SYS-5-CONFIG_I: Configured from console by cisco on vty0 (33.33.3.333)
+<189>66666: Jan 11 2024 12:00:00: %SYS-5-CONFIG_I: Configured from console by admin on vty0 (12.12.2.222)

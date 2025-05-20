@@ -1,0 +1,23 @@
+test_cases:
+  - name: cisco_firepower
+    connector: txt
+    sample: cisco_firepower_logs.txt
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, value
+        expected_values:
+          - _source: 'cisco'
+          - _sourcetype: 'firepower'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, priority_value, device_id, message_facility_code, level, message_number, message_text, src_interface, src_ip, src_port, dest_interface, dest_ip, dest_port
+        expected_values:
+          - dvc_hostname: 'firepower'
+          - level: '6'
+          - src_port: 58239
+          - dest_port: 443
+      normalized:
+        network:
+          expected_columns: _event_date, _event_time, _source, _sourcetype, dest, dest_ip_addr, dest_port_number, dvc_hostname, event_result, event_schema_file, event_severity, event_type, network_session_id, src, src_ip_addr, dest_interface_name, event_message, event_sub_type, src_interface_name
+          expected_values:
+            - event_schema_file: 'network_v0.1'
+            - event_type: 'Network'

@@ -1,0 +1,108 @@
+# Databricks notebook source
+# DBTITLE 1,Install Sirens on the DLT cluster
+# MAGIC %pip install pyyaml inflection {spark.conf.get('sirens_wheel', '')} --force-reinstall
+
+# COMMAND ----------
+# DBTITLE 1,Set working directory to Sirens home
+import os
+
+sirens_home = spark.conf.get("sirens.home", None)
+
+if sirens_home is not None:
+  os.chdir(sirens_home)
+
+# COMMAND ----------
+
+import dlt
+from pyspark.sql.functions import *
+from pyspark.sql.types import *
+from databricks.sirens.datasource import DataSource
+from databricks.sirens import parsers
+from databricks.sirens.enrichments import Enrichment
+from databricks.sirens.expectations import Expectations
+from databricks.sirens.exceptions import SirensAggregationException
+from databricks.sirens import normalize
+from databricks.sirens.logging import get_logger
+from databricks.sirens.utils.base_utils import BaseUtils
+logger = get_logger(__name__)
+
+
+# COMMAND ----------
+
+input_source = {{input_source}}
+
+# COMMAND ----------
+
+source = input_source.get("source")
+sourcetype = input_source.get("sourcetype")
+database = input_source.get("database")
+dlt_name = source+"_"+sourcetype
+
+# COMMAND ----------
+
+dataSourceObj = DataSource(spark, database, source, sourcetype)
+config = dataSourceObj.read()
+
+input_config = dataSourceObj["input"].copy()
+input_config["dlt_read"] = True
+read_method = BaseUtils.get_read_method(spark, input_config)
+
+# COMMAND ----------
+
+def generate_silver_tables(dataSourceObj, call_table, target_table, table_config):
+    expectations, inverse_expectations = Expectations(target_table).get()
+
+    # build spark_conf and table_properties based on table_config
+    spark_conf = {conf: str(table_config[key]) for conf,key in [
+        ("pipelines.trigger.interval","trigger_interval")
+    ] if table_config.get(key)}
+    spark_conf["spark.sql.caseSensitive"] = "true"
+
+    table_properties = {conf: str(table_config[key]) for conf,key in [
+        ("pipelines.autoOptimize.managed","dlt_auto_optimize_managed"),
+        ("delta.autoOptimize.optimizeWrite","optimize_write"),
+        ("delta.autoOptimize.autoCompact","auto_compact")
+    ] if table_config.get(key)}
+    table_properties["pipelines.autoOptimize.zOrderCols"] = ",".join(table_config.get("zorder_cols", []))
+
+    @dlt.expect_all_or_drop(expectations)
+    @dlt.table(
+        name=call_table+"_"+target_table+"_silver",
+        comment="silver table",
+        temporary=True,
+        spark_conf=spark_conf,
+        partition_cols=table_config.get("partition_cols", ["_event_date"]),
+        table_properties=table_properties
+    )
+    def bronze_to_silver():
+        bronze_df = read_method(call_table+"_bronze")
+        n = normalize.Normalizer(spark, dataSourceObj)
+        df_filtered = n.filter_frame(df=bronze_df, target_table=target_table)
+        df_normalized = n.transform_frame(df=df_filtered, target_table=target_table)
+        df_normalized = Enrichment(dataSourceObj).add_stage(df_normalized, 'silver')
+        return df_normalized
+
+# COMMAND ----------
+
+# Generate Silver Tables for each event_type defined in config.
+# src_dst_pairs = {}
+
+try:
+    table_tranformations = config.get("transforms").get("silver").get("event_type")
+
+    for et in table_tranformations:
+        target_table = et.get("target_table")
+        framework = dataSourceObj.get_framework(target_table=target_table)
+
+        table_name = target_table
+        # add framework suffix to table name if required.
+        if 'ocsf' in framework:
+            table_name = f"{table_name}_{framework}"
+
+        table_config = dataSourceObj.get_table_config(target_table)
+        generate_silver_tables(dataSourceObj, dlt_name, table_name, table_config)
+        # src_dst_pairs.setdefault(et.get("target_table"), []).append(dlt_name+"_"+et.get("target_table")+"_silver")
+
+except (AttributeError, TypeError) as exc:
+    logger.warn(f"{exc}:\n to fix run sirens.py validate")
+    pass

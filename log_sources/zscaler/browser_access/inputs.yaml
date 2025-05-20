@@ -1,0 +1,135 @@
+config:
+  version: 1.0
+  updated: 2023-02-21
+  author: Arun Pamulapati
+  description: Process Zscaler Browser Access Logs
+input:
+  source: zscaler
+  sourcetype: browser_access
+  parser: zscaler
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/zscaler/browser_access/sample
+  rawSchemaFile: schema.json
+  connector: 
+    name: autoloader
+    options:
+      cloudFiles.format: json
+      cloudFiles.schemaLocation: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/zscaler/browser_access/schema/
+  streamType: streaming
+transforms:
+  bronze:
+    meta:
+      timestamp_column: "LogTimestamp"
+  silver:
+    event_type:
+     - target_table: web
+       fields:
+        - _event_date:
+            action: copy
+        - _event_time:
+            action: copy
+        - _source:
+            action: copy
+        - _sourcetype:
+            action: copy
+        - dest:
+            action: alias
+            value: Host  
+        - dest_host:
+            action: alias
+            value: Host  
+        - dest_port:
+            action: alias
+            value: ApplicationPort
+        - dvc_hostname:
+            action: rename
+            value: dvc_hostname
+        - event_message:
+            action: add
+            type: literal
+            value: Web Resource Request
+        - event_result:
+            action: add
+            type: alias
+            value: ConnectionStatus
+        - connection_status:
+            action: add
+            type: alias
+            value: ConnectionStatus
+        - event_schema_file:
+            action: add
+            type: literal
+            value: web
+        - event_severity:
+            action: add 
+            type: literal
+            value: Informational
+        - event_type:
+            action: add
+            type: literal
+            value: HTTPsession
+        - event_sub_type:
+            action: alias
+            value: Protocol
+        - event_reason:
+            action: alias
+            value: ConnectionReason
+        - event_original_result:
+            action: alias
+            value: StatusCode
+        - url:
+            action: add
+            type: alias
+            value: URL
+        - http_request_method:
+            action: alias
+            value: Method
+        - http_status_code:
+            action: alias
+            value: StatusCode
+        - network_duration:
+            action: add
+            type: expression
+            value: (TotalTimeRequestReceive+TotalTimeRequestTransmit+TotalTimeResponseReceive+TotalTimeResponseTransmit+TotalTimeConnectionSetup+TotalTimeServerResponse)
+        - src_ip:
+            action: alias
+            value: ClientPublicIp
+        - src_port:
+            action: alias
+            value: ClientPublicPort
+        - dest_user_name:
+            action: alias
+            value: NameID
+        - customer_name:
+            action: alias
+            value: Customer    
+        - dst:
+            action: alias
+            value: dvc_hostname
+        - network_bytes:
+            action: add
+            type: alias
+            value: RequestSize
+        - src_bytes:
+            action: alias
+            value: RequestSize
+        - dest_bytes:
+            action: alias
+            value: ResponseSize
+        - network_application: 
+            action: alias
+            value: Protocol
+        - event_product:
+            action: add
+            type: literal
+            value: Browser Access
+        - event_vendor:
+            action: add
+            type: literal
+            value: zscaler
+        - x_forwarded_for:
+            action: alias
+            value: XFF
+        - user_agent:
+            action: alias
+            value: UserAgent
+

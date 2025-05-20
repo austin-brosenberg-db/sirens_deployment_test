@@ -1,0 +1,149 @@
+name: excessive_rate_limit_exceeded_errors
+summary: <alternateId> had >= <count> rate limit exceeded errors within 24 hours on <oktaURL>
+severity: medium
+source: okta
+sourceDetails: <oktaURL>
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <max_hour_timestamp>
+actor:
+  type: USER
+  domain: <oktaURL>
+  id: <alternateId>
+  beliefCompromised: 0.1
+target:
+  type: UNDEFINED
+  domain: <oktaURL>
+  id: 
+  beliefCompromised: 0.0
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: CREDENTIAL_ACCESS
+    techniqueId: T1110
+    technique: Brute Force
+observables:
+  ipAddresses: <ipAddresses>
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  Okta URL: <oktaURL>
+  errors: <count>
+  eventType: <eventType>
+  ipAddresses: <ipAddresses>
+  userAgents: <userAgents>
+  who: <alternateId>
+filter: |-
+  count > 3 AND
+  eventType IN (
+  'application.integration.rate_limit_exceeded',
+  'system.org.rate_limit.violation',
+  'core.concurrency.org.limit.violation'
+  )
+test_cases:
+- test_name: 'expected hit - application.integration.rate_limit_exceeded'
+  expected_result: true
+  expected_summary: 'first.last@example.com had >= 4 rate limit exceeded errors within 24 hours on okta.example.com'
+  expected_severity: medium
+  expected_context: 
+    {
+      "Okta URL": "okta.example.com",
+      "errors": "4",
+      "eventType": "application.integration.rate_limit_exceeded",
+      "ipAddresses": "[1.2.3.4, 4.5.6.7]",
+      "userAgents": "[chrome, oktaVerify]",
+      "who": "first.last@example.com",
+    }
+  test_input: 
+    {
+      'alternateId': 'first.last@example.com',
+      'eventType': 'application.integration.rate_limit_exceeded',
+      'oktaURL': 'okta.example.com',
+      'count': 4,
+      'ipAddresses': ["1.2.3.4", "4.5.6.7"],
+      'userAgents': ["chrome", "oktaVerify"],
+      'max_hour_timestamp': '2022-12-01T00:00:00.000Z',
+    }
+- test_name: 'expected hit - system.org.rate_limit.violation'
+  expected_result: true
+  expected_summary: 'first.last@example.com had >= 4 rate limit exceeded errors within 24 hours on okta.example.com'
+  expected_severity: medium
+  expected_context: 
+    {
+      "Okta URL": "okta.example.com",
+      "errors": "4",
+      "eventType": "system.org.rate_limit.violation",
+      "ipAddresses": "[1.2.3.4, 4.5.6.7]",
+      "userAgents": "[chrome, oktaVerify]",
+      "who": "first.last@example.com",
+    }
+  test_input: 
+    {
+      'alternateId': 'first.last@example.com',
+      'eventType': 'system.org.rate_limit.violation',
+      'oktaURL': 'okta.example.com',
+      'count': 4,
+      'ipAddresses': ["1.2.3.4", "4.5.6.7"],
+      'userAgents': ["chrome", "oktaVerify"],
+      'max_hour_timestamp': '2022-12-01T00:00:00.000Z',
+    }
+- test_name: 'expected hit - core.concurrency.org.limit.violation'
+  expected_result: true
+  expected_summary: 'first.last@example.com had >= 4 rate limit exceeded errors within 24 hours on okta.example.com'
+  expected_severity: medium
+  expected_context: 
+    {
+      "Okta URL": "okta.example.com",
+      "errors": "4",
+      "eventType": "core.concurrency.org.limit.violation",
+      "ipAddresses": "[1.2.3.4, 4.5.6.7]",
+      "userAgents": "[chrome, oktaVerify]",
+      "who": "first.last@example.com",
+    }
+  test_input: 
+    {
+      'alternateId': 'first.last@example.com',
+      'eventType': 'core.concurrency.org.limit.violation',
+      'oktaURL': 'okta.example.com',
+      'count': 4,
+      'ipAddresses': ["1.2.3.4", "4.5.6.7"],
+      'userAgents': ["chrome", "oktaVerify"],
+      'max_hour_timestamp': '2022-12-01T00:00:00.000Z',
+    }
+- test_name: 'expected miss: application.integration.rate_limit_exceeded'
+  expected_result: false
+  test_input: 
+    {
+      'alternateId': 'first.last@example.com',
+      'eventType': 'application.integration.rate_limit_exceeded',
+      'oktaURL': 'okta.example.com',
+      'count': 3,
+      'ipAddresses': ["1.2.3.4", "4.5.6.7"],
+      'userAgents': ["chrome", "oktaVerify"],
+      'max_hour_timestamp': '2022-12-01T00:00:00.000Z',
+    }
+- test_name: 'expected miss: system.org.rate_limit.violation'
+  expected_result: false
+  test_input: 
+    {
+      'alternateId': 'first.last@example.com',
+      'eventType': 'system.org.rate_limit.violation',
+      'oktaURL': 'okta.example.com',
+      'count': 3,
+      'ipAddresses': ["1.2.3.4", "4.5.6.7"],
+      'userAgents': ["chrome", "oktaVerify"],
+      'max_hour_timestamp': '2022-12-01T00:00:00.000Z',
+    }
+- test_name: 'expected miss: core.concurrency.org.limit.violation'
+  expected_result: false
+  test_input: 
+    {
+      'alternateId': 'first.last@example.com',
+      'eventType': 'core.concurrency.org.limit.violation',
+      'oktaURL': 'okta.example.com',
+      'count': 3,
+      'ipAddresses': ["1.2.3.4", "4.5.6.7"],
+      'userAgents': ["chrome", "oktaVerify"],
+      'max_hour_timestamp': '2022-12-01T00:00:00.000Z',
+    }

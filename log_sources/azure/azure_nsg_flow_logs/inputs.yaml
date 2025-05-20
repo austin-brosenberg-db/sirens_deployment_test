@@ -1,0 +1,144 @@
+config:
+  version: 1.0
+  updated: 2024-08-30
+  author: Alex Ott
+  description: Azure NSG Flow Logs
+input:
+  source: azure
+  sourcetype: azure_nsg_flow_logs
+  parser: azure_nsg_flow_logs
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/azure/AzureNsgFlowLogs.json
+  connector:
+    name: txt
+    options:
+      #cloudFiles.format: text
+      # cloudFiles.partitionColumns: ""
+      #cloudFiles.includeExistingFiles: true
+  streamType: batch # batch|streaming [required]
+transforms:
+  bronze:
+    meta:
+      host_column: resourceId
+      host_regex: '^.+\/(.*)$'
+      host_regex_group: 1
+      timestamp_column: time
+      timestamp_column_type: timestamp
+      table_config:
+        partition_cols:
+          - _event_date
+  silver:
+    event_type:
+      - target_table: network
+        fields:
+          - event_message:
+              action: add
+              type: literal
+              value: success
+          - event_message_result:
+              action: add
+              type: literal
+              value: success
+          - event_schema_version:
+              action: add
+              type: literal
+              value: 1.0
+          - event_schema_file:
+              action: add
+              type: literal
+              value: network
+          - event_type:
+              action: add
+              type: literal
+              value: network_session
+          - event_result:
+              action: rename
+              value: tf_decision
+          - dvc_action:
+              action: add
+              type: expression
+              value: case when (event_result == "Denied") then "deny" when (event_result == "Allowed") then "allow" else "unknown" end
+          - _sourcetype:
+              action: copy
+          - _event_date:
+              action: copy
+          - _event_time:
+              action: copy
+          - network_protocol:
+              action: alias
+              value: proto
+          - network_bytes:
+              action: add
+              type: expression
+              value: (src_bytes + dest_bytes)
+          - total_packets:
+              action: alias
+              value: packets
+          - network_session_id:
+              action: add
+              type: expression
+              value: concat(src_ip, '_', src_port, '_', dest_ip, '_', dest_port)
+          - dest_ip_addr:
+              action: alias
+              value: dst_ip
+          - dest_port_number:
+              action: alias
+              value: dst_port
+          - network_application:
+              action: alias
+              value: proto
+          - network_protocol_version:
+              action: add
+              type: literal
+              value: unknown
+          - network_direction:
+              action: rename
+              value: tf_flow
+          - dest_bytes:
+              action: rename
+              value: bytes_received
+          - src_bytes:
+              action: rename
+              value: bytes_sent
+          - dest_packets:
+              action: rename
+              value: packets_received
+          - src_packets:
+              action: rename
+              value: packets_sent
+          - dest_hostname:
+              action: add
+              type: literal
+              value: unknown
+          - dest_domain:
+              action: add
+              type: literal
+              value: unknown
+          - dest_dvc_id:
+              action: add
+              type: literal
+              value: unknown
+          - dest_dvc_id_type:
+              action: add
+              type: literal
+              value: unknown
+          - dest_zone:
+              action: add
+              type: literal
+              value: unknown
+          - dest_interface_name:
+              action: add
+              type: literal
+              value: unknown
+          - dest_interface_guid:
+              action: alias
+              value: interface_id
+          - dest_mac_address:
+              action: add
+              type: literal
+              value: unknown
+          - src:
+              action: alias
+              value: src_ip
+          - dest:
+              action: alias
+              value: dst_ip

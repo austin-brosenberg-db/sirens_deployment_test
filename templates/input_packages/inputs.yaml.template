@@ -1,0 +1,42 @@
+config:
+  version: <version><required>
+  updated: <date of last update><required>
+  author: <original author><required>
+  description: <description of what log source this relates to><required>
+input:
+  source: <source of the file/stream><required>
+  sourcetype: <sourcetype to apply to the incoming raw data><required>
+  parser: <the filename of the parser file (without .py), found in src/parsers directory>
+  rawSchemaFile: <filename of a struct based file> #[optional] - must be in the same directory as inputs.yaml
+  rawSchemaHintsFile: <filename of a hints file> #schema_hints.txt #[optional] - must be in the same directory as inputs.yaml
+  connector: 
+    name: <one of the supported connectors> # [json|kafka|csv|txt] [required]
+    options:
+      multiLine: "True" <spark options relevant to  the connector> # [optional]
+  streamType: <ingest is batch or streaming mode> # [batch|streaming] [required]
+  bronze_table_name: <adhoc analysis - write to a temporary table> # [optional]
+  silver_table_name: <adhoc analysis - write to a temporary table> #defaults to source_sourcetype_silver [optional]
+transforms:
+    bronze:
+      meta:
+        timestamp_column: <column name in the raw data where the event timestamp can be found> # [required]
+        timestamp_regex: <a regex used to parse the event timestamp from raw data - often needed for syslog type feeds> # [optional]
+        timestamp_format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z' <the format of the timestamp identified in timestamp_column or timestamp_regex> # [required]
+        source: <override the source for raw transformations> # [optional]
+        sourcetype: <override the sourcetype for raw transformations # [optional]
+    silver:
+      event_type:
+       - target_table: <a common information model table name - see log_sources/cim_defs> # [required]
+         filter: <a SQL expression passed to expr to filter the correct events to the target table> # [required]
+         fields:
+          - _event_date: <a list of fields to include in the target table, and associated values>
+                <The format is: target_column (in this case _event_date), action to happen(i.e rename), and value to set to. (i.e a source_column)
+                <possible keys for each column are; 'action', 'type' and 'value' where>
+                <action is one of: [add|rename|alias]>
+                <type: is specified only with action:new, and is one of ('literal' or 'expression')>
+                <value:to be given to the target_column. can be a sql expression(type:expression), a literal value(type:literal), or source column name>
+                    <action:rename renames an the source_column specified in 'value' to the target_column name>
+                    <action:alias, creates a new column (target_column) from an existing column (source_column)>
+              action: rename
+              value: _edate
+          

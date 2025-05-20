@@ -1,0 +1,23 @@
+name: okta_system_log_pipeline
+input_table: sirens.okta_system_log_silver
+output_table: sirens.alerts
+dlt_read: false
+streamType: streaming
+rule_dir: system_log
+enabled: true
+filter: _event_date > CURRENT_DATE - 1
+rules:
+  - name: admin_grant_group
+    enabled: true
+  - name: admin_grant_user
+    enabled: true
+  - name: new_mfa_device_added_to_admin_account
+    enabled: true
+  - name: okta_impersonate_api
+    enabled: true
+  - name: signin_policy_modified
+    enabled: true
+  - name: suspicious_activity_reported_by_user
+    enabled: true
+  - name: unlock_token
+    enabled: true

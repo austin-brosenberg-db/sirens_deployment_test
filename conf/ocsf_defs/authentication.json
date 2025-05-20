@@ -1,0 +1,631 @@
+{
+    "name": "authentication",
+    "version": "0.1",
+    "description": "used to describe login activities from any data source",
+    "fields": [
+        {
+            "name": "activity_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The event activity name, as defined by the activity_id.",
+            "example": ""
+        },
+        {
+            "name": "activity_id",
+            "datatype": "integer",
+            "allowed_values": [
+                0, 1, 2, 3, 4, 5, 6, 99
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The normalized identifier of the activity that triggered the event.",
+            "example": ""
+        },
+        {
+            "name": "_event_date",
+            "datatype": "date",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "partition key",
+            "example": ""
+        },
+        {
+            "name": "_event_time",
+            "datatype": "timestamp",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_sourcetype",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "_source",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "dvc_hostname",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": ""
+        },
+        {
+            "name": "actor",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The actor that requested the authentication."
+        },
+        {
+            "name": "auth_protocol",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The authentication protocol as defined by the caption of 'auth_protocol_id'. In the case of 'Other', it is defined by the event source.",
+            "example": ""
+        },
+        {
+            "name": "auth_protocol_id",
+            "datatype": "integer",
+            "allowed_values": [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 99
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The normalized identifier of the authentication protocol used to create the user session.",
+            "example": ""
+        },
+        {
+            "name": "auth_factors",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Describes a category of methods used for identity verification in an authentication attempt.",
+            "example": ""
+        },
+        {
+            "name": "category_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The event category name, as defined by category_uid value: Identity & Access Management.",
+            "example": ""
+        },
+        {
+            "name": "category_uid",
+            "datatype": "integer",
+            "allowed_values": [
+                3
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The category unique identifier of the event.",
+            "example": ""
+        },
+        {
+            "name": "certificate",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The certificate associated with the authentication or pre-authentication (Kerberos).",
+            "example": ""
+        },
+        {
+            "name": "class_name",
+            "datatype": "string",
+            "allowed_values": [
+                "Authentication"
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The event class name, as defined by class_uid value: Authentication.",
+            "example": ""
+        },
+        {
+            "name": "class_uid",
+            "datatype": "integer",
+            "allowed_values": [
+                3002
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique identifier of a class. A class describes the attributes available in an event.",
+            "example": ""
+        },
+        {
+            "name": "is_cleartext",
+            "datatype": "integer",
+            "allowed_values": [
+                0, 1
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Indicates whether the credentials were passed in clear text.",
+            "example": ""
+        },
+        {
+            "name": "cloud",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Describes details about the Cloud environment where the event was originally created or logged.",
+            "example": ""
+        },
+        {
+            "name": "count",
+            "datatype": "integer",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The number of times that events in the same logical group occurred during the event Start Time to End Time period.",
+            "example": ""
+        },
+        {
+            "name": "dst_endpoint",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The endpoint to which the authentication was targeted.",
+            "example": ""
+        },
+        {
+            "name": "duration",
+            "datatype": "timestamp",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The event duration or aggregate time, the amount of time the event covers from start_time to end_time in milliseconds.",
+            "example": ""
+        },
+        {
+            "name": "end_time",
+            "datatype": "timestamp",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The end time of a time period, or the time of the most recent event included in the aggregate event.",
+            "example": ""
+        },
+        {
+            "name": "enrichments",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The additional information from an external data source, which is associated with the event or a finding",
+            "example": ""
+        },
+        {
+            "name": "http_request",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Details about the underlying HTTP request.",
+            "example": ""
+        },
+        {
+            "name": "logon_process",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The trusted process that validated the authentication credentials.",
+            "example": ""
+        },
+        {
+            "name": "logon_type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The logon type, normalized to the caption of the logon_type_id value. In the case of 'Other', it is defined by the event source."
+        },
+        {
+            "name": "logon_type_uid",
+            "datatype": "integer",
+            "allowed_values": [
+                0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 99
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "",
+            "example": "The normalized logon type identifier."
+        },
+        {
+            "name": "message",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The description of the event/finding, as defined by the source.",
+            "example": ""
+        },
+        {
+            "name": "metadata",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The metadata associated with the event or a finding.",
+            "example": ""
+        },
+        {
+            "name": "is_mfa",
+            "datatype": "integer",
+            "allowed_values": [
+                0, 1
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Indicates whether Multi Factor Authentication was used during authentication.",
+            "example": ""
+        },
+        {
+            "name": "is_new_logon",
+            "datatype": "integer",
+            "allowed_values": [
+                0, 1
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Indicates logon is from a device not seen before or a first time account logon.",
+            "example": ""
+        },
+        {
+            "name": "observables",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The observables associated with the event or a finding.",
+            "example": ""
+        },
+        {
+            "name": "raw_data",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The raw event/finding data as received from the source.",
+            "example": ""
+        },
+        {
+            "name": "is_remote",
+            "datatype": "integer",
+            "allowed_values": [
+                0, 1
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The attempted authentication is over a remote connection.",
+            "example": ""
+        },
+        {
+            "name": "service",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The service or gateway to which the user or process is being authenticated",
+            "example": ""
+        },
+        {
+            "name": "session",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The authenticated user or service session.",
+            "example": ""
+        },
+        {
+            "name": "severity",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The event/finding severity, normalized to the caption of the severity_id value. In the case of 'Other', it is defined by the source.",
+            "example": ""
+        },
+        {
+            "name": "severity_id",
+            "datatype": "integer",
+            "allowed_values": [
+                0, 1, 2, 3, 4, 5, 6, 99
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The normalized severity is a measurement the effort and expense required to manage and resolve an event or incident. Smaller numerical values represent lower impact events, and larger numerical values represent higher impact events.",
+            "example": ""
+        },
+        {
+            "name": "src_endpoint",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Details about the source of the IAM activity.",
+            "example": ""
+        },
+        {
+            "name": "status",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The event status, normalized to the caption of the status_id value. In the case of 'Other', it is defined by the event source.",
+            "example": ""
+        },
+        {
+            "name": "status_code",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The event status code, as reported by the event source.",
+            "example": ""
+        },
+        {
+            "name": "status_detail",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The details about the authentication request.",
+            "example": ""
+        },
+        {
+            "name": "status_id",
+            "datatype": "integer",
+            "allowed_values": [
+                0, 1, 2, 99
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The normalized identifier of the event status.",
+            "example": ""
+        },
+        {
+            "name": "timezone_offset",
+            "datatype": "timestamp",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The number of minutes that the reported event time is ahead or behind UTC, in the range -1,080 to +1,080.",
+            "example": ""
+        },
+        {
+            "name": "type_uid",
+            "datatype": "integer",
+            "allowed_values": [
+                300200, 300201, 300202, 300203, 300204, 300205, 300206, 300299
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The event/finding type ID. It identifies the event's semantics and structure.",
+            "example": ""
+        },
+        {
+            "name": "type_name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The event/finding type name, as defined by the type_uid.",
+            "example": ""
+        },
+        {
+            "name": "unmapped",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The attributes that are not mapped to the event schema. The names and values of those attributes are specific to the event source.",
+            "example": ""
+        },
+        {
+            "name": "user",
+            "datatype": "model",
+            "allowed_values": [
+                ""
+            ],
+            "type": "mandatory",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The subject (user/role or account) to authenticate.",
+            "example": ""
+        }
+    ]
+}

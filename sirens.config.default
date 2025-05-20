@@ -1,0 +1,635 @@
+[global]
+input_config_dir = log_sources
+template_dir = templates
+detection_dir = detections
+conf_dir = conf
+hunting_notebooks_dir = notebooks/threat_hunting
+response_notebooks_dir = notebooks/playbooks
+threat_intel_coll_notebooks_dir = notebooks/threat_intelligence/collectors
+threat_intel_ingest_notebooks_dir = notebooks/threat_intelligence/normalize
+logging_level = info
+
+[default]
+target_database = sirens
+scratch_dir = /tmp/sirens
+notebook_language = python
+notebook_type = delta
+
+[schemas]
+bronze = bronze_db
+silver = silver_db
+normalized = normalized_db
+
+[detections]
+deploy_dir = deploy
+
+########################################
+# Deployment Section                   #
+########################################
+
+[deploy]
+deploy_dir = deploy
+groupby = source
+
+########################################
+# Workspace & Clusters Section         #
+########################################
+
+[workspace:default]
+cloud_service_provider = aws
+
+[jobcluster:jobcluster_1]
+default = true
+workspace = default
+min_workers = 2
+max_workers = 6
+
+[jobcluster:threat_intelligence_ingest]
+workspace = default
+min_workers = 1
+max_workers = 2
+
+########################################
+# System Schemas                       #
+########################################
+[schema:threat_intel]
+schema = sirens_intelligence
+intel_table = intelligence
+maxmind_db_location = conf/threat_intelligence/data
+
+[schema:threat_hunt]
+schema = sirens
+index_table = threathunt_index
+results_table = threathunt_results
+
+[schema:risk]
+schema = sirens
+risk_table = risk
+
+########################################
+# Threat Intelligence Collection       #
+########################################
+[threat_intel:intelligence]
+# DO NOT DISABLE IF ANY INTEL COLLECTION IS REQUIRED.
+enabled=true
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 0 ? * * *
+
+[threat_intel:disposable-email-domains]
+enabled = true
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:freemail_disposable-email-domains]
+enabled = true
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:freemail_free-email-domains]
+enabled = true
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:talos_ip_blacklist]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:maltrail-dynamic_domain]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:maltrail-parking_site]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:maltrail-parking_ip]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:maltrail-ipinfo]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:cinscore-ci_badguys]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:blocklist_de_ssh]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:blocklist_de_mail]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:blocklist_de_imap]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:blocklist_de_apache]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:blocklist_de_ftp]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:blocklist_de_sip]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:blocklist_de_bots]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:blocklist_de_ircbot]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:blocklist_de_bruteforcelogin]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:binarydefense]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:dan-me-uk_toe_exit_nodes]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:zerodot-coin_blocker_lists]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:Neo23x0_c2_domains]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:rutgers_attackers]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:Neo23x0_hash_iocs]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:charles-the-haleys_ssh_brute_force]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:danger-rulez_brute_force_ips]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:infobloxopen_threat_intelligence]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:drb-ra_c2_domains]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:drb-ra_c2_ips]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:drb-ra_vpn_ips]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:alienvault_ip_reputation]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:abusech_sslbl]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:magicsword-io_malicious_hash]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:magicsword-io_vulnerable_hash]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:public_suffix_list]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:abusech]
+enabled = true
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:cloud_ranges]
+enabled = true
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:cve]
+enabled = true
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:eset_malware]
+enabled = true
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:itisac]
+enabled = true
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:misp_warnings]
+enabled = true
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:phishtank]
+enabled = true
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:private_intelligence]
+enabled = false
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+[threat_intel:tranco]
+enabled = true
+jobcluster = threat_intelligence_ingest
+schedule = 0 0 7 ? * * *
+
+########################################
+# Threat Hunting Notebooks             #
+########################################
+
+# <name of hunt as defined in hunt->name in conf
+################################################
+
+[threat_hunt:HNT-TA0007-T1087-001-100-LSASS_Memory_Read_Access]
+enabled = false
+schedule = 0 0 01 * * ?
+
+########################################
+#                                      #
+# INPUTs section                       #
+# enable / disable log sources below   #
+#                                      #
+########################################
+
+# Databricks Inputs
+#
+[input:databricks:db_audit]
+enabled = false
+source = databricks
+sourcetype = db_audit
+schedule = 0 0 13 * * ?
+# -----------------------
+#
+# AWS Inputs
+#
+[input:aws:cloudtrail]
+enabled = false
+source = aws
+sourcetype = cloudtrail
+schedule = 0 0 13 * * ?
+
+[input:aws:vpc_flowlogs]
+enabled = false
+source = aws
+sourcetype = vpc_flowlogs
+cluster = ExistingCluster
+schedule = 0 0 13 * * ?
+# -----------------------
+#
+# Access Combined Inputs
+#
+[input:apache:access_combined]
+enabled = false
+sourcetype = access_combined
+source = apache
+schedule = 0 0 13 * * ?
+# -----------------------
+#
+# Azure Inputs
+#
+[input:azure:azure_firewall]
+enabled = false
+source = azure
+sourcetype = azure_firewall
+schedule = 0 0 13 * * ?
+
+[input:azure:azure_nsg_flow_logs]
+enabled = false
+source = azure
+sourcetype = azure_nsg_flow_logs
+schedule = 0 0 15 * * ?
+
+[input:azure:aad_riskyusers]
+enabled = false
+source = azure
+sourcetype = aad_riskyusers
+schedule = 0 0 15 * * ?
+
+[input:azure:aad_userriskevents]
+enabled = false
+source = azure
+sourcetype = aad_userriskevents
+schedule = 0 0 15 * * ?
+
+# -----------------------
+#
+# OKTA Inputs
+#
+[input:okta:system_log]
+enabled = false
+source = okta
+sourcetype = system_log
+schedule = 0 0 13 * * ?
+# -----------------------
+# 
+# Microsoft Sysmon Inputs
+#
+[input:microsoft:sysmon]
+enabled = false
+source = microsoft
+sourcetype = sysmon
+schedule = 0 0 13 * * ?
+# -----------------------
+# 
+# bluecoat Inputs
+#
+[input:bluecoat:proxysg]
+enabled = false
+source = bluecoat
+sourcetype = proxysg
+schedule = 0 0 13 * * ?
+# ---------------------
+# 
+# Corelight Inputs
+# 
+[input:corelight:dce_rpc]
+enabled = false
+source = corelight
+sourcetype = dce_rpc
+schedule = 0 0 13 * * ?
+
+[input:corelight:dhcp]
+enabled = false
+source = corelight
+sourcetype = dhcp
+schedule = 0 0 13 * * ?
+
+[input:corelight:dns]
+enabled = false
+source = corelight
+sourcetype = dns
+schedule = 0 0 13 * * ?
+
+[input:corelight:dpd]
+enabled = false
+source = corelight
+sourcetype = dpd
+schedule = 0 0 13 * * ?
+
+[input:corelight:files]
+enabled = false
+source = corelight
+sourcetype = files
+schedule = 0 0 13 * * ?
+
+[input:corelight:http]
+enabled = false
+source = corelight
+sourcetype = http
+schedule = 0 0 13 * * ?
+
+[input:corelight:kerberos]
+enabled = false
+source = corelight
+sourcetype = kerberos
+schedule = 0 0 13 * * ?
+
+[input:corelight:ntp]
+enabled = false
+source = corelight
+sourcetype = ntp
+schedule = 0 0 13 * * ?
+
+[input:corelight:pe]
+enabled = false
+source = corelight
+sourcetype = pe
+schedule = 0 0 13 * * ?
+
+[input:corelight:radius]
+enabled = false
+source = corelight
+sourcetype = radius
+schedule = 0 0 13 * * ?
+
+[input:corelight:smtp]
+enabled = false
+source = corelight
+sourcetype = smtp
+schedule = 0 0 13 * * ?
+
+[input:corelight:snmp]
+enabled = false
+source = corelight
+sourcetype = snmp
+schedule = 0 0 13 * * ?
+
+[input:corelight:ssh]
+enabled = false
+source = corelight
+sourcetype = ssh
+schedule = 0 0 13 * * ?
+
+[input:corelight:ssl]
+enabled = false
+source = corelight
+sourcetype = ssl
+schedule = 0 0 13 * * ?
+
+[input:corelight:suricata]
+enabled = false
+source = corelight
+sourcetype = suricata
+schedule = 0 0 13 * * ?
+
+[input:corelight:x509]
+enabled = false
+source = corelight
+sourcetype = x509
+schedule = 0 0 13 * * ?
+# -------------------
+#
+# Linux Auditd
+# -------------------
+
+[input:linux:auditd_enriched]
+enabled = false
+source = linux
+sourcetype = auditd_enriched
+schedule = 0 0 13 * * ?
+
+# -------------------
+#
+# ZScaler
+# -------------------
+
+[input:zscaler:audit_logs]
+enabled = false
+source = zscaler
+sourcetype = audit_logs
+schedule = 0 0 13 * * ?
+
+[input:zscaler:user_status]
+enabled = false
+source = zscaler
+sourcetype = user_status
+schedule = 0 0 13 * * ?
+
+[input:zscaler:browser_access]
+enabled = false
+source = zscaler
+sourcetype = browser_access
+schedule = 0 0 13 * * ?
+
+[input:zscaler:app_connector_status]
+enabled = false
+source = zscaler
+sourcetype = app_connector_status
+schedule = 0 0 13 * * ?
+
+[input:akamai:waf_cribl]
+enabled = false
+source = akamai
+sourcetype = waf_cribl
+schedule = 0 0 13 * * ?
+
+[input:correlation:entity]
+enabled = false
+source = correlation
+sourcetype = entity
+schedule = 0 0 13 * * ?
+
+# -----------------------
+#
+# Crowdstrike Inputs
+#
+[input:crowdstrike:falcon]
+enabled = false
+source = crowdstrike
+sourcetype = falcon
+schedule = 0 0 13 * * ?
+
+# -------------------
+#
+# Cisco
+# -------------------
+
+[input:cisco:firepower]
+enabled = false
+source = cisco
+sourcetype = firepower
+schedule = 0 0 13 * * ?
+
+[input:cisco:umbrella_dns]
+enabled = false
+source = cisco
+sourcetype = umbrella_dns
+schedule = 0 0 13 * * ?
+
+[input:cisco:umbrella_admin_audit]
+enabled = false
+source = cisco
+sourcetype = umbrella_admin_audit
+schedule = 0 0 13 * * ?
+
+[input:cisco:ios]
+enabled = false
+source = cisco
+sourcetype = ios
+schedule = 0 0 13 * * ?
+
+[input:cisco:ise]
+enabled = false
+source = cisco
+sourcetype = ise
+schedule = 0 0 13 * * ?
+
+# -----------------------
+#
+# Dell
+# -----------------------
+
+[input:dell:idrac]
+enabled = false
+source = dell
+sourcetype = idrac
+schedule = 0 0 13 * * ?
+
+# -----------------------
+#
+# VMware
+# -----------------------
+
+[input:vmware:esxi]
+enabled = false
+source = vmware
+sourcetype = esxi
+schedule = 0 0 13 * * ?
+
+# -----------------------
+#
+# RHEL8
+# -----------------------
+
+[input:rhel8:rsyslog]
+enabled = false
+source = rhel8
+sourcetype = rsyslog
+schedule = 0 0 13 * * ?
+
+# -----------------------
+#
+#
+# -----------------------

@@ -1,0 +1,12 @@
+test_cases:
+  - name: traffic
+    connector: txt
+    sample: sample.txt
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, log_date, log_source_id, log_time, log_type, value
+        expected_values:
+          - _source: paloalto
+          - _sourcetype: traffic
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, log_date, forwarder_id, log_time, log_source_id, log_type, sub_type, config_version, time_generated, source_ip, dest_ip, nat_source, nat_dest, rule_matched, source_user, dest_user, app, vsys, from_zone, to_zone, inbound_if, outbound_if, log_set, future_use1, session_id, count_of_repeats, source_port, dest_port, nat_source_port, nat_dest_port, flags, protocol, action, bytes_total, bytes_sent, bytes_received, packets_total, session_start_time, total_time_elapsed, url_category, future_use2, sequence_no, action_flags, source_location, dest_location, future_use3, packets_sent, packets_received, session_end_reason, dg_hier_level_1, dg_hier_level_2, dg_hier_level_3, dg_hier_level_4, vsys_name, log_source_name, action_source, source_uuid, dest_uuid, tunnelid_imsi, monitor_tag_imei, parent_session_id, parent_start_time, tunnel, ep_assoc_id, chunks_total, chunks_sent, chunks_received, rule_matched_uuid, http2_connection, link_change_count, policy_id, link_switches, sdwan_cluster, sdwan_device_type, sdwan_cluster_type, sdwan_site, dynusergroup_name, xff_ip, source_device_category, source_device_profile, source_device_model, source_device_vendor, source_device_os_family, source_device_os_version, source_device_host, source_device_mac, dest_device_category, dest_device_profile, dest_device_model, dest_device_vendor, dest_device_os_family, dest_device_os_version, dest_device_host, dest_device_mac, container_id, pod_namespace, pod_name, source_edl, dest_edl, host_id, endpoint_serial_number, source_dynamic_address_group, dest_dynamic_address_group, ha_session_owner, time_generated_high_res, nssai_network_slice_type, nssai_network_slice_differentiator, app_subcategory, app_category, app_tech, app_risk, app_character, app_container, tunneled_app, app_saas, app_sanctioned_state, offloaded, source_ip_type, dest_ip_type

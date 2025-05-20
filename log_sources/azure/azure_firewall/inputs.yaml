@@ -1,0 +1,171 @@
+config:
+  version: 1.1
+  updated: 2025-02-05
+  author: Derek King, Garrett R Peternel
+  description: Azure Firewall Log (https://learn.microsoft.com/en-us/azure/firewall/monitor-firewall#structured-azure-firewall-logs)
+input:
+  source: azure
+  sourcetype: azure_firewall
+  parser: azure_diagnostic
+  rawPath: s3://<path_to_dir>/ # change me [required]
+  connector: 
+    name: autoloader
+    options:
+      cloudFiles.format: json
+      cloudFiles.schemaEvolutionMode: addNewColumns
+      cloudFiles.inferColumnTypes: true
+      cloudFiles.schemaLocation: s3://<path_to_dir>/ # not needed for DLT
+  streamType: streaming
+transforms:
+  bronze:
+    meta:
+      host_column: resourceId
+      host_regex: '.+\/(.*)'
+      host_regex_group: 1
+      timestamp_column: time
+      timestamp_column_type: timestamp
+  silver:
+    event_type:
+      - target_table: network
+        filter: category in ('AZFWApplicationRule', 'AZFWNetworkRule')
+        fields:
+         - _event_date:
+            action: copy
+         - _event_time:
+            action: copy
+         - _source:
+            action: copy
+         - _sourcetype:
+            action: copy
+         - dest:
+            action: alias
+            value: DestinationIp
+         - dest_dvc_id:
+            action: alias
+            value: resourceId
+         - dest_dvc_id_type:
+            action: add
+            type: literal
+            value: AzureResourceId
+         - dest_hostname:
+            action: add
+            type: expression
+            value: coalesce(Fqdn, dvc_hostname)
+         - dest_ip_addr:
+            action: alias
+            value: DestinationIp
+         - dest_port_number:
+            action: alias
+            value: DestinationPort
+         - dvc_action:
+            action: add
+            type: expression
+            value: case when Action == 'Allow' then 'allow' when Action == 'Deny' then 'deny' else 'unknown' end
+         - event_message:
+            action: add
+            type: literal
+            value: Network Traffic
+         - event_result:
+            action: add
+            type: expression
+            value: case when Action == 'Allow' then 'allow' when Action == 'Deny' then 'deny' end
+         - event_schema_file:
+            action: add
+            type: literal
+            value: network_v0.2
+         - event_severity:
+            action: add
+            type: literal
+            value: Informational
+         - event_type:
+            action: add
+            type: literal
+            value: NetworkSession
+         - network_application:
+            action: alias
+            value: DestinationPort
+         - network_protocol:
+            action: alias
+            value: Protocol
+         - src:
+            action: alias
+            value: SourceIp
+         - src_ip_addr:
+            action: alias
+            value: SourceIp
+         - src_port:
+            action: alias
+            value: SourcePort
+      - target_table: dns
+        filter: category == "AZFWDnsQuery"
+        fields:
+         - _event_date:
+            action: copy
+         - _event_time:
+            action: copy
+         - _source:
+            action: copy
+         - _sourcetype:
+            action: copy
+         - dest:
+            action: alias
+            value: dvc_hostname
+         - dest_host_name:
+            action: alias
+            value: dvc_hostname
+         - dns_query:
+            action: alias
+            value: QueryName
+         - dns_query_type:
+            action: add
+            type: literal
+            value: Query
+         - dns_query_type_name:
+            action: alias
+            value: QueryType
+         - dns_response_answers:
+            action: alias
+            value: ResponseFlags
+         - dns_response_code:
+            action: alias
+            value: ResponseCode
+         - dns_request_size:
+            action: alias
+            value: RequestSize
+         - dns_response_size:
+            action: alias
+            value: ResponseSize
+         - dns_response_name:
+            action: alias
+            value: ResponseCode
+         - event_message:
+            action: add
+            type: literal
+            value: dvc_hostname
+         - event_result:
+            action: add
+            type: literal
+            value: Success
+         - event_schema_file:
+            action: add
+            type: literal
+            value: dns_v0.2
+         - event_severity:
+            action: add
+            type: literal
+            value: Informational
+         - event_type:
+            action: alias
+            value: QueryType
+         - network_protocol:
+            action: alias
+            value: Protocol
+         - src:
+            action: alias
+            value: SourceIp
+         - src_ip_addr:
+            action: alias
+            value: SourceIp
+         - src_port:
+            action: alias
+            value: SourcePort

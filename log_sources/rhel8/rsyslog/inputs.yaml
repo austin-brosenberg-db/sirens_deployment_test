@@ -1,0 +1,42 @@
+config:
+  version: 1.0
+  updated: 2025-01-31
+  author: Garrett R Peternel
+  description: Red Hat Enterprise Linux 8 Rsyslog (https://www.redhat.com/en/blog/rsyslog-systemd-journald-linux-logs)
+input:
+  source: rhel8
+  sourcetype: rsyslog
+  parser: generic_text
+  rawPath: s3://<path_to_dir>/ # change me [required]
+  connector:
+    name: autoloader  # json|kafka|csv|txt|autoloader [required]
+    options:
+      cloudFiles.format: text
+  streamType: streaming # batch|streaming [required]
+transforms:
+  bronze:
+    meta:
+      timestamp_column: value
+      timestamp_regex: '(\w{3})\s(\d{1,2})\s(\d{4})\s(\d{1,2}:\d{1,2}:\d{1,2})'
+      timestamp_regex_group: 1
+      host_column: value
+      host_regex: '^\S+\s+\S+\s+\S+\s+\S+\s+(\S+)'
+      host_regex_group: 1
+  silver:
+    meta:
+      source_column_name: value
+      source_column_regex: >
+        ^<(\d+)>(\S+\s+\S+\s+\S+\s+\S+)\s+(\S+)\s+([\w\-\.]+)(?:\[(\d+)\])?:\s*(.*)$
+      mappings:
+        - name: priority_value
+          index: 1
+          type: integer
+        - name: program
+          index: 4
+          type: string
+        - name: pid
+          index: 5
+          type: integer
+        - name: message
+          index: 6
+          type: string

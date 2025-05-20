@@ -1,0 +1,126 @@
+config:
+  version: 1.0
+  updated: 2024-04-10
+  author: Li Yu, Derek King
+  description: Process Zscaler private access logs
+input:
+  source: zscaler
+  sourcetype: private_access
+  parser: zscaler
+  rawPath: s3://rawlog_bucket/zscaler/privateaccess
+  rawSchemaFile: schema.json
+  connector: 
+    name: autoloader
+    options:
+      header: True
+      escape: '"'
+      cloudFiles.format: csv
+  streamType: streaming
+transforms:
+  bronze:
+    meta:
+      timestamp_column: _time
+  silver:
+    event_type:
+      - target_table: web
+        fields:
+        - _event_date:
+            action: rename
+            value: _event_date
+        - _event_time:
+            action: rename
+            value: _event_time
+        - _source:
+            action: rename
+            value: _source
+        - _sourcetype:
+            action: rename
+            value: _sourcetype
+        - dest:
+            action: alias
+            value: ServerIP
+        - dest_bytes:
+            action: alias
+            value: ZENTotalBytesTxClient
+        - dest_hostname:
+            action: alias
+            value: Host  
+        - dest_ip_addr:
+            action: alias
+            value: ServerIP
+        - dest_port_number:
+            action: alias
+            value: ServerPort
+        - dvc_action:
+            action: add
+            type: literal
+            value: allow
+        - event_message:
+            action: add
+            type: expression
+            value: struct(TimestampConnectionStart, TimestampConnectionEnd)
+        - event_result:
+            action: add
+            type: literal
+            value: Success
+        - event_schema_file:
+            action: add
+            type: literal
+            value: network_v0.1
+        - event_severity:
+            action: add 
+            type: literal
+            value: Informational
+        - event_type:
+            action: add
+            type: literal
+            value: Network
+        - event_sub_type:
+            action: add
+            type: expression
+            value: case when ConnectionStatus = "open" then "Start" when ConnectionStatus = "close" then "End" else NULL end
+        - network_application:
+            action: add
+            type: expression
+            value: concat_ws(":", AppGroup, Application)
+        - network_bytes:
+            action: add
+            type: expression
+            value: ZENTotalBytesTxClient + ZENTotalBytesRxClient
+        - network_direction:
+            action: add
+            type: literal
+            value: Inbound
+        - network_duration:
+            action: add
+            type: expression
+            value: CASE WHEN TimestampConnectionEnd is not NULL THEN TimestampConnectionEnd-TimestampConnectionStart END
+        - network_protocol_version:
+            action: alias
+            value: IPProtocol
+        - network_session_id:
+            action: alias
+            value: SessionID
+        - src:
+            action: add
+            type: expression
+            value: concat_ws(",", ClientPrivateIP, ClientPublicIP)
+        - src_bytes:
+            action: alias
+            value: ZENTotalBytesRxClient
+        - src_geo_country:
+            action: alias
+            value: ClientCountryCode
+        - src_geo_lat:
+            action: alias
+            value: ClientLatitude
+        - src_geo_lon:
+            action: alias
+            value: ClientLongitude
+        - src_ip_addr:
+            action: add
+            type: expression
+            value: concat_ws(",", ClientPrivateIP, ClientPublicIP)
+        - uid:
+            action: alias
+            value: SessionID

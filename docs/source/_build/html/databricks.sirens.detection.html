@@ -1,0 +1,601 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="next" title="databricks.sirens.detection.alert package" href="databricks.sirens.detection.alert.html" /><link rel="prev" title="databricks.sirens.connectors package" href="databricks.sirens.connectors.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>databricks.sirens.detection package - Sirens by Databricks</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=46bbebfe" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Sirens by Databricks</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Sirens by Databricks</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#data-ingestion">Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#enrichments">Enrichments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#transformations">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#aggregation-tables">Aggregation Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#global-configuration-files">Global Configuration files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#log-source-configuration">Log Source Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#detections">Detections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#alerts">Alerts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#action-framework">Action Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#threat-hunting-framework">Threat Hunting Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#common-information-model-schemas">Common Information Model Schemas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#functions">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#sirens-cli-reference">Sirens CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#known-limitations">Known Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#faqs">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#developers-guide">Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contributing.html">Contributing</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">databricks</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of databricks</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="databricks.html">databricks package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of databricks package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 current has-children"><a class="reference internal" href="databricks.sirens.html">databricks.sirens package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of databricks.sirens package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.actions.html">databricks.sirens.actions package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.cjp.html">databricks.sirens.cjp package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5 has-children"><a class="reference internal" href="databricks.sirens.cjp.cjlib.html">databricks.sirens.cjp.cjlib package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp.cjlib package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.exceptions.html">databricks.sirens.cjp.cjlib.exceptions package</a></li>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.pollers.html">databricks.sirens.cjp.cjlib.pollers package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.connectors.html">databricks.sirens.connectors package</a></li>
+<li class="toctree-l4 current has-children current-page"><a class="current reference internal" href="#">databricks.sirens.detection package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of databricks.sirens.detection package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.detection.alert.html">databricks.sirens.detection.alert package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.detection.rule.html">databricks.sirens.detection.rule package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.features.html">databricks.sirens.features package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.internal.html">databricks.sirens.internal package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.parsers.html">databricks.sirens.parsers package</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of databricks.sirens.parsers package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.parsers.internal.html">databricks.sirens.parsers.internal package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.udfs.html">databricks.sirens.udfs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.utils.html">databricks.sirens.utils package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.validators.html">databricks.sirens.validators package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="databricks-sirens-detection-package">
+<h1>databricks.sirens.detection package<a class="headerlink" href="#databricks-sirens-detection-package" title="Link to this heading">#</a></h1>
+<section id="subpackages">
+<h2>Subpackages<a class="headerlink" href="#subpackages" title="Link to this heading">#</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="databricks.sirens.detection.alert.html">databricks.sirens.detection.alert package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.detection.alert.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.detection.alert.html#module-databricks.sirens.detection.alert.alert">databricks.sirens.detection.alert.alert module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.detection.alert.html#databricks.sirens.detection.alert.alert.Alert"><code class="docutils literal notranslate"><span class="pre">Alert</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.alert.html#databricks.sirens.detection.alert.alert.Alert.make_alert"><code class="docutils literal notranslate"><span class="pre">Alert.make_alert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.alert.html#databricks.sirens.detection.alert.alert.Alert.send_alert"><code class="docutils literal notranslate"><span class="pre">Alert.send_alert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.alert.html#databricks.sirens.detection.alert.alert.Alert.update_name"><code class="docutils literal notranslate"><span class="pre">Alert.update_name()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.detection.alert.html#module-databricks.sirens.detection.alert.sirens_alert">databricks.sirens.detection.alert.sirens_alert module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.detection.alert.html#databricks.sirens.detection.alert.sirens_alert.Metadata"><code class="docutils literal notranslate"><span class="pre">Metadata</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.alert.html#databricks.sirens.detection.alert.sirens_alert.Metadata.VERSION"><code class="docutils literal notranslate"><span class="pre">Metadata.VERSION</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.detection.alert.html#databricks.sirens.detection.alert.sirens_alert.SirensAlert"><code class="docutils literal notranslate"><span class="pre">SirensAlert</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.alert.html#databricks.sirens.detection.alert.sirens_alert.SirensAlert.make_alert"><code class="docutils literal notranslate"><span class="pre">SirensAlert.make_alert()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.alert.html#databricks.sirens.detection.alert.sirens_alert.SirensAlert.schema_field_set"><code class="docutils literal notranslate"><span class="pre">SirensAlert.schema_field_set</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.detection.alert.html#module-databricks.sirens.detection.alert">Module contents</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="databricks.sirens.detection.rule.html">databricks.sirens.detection.rule package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.detection.rule.html#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.detection.rule.html#module-databricks.sirens.detection.rule.detection_ruleset">databricks.sirens.detection.rule.detection_ruleset module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.add_rules"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.add_rules()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.as_list"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.as_list()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.disable_rule"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.disable_rule()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.dump_yaml"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.dump_yaml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.from_yaml"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.from_yaml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.load_yaml"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.load_yaml()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset.to_yaml"><code class="docutils literal notranslate"><span class="pre">DetectionRuleset.to_yaml()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.detection.rule.html#module-databricks.sirens.detection.rule.rule_entity">databricks.sirens.detection.rule.rule_entity module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.AlertClass"><code class="docutils literal notranslate"><span class="pre">AlertClass</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.AlertClass.ALERT"><code class="docutils literal notranslate"><span class="pre">AlertClass.ALERT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.AlertClass.CORRELATION"><code class="docutils literal notranslate"><span class="pre">AlertClass.CORRELATION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.AlertClass.HEARTBEAT"><code class="docutils literal notranslate"><span class="pre">AlertClass.HEARTBEAT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.AlertClass.INFO"><code class="docutils literal notranslate"><span class="pre">AlertClass.INFO</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.AlertClass.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">AlertClass.UNDEFINED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.EntityType"><code class="docutils literal notranslate"><span class="pre">EntityType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.EntityType.APPLICATION"><code class="docutils literal notranslate"><span class="pre">EntityType.APPLICATION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.EntityType.HOST"><code class="docutils literal notranslate"><span class="pre">EntityType.HOST</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.EntityType.INFRASTRUCTURE"><code class="docutils literal notranslate"><span class="pre">EntityType.INFRASTRUCTURE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.EntityType.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">EntityType.UNDEFINED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.EntityType.USER"><code class="docutils literal notranslate"><span class="pre">EntityType.USER</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.EntityType.USER_GROUP"><code class="docutils literal notranslate"><span class="pre">EntityType.USER_GROUP</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.KillchainStage"><code class="docutils literal notranslate"><span class="pre">KillchainStage</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.KillchainStage.ACTIONS_ON_OBJECTIVES"><code class="docutils literal notranslate"><span class="pre">KillchainStage.ACTIONS_ON_OBJECTIVES</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.KillchainStage.COMMAND_AND_CONTROL"><code class="docutils literal notranslate"><span class="pre">KillchainStage.COMMAND_AND_CONTROL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.KillchainStage.DELIVERY"><code class="docutils literal notranslate"><span class="pre">KillchainStage.DELIVERY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.KillchainStage.EXPLOITATION"><code class="docutils literal notranslate"><span class="pre">KillchainStage.EXPLOITATION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.KillchainStage.INSTALLATION"><code class="docutils literal notranslate"><span class="pre">KillchainStage.INSTALLATION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.KillchainStage.RECONNAISSANCE"><code class="docutils literal notranslate"><span class="pre">KillchainStage.RECONNAISSANCE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.KillchainStage.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">KillchainStage.UNDEFINED</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.KillchainStage.WEAPONIZATION"><code class="docutils literal notranslate"><span class="pre">KillchainStage.WEAPONIZATION</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.COLLECTION"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.COLLECTION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.COMMAND_AND_CONTROL"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.COMMAND_AND_CONTROL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.CREDENTIAL_ACCESS"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.CREDENTIAL_ACCESS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.DEFENSE_EVASION"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.DEFENSE_EVASION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.DISCOVERY"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.DISCOVERY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.EXECUTION"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.EXECUTION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.EXFILTRATION"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.EXFILTRATION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.IMPACT"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.IMPACT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.INITIAL_ACCESS"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.INITIAL_ACCESS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.LATERAL_MOVEMENT"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.LATERAL_MOVEMENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.PERSISTENCE"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.PERSISTENCE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.PRIVILEGE_ESCALATION"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.PRIVILEGE_ESCALATION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.RECONNAISSANCE"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.RECONNAISSANCE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.RESOURCE_DEVELOPMENT"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.RESOURCE_DEVELOPMENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreEnterpriseTactic.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">MitreEnterpriseTactic.UNDEFINED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.COLLECTION"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.COLLECTION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.COMMAND_AND_CONTROL"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.COMMAND_AND_CONTROL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.DISCOVERY"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.DISCOVERY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.EVASION"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.EVASION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.EXECUTION"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.EXECUTION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.IMPACT"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.IMPACT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.IMPAIR_PROCESS_CONTROL"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.IMPAIR_PROCESS_CONTROL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.INHIBIT_RESPONSE_FUNCTION"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.INHIBIT_RESPONSE_FUNCTION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.INITIAL_ACCESS"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.INITIAL_ACCESS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.LATERAL_MOVEMENT"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.LATERAL_MOVEMENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.PERSISTENCE"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.PERSISTENCE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.PRIVILEGE_ESCALATION"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.PRIVILEGE_ESCALATION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreICSTactic.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">MitreICSTactic.UNDEFINED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.COLLECTION"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.COLLECTION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.COMMAND_AND_CONTROL"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.COMMAND_AND_CONTROL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.CREDENTIAL_ACCESS"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.CREDENTIAL_ACCESS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.DEFENSE_EVASION"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.DEFENSE_EVASION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.DISCOVERY"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.DISCOVERY</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.EXECUTION"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.EXECUTION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.EXFILTRATION"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.EXFILTRATION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.IMPACT"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.IMPACT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.INITIAL_ACCESS"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.INITIAL_ACCESS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.LATERAL_MOVEMENT"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.LATERAL_MOVEMENT</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.NETWORK_EFFECTS"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.NETWORK_EFFECTS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.PERSISTENCE"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.PERSISTENCE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.PRIVILEGE_ESCALATION"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.PRIVILEGE_ESCALATION</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.REMOTE_SERVICE_EFFECTS"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.REMOTE_SERVICE_EFFECTS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreMobileTactic.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">MitreMobileTactic.UNDEFINED</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType"><code class="docutils literal notranslate"><span class="pre">MitreTaxonomyType</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType.ENTERPRISE"><code class="docutils literal notranslate"><span class="pre">MitreTaxonomyType.ENTERPRISE</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType.ICS"><code class="docutils literal notranslate"><span class="pre">MitreTaxonomyType.ICS</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.MitreTaxonomyType.MOBILE"><code class="docutils literal notranslate"><span class="pre">MitreTaxonomyType.MOBILE</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.RuleEntity"><code class="docutils literal notranslate"><span class="pre">RuleEntity</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.RuleEntity.convert_mutable"><code class="docutils literal notranslate"><span class="pre">RuleEntity.convert_mutable()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.RuleEntity.convert_struct"><code class="docutils literal notranslate"><span class="pre">RuleEntity.convert_struct()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.RuleEntity.convert_val"><code class="docutils literal notranslate"><span class="pre">RuleEntity.convert_val()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.RuleEntity.get_collect_fields"><code class="docutils literal notranslate"><span class="pre">RuleEntity.get_collect_fields()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.RuleEntity.parse_sevent_sequence"><code class="docutils literal notranslate"><span class="pre">RuleEntity.parse_sevent_sequence()</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.RuleEntity.sequential_filtering"><code class="docutils literal notranslate"><span class="pre">RuleEntity.sequential_filtering()</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l3"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.Serverity"><code class="docutils literal notranslate"><span class="pre">Serverity</span></code></a><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.Serverity.CRITICAL"><code class="docutils literal notranslate"><span class="pre">Serverity.CRITICAL</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.Serverity.HIGH"><code class="docutils literal notranslate"><span class="pre">Serverity.HIGH</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.Serverity.INFO"><code class="docutils literal notranslate"><span class="pre">Serverity.INFO</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.Serverity.LOW"><code class="docutils literal notranslate"><span class="pre">Serverity.LOW</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.Serverity.MEDIUM"><code class="docutils literal notranslate"><span class="pre">Serverity.MEDIUM</span></code></a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.rule_entity.Serverity.UNDEFINED"><code class="docutils literal notranslate"><span class="pre">Serverity.UNDEFINED</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="databricks.sirens.detection.rule.html#module-databricks.sirens.detection.rule">Module contents</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</section>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-databricks.sirens.detection.detector">
+<span id="databricks-sirens-detection-detector-module"></span><h2>databricks.sirens.detection.detector module<a class="headerlink" href="#module-databricks.sirens.detection.detector" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.detection.detector.Detector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.detection.detector.</span></span><span class="sig-name descname"><span class="pre">Detector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detection_rules</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="databricks.sirens.detection.rule.html#databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset" title="databricks.sirens.detection.rule.detection_ruleset.DetectionRuleset"><span class="pre">DetectionRuleset</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">partitionBy</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dedup_on</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">dict</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SparkSession</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.detector.Detector" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">&#64;param: module_name = name of the detection module
+&#64;param: detection_rules = rules for detection
+&#64;param: output_path = alert table path
+&#64;param: output_table = alert table name
+&#64;param: partitionBy = columns to partition by in alert write/writeStream</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.detector.Detector.check_conf">
+<span class="sig-name descname"><span class="pre">check_conf</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">pipeline</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.detection.pipeline.Pipeline" title="databricks.sirens.detection.pipeline.Pipeline"><span class="pre">Pipeline</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#databricks.sirens.detection.detector.Detector.check_conf" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.detector.Detector.detect">
+<span class="sig-name descname"><span class="pre">detect</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.detector.Detector.detect" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.detector.Detector.send_alert">
+<span class="sig-name descname"><span class="pre">send_alert</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">alert</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputMode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'append'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpointLocation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'delta'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processingTime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">continuous</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.detector.Detector.send_alert" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">call alert object to send the alert
+&#64;param: alert_df: the alert dataframe will be updated to the configured alert table</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.detector.Detector.update_name">
+<span class="sig-name descname"><span class="pre">update_name</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.detector.Detector.update_name" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Update the module name if name is specified upon pipeline creation</p>
+</dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.detection.pipeline">
+<span id="databricks-sirens-detection-pipeline-module"></span><h2>databricks.sirens.detection.pipeline module<a class="headerlink" href="#module-databricks.sirens.detection.pipeline" title="Link to this heading">#</a></h2>
+<p class="linemarker linemarker-1">DBDF Pipeline class</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.detection.pipeline.Pipeline">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.detection.pipeline.</span></span><span class="sig-name descname"><span class="pre">Pipeline</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">module_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">df</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">spark</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SparkSession</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heartbeat_table_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ingestTime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'ingestTime'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">outputMode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'append'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">checkpointLocation</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">processingTime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">continuous</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'delta'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">detector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.detection.detector.Detector" title="databricks.sirens.detection.detector.Detector"><span class="pre">Detector</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.pipeline.Pipeline" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<p class="linemarker linemarker-1">DBDF Pipeline class
+&#64;param: module_name = pipeline name
+&#64;param: df = ingest dataframe
+&#64;param: spark = SparkSession for detector operations
+&#64;param: outputMode = mode to output data
+&#64;param: checkpointLocation = optional checkpoint location if output fails before completing
+&#64;param: processingTime = optional trigger argument for outputting data
+&#64;param: continuous = optional trigger argument for outputting data
+&#64;param: format = format to output data
+&#64;param: detector = optional detector object</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.pipeline.Pipeline.add_detector">
+<span class="sig-name descname"><span class="pre">add_detector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">detector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.detection.detector.Detector" title="databricks.sirens.detection.detector.Detector"><span class="pre">Detector</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">None</span></span></span><a class="headerlink" href="#databricks.sirens.detection.pipeline.Pipeline.add_detector" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">update detector name if its left unspecified</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.pipeline.Pipeline.batch_proc">
+<span class="sig-name descname"><span class="pre">batch_proc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cur_batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">_</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.pipeline.Pipeline.batch_proc" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">streaming batch proc</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.pipeline.Pipeline.start">
+<span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.pipeline.Pipeline.start" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.pipeline.Pipeline.start_streaming">
+<span class="sig-name descname"><span class="pre">start_streaming</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.pipeline.Pipeline.start_streaming" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">streaming starting function</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.pipeline.Pipeline.update_heartbeat">
+<span class="sig-name descname"><span class="pre">update_heartbeat</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">cur_batch</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">DataFrame</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">ingestTime</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">heartbeat_table_path</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.pipeline.Pipeline.update_heartbeat" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.detection.pipeline.Pipeline.write_sink">
+<span class="sig-name descname"><span class="pre">write_sink</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">df</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.detection.pipeline.Pipeline.write_sink" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</section>
+<section id="module-databricks.sirens.detection">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-databricks.sirens.detection" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          <a class="next-page" href="databricks.sirens.detection.alert.html">
+              <div class="page-info">
+                <div class="context">
+                  <span>Next</span>
+                </div>
+                <div class="title">databricks.sirens.detection.alert package</div>
+              </div>
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+            </a>
+          <a class="prev-page" href="databricks.sirens.connectors.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">databricks.sirens.connectors package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Derek King
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">databricks.sirens.detection package</a><ul>
+<li><a class="reference internal" href="#subpackages">Subpackages</a></li>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-databricks.sirens.detection.detector">databricks.sirens.detection.detector module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.detector.Detector"><code class="docutils literal notranslate"><span class="pre">Detector</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.detector.Detector.check_conf"><code class="docutils literal notranslate"><span class="pre">Detector.check_conf()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.detector.Detector.detect"><code class="docutils literal notranslate"><span class="pre">Detector.detect()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.detector.Detector.send_alert"><code class="docutils literal notranslate"><span class="pre">Detector.send_alert()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.detector.Detector.update_name"><code class="docutils literal notranslate"><span class="pre">Detector.update_name()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.detection.pipeline">databricks.sirens.detection.pipeline module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.pipeline.Pipeline"><code class="docutils literal notranslate"><span class="pre">Pipeline</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.detection.pipeline.Pipeline.add_detector"><code class="docutils literal notranslate"><span class="pre">Pipeline.add_detector()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.pipeline.Pipeline.batch_proc"><code class="docutils literal notranslate"><span class="pre">Pipeline.batch_proc()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.pipeline.Pipeline.start"><code class="docutils literal notranslate"><span class="pre">Pipeline.start()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.pipeline.Pipeline.start_streaming"><code class="docutils literal notranslate"><span class="pre">Pipeline.start_streaming()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.pipeline.Pipeline.update_heartbeat"><code class="docutils literal notranslate"><span class="pre">Pipeline.update_heartbeat()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.detection.pipeline.Pipeline.write_sink"><code class="docutils literal notranslate"><span class="pre">Pipeline.write_sink()</span></code></a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.detection">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>

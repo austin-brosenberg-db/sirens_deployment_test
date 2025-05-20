@@ -1,0 +1,136 @@
+config:
+  version: 1.1
+  updated: 2025-02-07
+  author: Arun Pamulapati
+  description: Process App Connector Status Logs (https://help.zscaler.com/zpa/about-connector-status-log-fields)
+input:
+  source: zscaler
+  sourcetype: app_connector_status
+  parser: zscaler
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/zscaler/app_connector_status/sample
+  rawSchemaFile: schema.json
+  connector: 
+    name: autoloader
+    options:
+      cloudFiles.format: json
+      cloudFiles.schemaLocation: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/zscaler/app_connector_status/schema/
+  streamType: streaming
+transforms:
+    bronze:
+      meta:
+        timestamp_column: LogTimestamp
+    silver:
+          event_type:
+            - target_table: network
+              name: App Connector Status Log Fields
+              fields:
+                - _event_date:
+                    action: copy
+                - _event_time:
+                    action: copy
+                - _sourcetype:
+                    action: copy
+                - _source:
+                    action: copy
+                - dvc_hostname:
+                    action: copy
+                - event_product:
+                    action: add
+                    type: literal
+                    value: zscaler
+                - event_result:
+                    action: alias
+                    value: SessionStatus
+                - event_schema_file:
+                    action: add
+                    type: literal
+                    value: network
+                - event_type:
+                    action: alias
+                    value: SessionType
+                - event_vendor:
+                    action: add
+                    type: literal
+                    value: zscaler
+                - src:
+                    action: add
+                    value: PublicIP
+                - src_geo_country:
+                    action: alias
+                    value: CountryCode
+                - src_geo_lat:
+                    action: alias
+                    value: Latitude
+                - src_geo_lon:
+                    action: alias
+                    value: Longitude
+                - src_ip_addr:
+                    action: alias
+                    value: PublicIP
+                - customer_name:
+                    action: alias
+                    value: Customer
+                - session_id:
+                    action: alias
+                    value: SessionID
+                - event_status:
+                    action: alias
+                    value: SessionStatus
+                - product_version:
+                    action: alias
+                    value: Version
+                - host:
+                    action: alias
+                    value: ZEN
+                - auth_granted:
+                    action: add
+                    type: expression
+                    value: case when TimestampAuthentication is not NULL then 'True' when TimestampUnAuthentication is not NULL then 'False' else 'unknown' end
+                - bytes_in:
+                    action: alias
+                    value: TotalBytesRx
+                - bytes_out:
+                    action: alias
+                    value: TotalBytesTx
+                - host_platform:
+                    action: alias
+                    value: Platform
+                - total_packets:
+                    action: alias
+                    value: PacketsTxInterface
+                - src_interface_name:
+                    action: alias
+                    value: InterfaceDefRoute
+                - network_session_id:
+                    action: alias
+                    value: SessionID
+                - client_app:
+                    action: alias
+                    value: Connector
+                - app_group:
+                    action: alias
+                    value: ConnectorGroup
+                - cpu_usage:
+                    action: alias
+                    value: CPUUtilization
+                - memory_usage:
+                    action: alias
+                    value: MemUtilization
+                - event_count:
+                    action: alias
+                    value: ServiceCount
+                - interface_in:
+                    action: alias
+                    value: InterfaceDefRoute
+                - dns_ip4:    
+                    action: alias
+                    value: PrimaryDNSResolver
+                - dst_up_time:    
+                    action: alias
+                    value: HostUpTime
+                - src_up_time:    
+                    action: alias
+                    value: ConnectorUpTime
+                - interface:    
+                    action: alias
+                    value: NumOfInterfaces

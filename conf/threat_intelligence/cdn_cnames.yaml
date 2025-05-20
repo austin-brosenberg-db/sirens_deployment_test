@@ -1,0 +1,359 @@
+Advanced Hosters CDN: 
+  - '.pix-cdn.org'
+afxcdn.net: 
+  - .afxcdn.net
+Akamai: 
+  - .akamai.net
+  - .akamaized.net
+  - .akamaized-staging.net
+  - .akamaiedge.net
+  - .akamaiedge-staging.net
+  - .akamaihd.net
+  - .edgesuite.net
+  - .edgesuite-staging.net
+  - .edgekey.net
+  - .edgekey-staging.net
+  - .srip.net
+  - .akamaitechnologies.com
+  - .akamaitechnologies.fr
+Akamai China CDN: 
+  - .tl88.net
+Alibaba:
+  - a.lahuashanbx.com
+  - cdn.gl102.com
+  - .alicdn.com
+  - danuoyi.tbcache.com
+  - gl102.com
+  - kunlundns.com
+  - m.alikunlun.com
+  - m.alikunlun.net
+  - m.cdngslb.com
+  - m.kunlunaq.com
+  - m.kunlunAr.com
+  - m.kunlunCa.com
+  - m.kunlunCan.com
+  - m.kunlunea.com
+  - m.kunlungem.com
+  - m.kunlungr.com
+  - m.kunlunhuf.com
+  - m.kunlunle.com
+  - m.kunlunLi.com
+  - m.kunlunno.com
+  - m.kunlunpi.com
+  - m.kunlunra.com
+  - m.kunlunSa.com
+  - m.kunlunSc.com
+  - m.kunlunsl.com
+  - m.kunlunso.com
+  - m.kunlunTa.com
+  - m.kunlunVi.com
+  - m.kunlunwe.com
+  - mobgslb.tbcache.com
+  - w.alikunlun.com
+  - w.alikunlun.net
+  - w.cdngslb.com
+  - w.kunlunaq.com
+  - w.kunlunAr.com
+  - w.kunlunCa.com
+  - w.kunlunCan.com
+  - w.kunlunea.com
+  - w.kunlungem.com
+  - w.kunlungr.com
+  - w.kunlunhuf.com
+  - w.kunlunle.com
+  - w.kunlunLi.com
+  - w.kunlunno.com
+  - w.kunlunpi.com
+  - w.kunlunra.com
+  - w.kunlunSa.com
+  - w.kunlunSc.com
+  - w.kunlunsl.com
+  - w.kunlunso.com
+  - w.kunlunTa.com
+  - w.kunlunVi.com
+  - w.kunlunwe.com
+  - w.queniucdn.com
+  - w.queniucg.com
+  - w.queniueh.com
+  - w.queniuei.com
+  - w.queniufz.com
+  - w.queniugslb.com
+  - w.queniuhx.com
+  - w.queniujd.com
+  - w.queniujg.com
+  - w.queniunh.com
+  - w.queniunz.com
+  - w.queniurv.com
+  - w.queniuso.com
+  - w.queniusp.com
+  - w.queniusy.com
+  - w.queniutt.com
+  - w.queniuuf.com
+  - w.queniuuq.com
+  - w.queniuyk.com
+Alimama: 
+  - .gslb.tbcache.com
+Amazon CloudFront: 
+  - .cloudfront.net
+ArvanCloud: 
+  - .arvancloud.com
+Aryaka: 
+  - .aads1.net
+  - .aads-cn.net
+  - .aads-cng.net
+AT&T: 
+  - .att-dsa.net
+Automattic: 
+  - .wp.com
+  - .wordpress.com
+  - .gravatar.com
+Azion: 
+  - .azioncdn.net
+  - .azioncdn.com
+  - .azion.net
+  - .azionedge.net
+Baleen: 
+  - .baleen.cshield.net
+BelugaCDN: 
+  - .belugacdn.com
+  - .belugacdn.link
+Bison Grid: 
+  - .bisongrid.net
+BitGravity: 
+  - .bitgravity.com
+Blue Hat Network: 
+  - .bluehatnetwork.com
+BO.LT: 
+  - bo.lt
+BunnyCDN: 
+  - .b-cdn.net
+Cachefly: 
+  - .cachefly.net
+Caspowa: 
+  - .caspowa.com
+Cedexis: 
+  - .cedexis.net
+CDN77: 
+  - .cdn77.net
+  - .cdn77.org
+CDNetworks: 
+  - .cdngc.net
+  - .gccdn.net
+  - .panthercdn.com
+CDNsun: 
+  - .cdnsun.net
+CDNvideo: 
+  - .cdnvideo.ru
+  - .cdnvideo.net
+ChinaCache: 
+  - .ccgslb.com
+ChinaNetCenter: 
+  - .lxdns.com
+  - .wscdns.com
+  - .wscloudcdn.com
+  - .ourwebpic.com
+Cloudflare: 
+  - .cloudflare.com
+  - .cloudflare.net
+Cotendo CDN: 
+  - .cotcdn.net
+cubeCDN: 
+  - .cubecdn.net
+DigitalOcean Spaces CDN: 
+  - .cdn.digitaloceanspaces.com
+Edgecast: 
+  - edgecastcdn.net
+  - .systemcdn.net
+  - .transactcdn.net
+  - .v1cdn.net
+  - .v2cdn.net
+  - .v3cdn.net
+  - .v4cdn.net
+  - .v5cdn.net
+Erstream: 
+  - .ercdn.net
+  - ercdn.com
+Facebook: 
+  - .facebook.com
+  - .facebook.net
+  - .fbcdn.net
+  - .cdninstagram.com
+Fastly: 
+  - .fastly.net
+  - .fastlylb.net
+  - .nocookie.net
+GoCache: 
+  - .cdn.gocache.net
+G-Core CDN: 
+  - .gcdn.co
+Google: 
+  - .googleusercontent.com
+  - googlehosted.com
+  - googletagmanager.com
+  - googleadservices.com
+  - .gstatic.com
+  - .googleapis.com
+  - .doubleclick.net
+HiberniaCDN: 
+  - .hiberniacdn.com
+Highwinds: 
+  - hwcdn.net
+Hosting4CDN: 
+  - .hosting4cdn.com
+HyosungITX: 
+  - .gtmc.hscdn.com
+ImageEngine: 
+  - .imgeng.in
+Incapsula: 
+  - .incapdns.net
+Instart Logic: 
+  - .insnw.net
+  - .inscname.net
+Internap: 
+  - .internapcdn.net
+jsDelivr: 
+  - cdn.jsdelivr.net
+JuraganCDN: 
+  - .b.juragancdn.com
+  - juragancdn.com
+KeyCDN: 
+  - .kxcdn.com
+KINX CDN: 
+  - .kinxcdn.com
+  - .kinxcdn.net
+LeaseWeb CDN: 
+  - .lswcdn.net
+  - .lswcdn.eu
+Level 3: 
+  - .footprint.net
+  - .fpbns.net
+Limelight: 
+  - .llnwd.net
+  - .llnw.net
+  - .llnwi.net
+  - .lldns.net
+MediaCloud: 
+  - .cdncloud.net.au
+Medianova: 
+  - .mncdn.com
+  - .mncdn.net
+  - .mncdn.org
+MerlinCDN: 
+  - .merlincdn.net
+Microsoft Azure: 
+  - .vo.msecnd.net
+  - .azureedge.net
+  - .azurefd.net
+  - .azure.microsoft.com
+  - -msedge.net
+Mirror Image: 
+  - .instacontent.net
+  - .mirror-image.net
+NetDNA: 
+  - .netdna-cdn.com
+  - .netdna-ssl.com
+  - .netdna.com
+Netlify: 
+  - .netlify.com
+Nexcess CDN: 
+  - .nxedge.io
+  - .nexcesscdn.net
+NGENIX: 
+  - .ngenix.net
+NYI FTW: 
+  - .nyiftw.net
+  - .nyiftw.com
+OnApp: 
+  - .r.worldcdn.net
+  - .r.worldssl.net
+Optimal CDN: 
+  - .optimalcdn.com
+PageCDN: 
+  - pagecdn.io
+PageRain: 
+  - .pagerain.net
+Parspack CDN: 
+  - .parspack.net
+Pressable CDN: 
+  - .pressablecdn.com
+PUSHR: 
+  - .pushrcdn.com
+Rackspace: 
+  - .raxcdn.com
+Reapleaf: 
+  - .rlcdn.com
+Reflected Networks: 
+  - .rncdn1.com
+  - .rncdn7.com
+ReSRC.it: 
+  - .resrc.it
+Rev Software: 
+  - .revcn.net
+  - .revdn.net
+Roast.io: 
+  - .roast.io
+Rocket CDN: 
+  - .streamprovider.net
+section.io: 
+  - .section.io
+SFR: 
+  - cdn.sfr.net
+Shift8 CDN: 
+  - .shift8cdn.com
+Simple CDN: 
+  - .simplecdn.net
+Singular CDN: 
+  - .singularcdn.net.br
+Sirv CDN: 
+  - .sirv.com
+StackPath: 
+  - .stackpathdns.com
+SwiftCDN: 
+  - .swiftcdn1.com
+  - .swiftserve.com
+SwiftyCDN: 
+  - .swiftycdn.net
+Taobao: 
+  - .gslb.taobao.com
+  - tbcdn.cn
+  - .taobaocdn.com
+Telenor: 
+  - .cdntel.net
+Tencent: 
+  - .cdn.dnsv1.com
+  - .cdn.dnsv1.com.cn
+  - .dsa.dnsv1.com
+  - .dsa.dnsv1.com.cn
+TRBCDN: 
+  - .trbcdn.net
+Twitter: 
+  - .twimg.com
+UnicornCDN: 
+  - .unicorncdn.net
+Universal CDN: 
+  - .cdn12.com
+  - .cdn13.com
+  - .cdn15.com
+VegaCDN: 
+  - .vegacdn.vn
+  - .vegacdn.com
+Vercel: 
+  - .vercel.com
+  - .zeit.co
+VoxCDN: 
+  - .voxcdn.net
+WP Compress: 
+  - .zapwp.com
+XLabs Security: 
+  - .xlabs.com.br
+  - .armor.zone
+Yahoo: 
+  - .ay1.b.yahoo.com
+  - .yimg.
+  - .yahooapis.com
+  - cdn.vidible.tv
+  - cdn-ssl.vidible.tv
+Yottaa: 
+  - .yottaa.net
+Zenedge: 
+  - .zenedge.net

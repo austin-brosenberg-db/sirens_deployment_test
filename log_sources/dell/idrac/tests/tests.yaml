@@ -1,0 +1,19 @@
+test_cases:
+  - name: dell_idrac
+    connector: txt
+    sample: dell_idrac_sample.txt
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, value
+        expected_values:
+          - _source: 'dell'
+          - _sourcetype: 'idrac'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, priority_value, record_string, severity, category, message_id, message, ip_addr, block_duration, port
+        expected_values:
+          - priority_value: 172
+          - severity: 'Warning'
+          - category: 'Audit'
+          - message_id: 'ABC1234'
+          - ip_addr: '999.65.78.1'
+          - block_duration: 60

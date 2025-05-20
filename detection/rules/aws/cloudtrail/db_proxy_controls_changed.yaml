@@ -1,0 +1,65 @@
+name: db_proxy_controls_changed
+summary: Changed proxy controls in RDS from <userName> at <sourceIPAddress>
+severity: high
+source: cloudtrail
+sourceDetails: 
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <timestamp>
+actor:
+  type: USER
+  domain: userIdentity.accountId
+  id: userIdentity.arn
+  role: 
+  beliefCompromised: 0.5
+target:
+  type: INFRASTRUCTURE
+  domain: recipientAccountId
+  id: 
+  role: 
+  beliefCompromised: 0.5
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: DEFENSE_EVASION
+    techniqueId: T1548
+    technique: Abuse Elevation Control Mechanism
+    subtechniqueId: T1548.002
+    subtechnique: Bypass User Account Control
+observables:
+  ipAddresses:
+  - '[ipAddress]'
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  dBInstanceIdentifier: <requestParameters.dBInstanceIdentifier>
+  recipientAccountId: <recipientAccountId>
+  requestorArn: <userIdentity.arn>
+  securityGroups: <requestParameters.securityGroups>
+filter: |-
+  eventSource = 'rds.amazonaws.com'
+  and requestParameters.securityGroups is not NULL
+  and eventName = 'ModifyDBProxy'
+test_cases:
+- test_name: expected hit
+  expected_result: true
+  expected_summary: Changed proxy controls in RDS from Alice at 1.2.3.4
+  # expected_context: {}
+  test_input:
+    {
+        "eventName": "ModifyDBProxy",
+        "eventSource": "rds.amazonaws.com",
+        "requestParameters": {
+          "securityGroups": "_",
+          "dBInstanceIdentifier": "test-instance"
+        },
+        "recipientAccountId": "123456789012",
+        "timestamp": "2022-01-01 00:00:00",
+        "userIdentity": {
+          "arn": "arn:aws:iam::123456789012:user/Alice"
+        },
+        "userName": "Alice",
+        "sourceIPAddress": "1.2.3.4"
+
+    }

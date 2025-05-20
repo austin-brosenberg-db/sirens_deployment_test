@@ -1,0 +1,29 @@
+{
+    "actor" : {},
+    "authenticationContext" : {},
+    "client" : {},
+    "date" : {
+      "field_in" : "published",
+      "format_in" : "%Y-%m-%dT%H:%M:%S.%fZ",
+      "type_in" : "datetime",
+      "type_out" : "date"
+    },
+    "debugContext": {},
+    "displayMessage" : {},
+    "eventType": {},
+    "legacyEventType" : {},
+    "outcome" : {},
+    "severity" : {},
+    "target" : {},
+    "timestamp" : {
+      "cursor": true,
+      "field_in": "published",
+      "format_in": "%Y-%m-%dT%H:%M:%S.%fZ",
+      "required": true,
+      "type_in": "datetime",
+      "type_out": "datetime"
+    },
+    "transaction": {},
+    "uuid" : { },
+    "version": {}
+  }

@@ -1,0 +1,64 @@
+name: excessive_account_lockouts
+summary: <alternateId> had their account locked out >= <count> times within 1 hour on <oktaURL>
+severity: medium
+source: okta
+sourceDetails: <oktaURL>
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <hour_timestamp>
+actor:
+  type: HOST
+  domain: Public Internet
+  id: <ipAddresses>
+  beliefCompromised: 0.1
+target:
+  type: USER
+  domain: <oktaURL>
+  id: <alternateId>
+  beliefCompromised: 0.1
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: CREDENTIAL_ACCESS
+    techniqueId: T1110
+    technique: Brute Force
+observables:
+  ipAddresses: <ipAddresses>
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  Okta URL: <oktaURL>
+  eventType: <eventType>
+  ipAddresses: <ipAddresses>
+  lockouts: <count>
+  userAgents: <userAgents>
+  who: <alternateId>
+filter: |-
+  count >= 3 AND
+  eventType = "user.account.lock"
+test_cases:
+- test_name: 'expected hit'
+  expected_result: true
+  expected_summary: 'first.last@example.com had their account locked out >= 3 times within 1 hour on okta.example.com'
+  expected_severity: medium
+  expected_context: 
+    {
+      "Okta URL": "okta.example.com",
+      "eventType": "user.account.lock",
+      "ipAddresses": "[1.2.3.4, 4.5.6.7]",
+      "lockouts": "3",
+      "userAgents": "[chrome, oktaVerify]",
+      "who": "first.last@example.com"
+    }
+  test_input:
+    {
+      'oktaURL': 'okta.example.com',
+      'alternateId': 'first.last@example.com',
+      'eventType': 'user.account.lock',
+      'apps': ["app1", "app2"],
+      'count': 3,
+      'ipAddresses': ["1.2.3.4","4.5.6.7"],
+      'userAgents': ["chrome","oktaVerify"],
+      'hour_timestamp': "2022-01-01 00:00:00"
+    }

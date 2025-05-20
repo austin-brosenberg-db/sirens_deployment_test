@@ -1,0 +1,172 @@
+config:
+  version: 1.0
+  updated: 2022-08-26
+  author: Derek King
+  description: AWS VPC Flowlogs from S3.
+input:
+  source: aws
+  sourcetype: vpc_flowlogs
+  parser: aws_vpc_flowlogs
+  host_rawpath_segment: 4
+  rawPath: s3://sfe-log-data/vpc-flow-logs/sfe-workspace-vpc/AWSLogs/aws-account-id=755921336062/aws-service=vpcflowlogs/aws-region=us-west-2/year=2022/month=12/day=01
+  # rawSchemaFile: schema.json # only needed for non-autoloader sources
+  connector:
+    name: autoloader       # <txt|csv|json|kafka|autoloader|parquet>
+    options:
+      cloudFiles.format: parquet
+      cloudFiles.schemaLocation: dbfs:/FileStore/sirens_dev/schemas/aws_aws_flowlogs # not needed for DLT
+      modifiedAfter: '2022-06-30 00:00:00.000000 UTC+0'
+  streamType: streaming
+transforms:
+  bronze:
+    meta:
+      timestamp_column: start
+      timestamp_column_type: long_seconds  # data in unixtime
+    table_config:
+      partition_cols:
+        - _event_date
+      zorder_cols:
+        - start
+        - srcaddr
+      optimize_write: true
+      auto_compact: true
+  silver:
+    event_type:
+      - target_table: network
+        filter: action == "ACCEPT" OR action == "REJECT"
+        fields:
+        - event_message:
+            action: add
+            type: literal
+            value: success
+        - event_message_result:
+            action: add
+            type: literal
+            value: success
+        - event_schema_version:
+            action: add
+            type: literal
+            value: 1.0
+        - event_schema_file:
+            action: add
+            type: literal
+            value: network
+        - event_type:
+            action: add
+            type: literal
+            value: network_session
+        - event_result:
+            action: add
+            type: expression
+            value: case when (log_status == "OK") then "success" else "failure" end
+        - dvc_action:
+            action: add
+            type: expression
+            value: case when (action == "REJECT") then "deny" when (action == "ACCEPT") then "allow" else "unknown" end
+        - _sourcetype:
+            action: copy
+        - _event_date:
+            action: copy
+        - _event_time:
+            action: copy
+        - network_duration:
+            action: add
+            type: expression
+            value: (end - start)*1000
+        - network_protocol:
+            action: alias
+            value: protocol
+        - network_bytes:
+            action: alias
+            value: bytes
+        - total_packets:
+            action: alias
+            value: packets
+        - network_session_id:
+            action: add
+            type: expression
+            value: concat(srcaddr, '_', srcport, '_', dstaddr, '_', dstport)
+        - dest_ip_addr:
+            action: alias
+            value: dstaddr
+        - dest_port_number:
+            action: alias
+            value: dstport
+        - network_application:
+            action: alias
+            value: protocol
+        - network_protocol_version:
+            action: add
+            type: literal
+            value: unknown
+        - network_direction:
+            action: add
+            type: literal
+            value: unknown
+        - dest_bytes:
+            action: add
+            type: literal
+            value: unknown
+        - src_bytes:
+            action: add
+            type: literal
+            value: unknown
+        - dest_packets:
+            action: add
+            type: literal
+            value: unknown
+        - src_packets:
+            action: add
+            type: literal
+            value: unknown
+        - dest_hostname:
+            action: add
+            type: literal
+            value: unknown
+        - dest_domain:
+            action: add
+            type: literal
+            value: unknown
+        - dest_dvc_id:
+            action: add
+            type: literal
+            value: unknown
+        - dest_dvc_id_type:
+            action: add
+            type: literal
+            value: unknown
+        - dest_zone:
+            action: add
+            type: literal
+            value: unknown
+        - dest_interface_name:
+            action: add
+            type: literal
+            value: unknown
+        - dest_interface_guid:
+            action: alias
+            value: interface_id
+        - dest_mac_address:
+            action: add
+            type: literal
+            value: unknown
+        - dest_vlan_id:
+            action: add
+            type: literal
+            value: unknown
+        - src_interface_guid:
+            action: alias
+            value: interface_id
+        - outer_vlan_id:
+            action: add
+            type: literal
+            value: unknown
+        - src:
+            action: alias
+            value: srcaddr
+        - dest:
+            action: alias
+            value: dstaddr
+        - aws_account_id:
+            action: alias
+            value: account_id

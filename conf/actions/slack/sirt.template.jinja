@@ -1,0 +1,23 @@
+[
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "{{body.name}}"
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": "*Severity:* `{{body.severity}}`\n*Secfood Workspace Region:* `{{body.region}}`\n*Source:* `{{body.source}}`\n*Alert Received At:* `{{body.alertedTime}}`\n*Unique Key:* `{{body.uuid}}`"
+			}
+		},
+		{
+			"type": "section",
+			"text": {
+				"type": "mrkdwn",
+				"text": '*Context:*\n ```{{context}}```'
+			}
+		}
+]

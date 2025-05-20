@@ -1,0 +1,10 @@
+name: correlation_by_entity
+input_table: sirens.clustering_by_entity
+output_table: sirens.alerts
+enabled: true
+dlt_read: true
+streamType: batch
+interval: 5 MINUTES
+rules:
+  - name: test
+    enabled: true

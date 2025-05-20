@@ -1,0 +1,97 @@
+config:
+  version: 1.0
+  updated: 2022-10-24
+  author: derek.king@databricks.com
+  description: process zeek http_log from json format
+input:
+  source: zeek
+  sourcetype: http_json
+  parser: zeek
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/zeek/http_json/
+  host: syslog_host_1
+  connector:
+    name: json
+    options:
+  streamType: batch
+transforms:
+    bronze:
+      meta:
+        timestamp_column: ts
+        timestamp_column_type: timestamp
+        host: id_orig_h
+    silver:
+      event_type:
+       - target_table: web
+         filter: _sourcetype = "http_json" and _source = "zeek"
+         fields:
+          - _event_date:
+              action: copy
+          - _event_time:
+              action: copy
+          - event_type:
+              action: add
+              type: literal
+              value: HTTPSession
+          - event_message:
+              action: add
+              type: expression
+              value: case when method == 'GET' then 'HTTPRequest' when 'method' == 'POST' then 'HTTPPost' else 'unknown' end
+          - event_result:
+              action: add
+              type: expression
+              value: case when status_code == 200 then 'Success' else 'Failure' end
+          - event_schema_file:
+              action: add
+              type: literal
+              value: http_v1.0
+          - event_severity:
+              action: add
+              type: literal
+              value: Informational
+          - dest_host:
+              action: alias
+              value: host
+          - dest:
+              action: alias
+              value: host
+          - src:
+              action: alias
+              value: id_orig_h
+          - src_ip:
+              action: alias
+              value: id_orig_h
+          - src_port:
+              action: alias
+              value: id_orig_p
+          - dest_ip:
+              action: alias
+              value: id_resp_h
+          - dest_port:
+              action: alias
+              value: id_resp_p
+          - http_request_method:
+              action: alias
+              value: method
+          - http_request_length:
+              action: alias
+              value: request_body_len
+          - http_content_type:
+              action: alias
+              value: resp_mime_types
+          - http_response_length:
+              action: alias
+              value: response_body_len
+          - http_status_code:
+              action: alias
+              value: status_code
+          - http_version:
+              action: alias
+              value: version
+          - uid:
+              action: copy
+          - url:
+              action: alias
+              value: uri
+
+
+

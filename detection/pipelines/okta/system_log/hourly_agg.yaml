@@ -1,0 +1,14 @@
+name: okta_system_log_hourly_agg_pipeline
+input_table: sirens.okta_system_log_hourly_agg
+output_table: sirens.alerts
+rule_dir: system_log/hourly_agg
+enabled: true
+dlt_read: true
+depends_on:
+  - hourly_agg_preprocessing
+streamType: batch
+interval: 1 hour
+filter: _event_date > CURRENT_DATE - 1
+rules:
+  - name: excessive_account_lockouts
+    enabled: true

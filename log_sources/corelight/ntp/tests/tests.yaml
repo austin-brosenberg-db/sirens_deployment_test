@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_ntp
+    connector: json
+    sample: ntp_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_ntp'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype,dvc_hostname, poll, root_delay, id.resp_h, precision, _write_ts, id.orig_h, ts, org_time, rec_time, xmt_time, id.orig_p, _path, version, root_disp, ref_time, id.resp_p, stratum,num_exts, uid, mode, _system_name, ref_id
+        expected_values:
+          - root_delay: '0.0272216796875'
+          - poll: '131072.0'
+          - version: '3'

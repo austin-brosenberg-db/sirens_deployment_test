@@ -1,0 +1,136 @@
+config:
+  version: 1.0
+  updated: 2024-10-04
+  author: Li Yu, Derek King
+  description: Process Zscaler webproxy logs
+input:
+  source: zscaler
+  sourcetype: webproxy
+  parser: zscaler
+  rawPath: s3://rawlog_bucket/zscaler/webproxy/raw
+  rawSchemaFile: schema.json
+  connector: 
+    name: autoloader
+    options:
+      header: True
+      escape: '"'
+      cloudFiles.format: csv
+  streamType: streaming
+transforms:
+  bronze:
+    meta:
+      timestamp_column: _time
+  silver:
+    event_type:
+      - target_table: web
+        fields:
+        - _event_date:
+            action: rename
+            value: _event_date
+        - _event_time:
+            action: rename
+            value: _event_time
+        - _source:
+            action: rename
+            value: _source
+        - _sourcetype:
+            action: rename
+            value: _sourcetype
+        - actor_user_name:
+            action: alias
+            value: user
+        - dest:
+            action: alias
+            value: hostname
+        - dest_host:
+            action: alias
+            value: hostname
+        - dest_ip_address:
+            action: alias
+            value: serverip  
+        - event_message:
+            action: add
+            type: literal
+            value: HTTP Request
+        - event_result:
+            action: add
+            type: expression
+            value: case when status <= 399 then "Success" else "Failure" end
+        - event_schema_file:
+            action: add
+            type: literal
+            value: web_v0.1.2
+        - event_severity:
+            action: add 
+            type: literal
+            value: Informational
+        - event_type:
+            action: add
+            type: literal
+            value: HTTP Session
+        - file_content_type:
+            action: alias
+            value: filetype
+        - file_name:
+            action: alias
+            value: filename
+        - http_content_type:
+            action: alias
+            value: contenttype
+        - http_referrer:
+            action: alias
+            value: refererURL
+        - http_request_length:
+            action: alias
+            value: requestsize
+        - http_request_method:
+            action: alias
+            value: requestmethod
+        - http_response_length:
+            action: alias
+            value: responsesize
+        - http_response_time:
+            action: alias
+            value: servertranstime
+        - http_status_code:
+            action: alias
+            value: status
+        - http_user_agent:
+            action: alias
+            value: useragent
+        - http_version:
+            action: alias
+            value: protocol
+        - src:
+            action: add
+            type: expression
+            value: concat_ws(",", ClientIP, clientpublicIP)
+        - src_ip_addr:
+            action: add
+            type: expression
+            value: concat_ws(",", ClientIP, clientpublicIP)
+        - threat_category:
+            action: alias
+            value: threatcategory
+        - threat_name:
+            action: alias
+            value: threatname
+        - threat_risk_level:
+            action: alias
+            value: threatclass
+        - uid:
+            action: alias
+            value: event_id
+        - url:
+            action: alias
+            value: url
+        - url_category:
+            action: add
+            type: expression
+            value: concat_ws(":", urlsupercategory, urlcategory)
+        - user:
+            action: alias
+            value: user
+        - user_agent:
+            action: alias
+            value: useragent

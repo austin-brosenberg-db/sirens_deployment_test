@@ -1,0 +1,142 @@
+config:
+  version: 1.0
+  updated: 2023-02-13
+  author: Derek King
+  description: Corelight Logs
+input:
+  source: corelight
+  sourcetype: json_streaming_http
+  parser: corelight
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/corelight_json/json_streaming_http.log
+  connector:
+    name: json
+    options:
+  streamType: batch
+transforms:
+  bronze:
+    sourcetype: corelight_http
+    meta:
+      timestamp_column: "entries.ts"
+      timestamp_column_type: timestamp
+      host_column: "entries._system_name"
+  silver:
+    event_type:
+      - target_table: corelight_http
+        filter: _sourcetype = "corelight_http"
+        fields:
+        - event_type:
+            action: add
+            type: literal
+            value: HTTP Session
+        - event_message:
+            action: alias
+            value: status_msg
+        - event_result:
+            action: add
+            type: expression
+            value: case when status_code between 100 AND 399 then "Success" else "Failure" end 
+        - event_schema_file:
+            action: add
+            type: literal
+            value: web
+        - event_severity:
+            action: add
+            type: literal
+            value: Informational
+        - dest:
+            action: alias
+            value: host
+        - dest_ip_addr:
+            action: alias
+            value: '`id.resp_h`'
+        - dest_port:
+            action: alias
+            value: '`id.resp_p`'
+        - file_content_type:
+            action: add
+            type: literal
+            value:  None
+        - file_hash_md5:
+            action: add
+            type: literal
+            value: None
+        - file_hash_sha256:
+            action: add
+            type: literal
+            value: None
+        - file_hash_type:
+            action: add
+            type: literal
+            value: None
+        - file_name:
+            action: add
+            type: expression
+            value: regexp_extract(orig_filenames, '\\\[\"(\\\w+)\"')
+        - file_size:
+            action: add
+            type: literal
+            value: None
+        - hash:
+            action: add
+            type: literal
+            value: None
+        - http_content_type:
+            action: add
+            type: literal
+            value: None
+        - http_referrer:
+            action: alias
+            value: referrer
+        - http_request_length:
+            action: alias
+            value: request_body_len
+        - http_request_method:
+            action: alias
+            value: method
+        - http_response_length:
+            action: alias
+            value: response_body_len
+        - http_status_code:
+            action: alias
+            value: status_code
+        - http_user_agent:
+            action: alias
+            value: user_agent
+        - http_version:
+            action: alias
+            value: version
+        - src:
+            action: alias
+            value: '`id.orig_h`'
+        - src_ip_addr:
+            action: alias
+            value: '`id.orig_h`'
+        - src_port:
+            action: alias
+            value: '`id.orig_p`'
+        - threat_category:
+            action: add
+            type: literal
+            value: None
+        - threat_id:
+            action: add
+            type: literal
+            value: None
+        - threat_name:
+            action: add
+            type: literal
+            value: None
+        - threat_risk_level:
+            action: add
+            type: literal
+            value: None
+        - uid:
+            action: copy
+        - url:
+            action: add
+            type: expression
+            value: concat(host, uri)
+        - url_category:
+            action: add
+            type: literal
+            value: None

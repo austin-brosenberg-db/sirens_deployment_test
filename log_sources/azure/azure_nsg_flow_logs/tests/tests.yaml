@@ -1,0 +1,39 @@
+test_cases:
+  - name: azure_nsg_flow_logs
+    connector: txt
+    sample: nsg_flow_log_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, category, operationName, record, resourceId, time
+        expected_values:
+          - _source: 'azure'
+          - _sourcetype: 'azure_nsg_flow_logs'
+          - dvc_hostname: 'DB-NSG'
+          - _event_date: '2024-08-30'
+      silver:
+        expected_columns: _event_time, _event_date, _ingest_time, _source, _sourcetype, dvc_hostname, _source_file, category, mac_address, operation_name, system_id, time, version, rule, src_ip, dest_ip, src_port, dest_port, proto, tf_flow, tf_decision, flow_state, packets_sent, bytes_sent, packets_received, bytes_received, flow_ts, resource_id
+        expected_values:
+          - _source: 'azure'
+          - _sourcetype: 'azure_nsg_flow_logs'
+          - dvc_hostname: 'DB-NSG'
+          - _event_date: '2024-08-30'
+          - category: 'NetworkSecurityGroupFlowEvent'
+          - mac_address: '6045BD8BF460'
+          - version: 2
+          - rule: 'DefaultRule_AllowInternetOutBound'
+          - src_ip: '10.1.8.16'
+          - dest_ip: '13.107.246.67'
+          - src_port: 32916
+          - dest_port: 443
+          - tf_decision: 'Allowed'
+          - tf_flow: 'Outbound'
+      normalized:
+        network:
+          expected_columns: _event_date, _event_time, _source, _sourcetype, dest_bytes, dest_ip, dest_port, dest_user_name, dst, dvc_hostname, event_message, event_original_result, event_product, event_result, event_schema_file, event_severity, event_sub_type, event_type, event_vendor, http_content_format, http_content_type, http_referrer, http_request_method, http_status_code, http_user_agent, network_application, network_bytes, network_duration, network_session_id, src_bytes, src_ip, threat_id, threat_name, url, url_category
+          expected_values:
+            - _source: 'azure'
+            - _sourcetype: 'azure_nsg_flow_logs'
+            - dvc_hostname: 'DB-NSG'
+            - dvc_action: 'allow'
+            - event_result: 'Allowed'
+

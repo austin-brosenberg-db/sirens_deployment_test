@@ -1,0 +1,57 @@
+FieldName,Data Type,Type,Description,Allowed Values,Example
+_event_date,date,mandatory,The date of the original event,,2022-11-28
+_event_time,timestamp,mandatory,The timestamp of the original event,,
+_source,string,mandatory,The source of the data ingested,,"aws, checkpoint"
+_sourcetype,string,mandatory,The sourcetype of data ingested,,"cloud_trail, opsec_lea"
+acting_process_command_line,string,optional,The command line of the acting process,,evil-winrm -i 192.168.1.100
+acting_process_file_company,string,optional,The company that created the process image file,,Microsoft Corporation
+acting_process_file_description,string,optional,The description embedded in the version of the process image file,,Microsoft Word
+acting_process_file_product,string,optional,The product embedded in the process image file,,Microsoft Office
+acting_process_file_version,string,optional,The file version embedded in the process image file,,16.1.2.0
+acting_process_guid,string,optional,A unique identifier of the acting process,,
+acting_process_hash_md5,string,optional,The MD5 hash of the acting process image file,,
+acting_process_hash_sha256,string,optional,The SHA256 hash of the acting process image file,,
+acting_process_integrity_level,string,optional,The process integrity level,,"low, medium, high, system"
+acting_process_name,string,optional,The name of the acting process,,c:\Windows\explorer.exe
+acting_process_pid,bigint,optional,The process id od the acting process,,34565
+acting_process_token_elevation,string,optional,The token indicating the presence or absense of User Access Control (UAC) privilege elevation applied to the acting process,,None
+actor_original_user_type,string,optional,The original account type in privilege escalation events if provided,,"Regular, Machine, Admin, System, Application, Service Principal, and Other"
+actor_user_id,string,optional,A unique id for the actor_user_name,,S-1-5-18
+actor_user_name,string,mandatory,The actor username including domain when available,,contoso\mallory.park
+actor_user_type,string,optional,The type of account for the actor_user_name,,"Regular, Machine, Admin, System, Application, Service Principal, and Other"
+dest,string,recommended,alias from dest_hostname,,
+dest_hostname,string,recommended,The hostname for target_process_name. src_hostname if local,,
+dvc_hostname,string,mandatory,The device sending the data,,"fw-1, proxy-sg-1"
+event_message,string,recommended,Details of the event either from the record or generated,,
+event_result,string,recommended,The result of the event reported. Normalised to one of the examples,"Success, Failure",
+event_schema_file,string,optional,The version of CIM model used to create this dataset. Literal string assigned by the data engineer,,process_v0.1
+event_severity,string,recommended,"The severity of the event, normalized to one of example","Low, Medium, High, Informational",
+event_type,string,recommended,Describes the operation reported by the event,"Process Created, Process Terminated","Process Created, Process Terminated"
+hash,string,optional,alias from best available hash,,
+hash_type,string,optional,The type of hash stored in hash field,,
+parent_process_guid,string,optional,A unique identifier of the parent process,,
+parent_process_hash_md5,string,optional,The MD5 hash of the parent process image file,,
+parent_process_hash_sha256,string,optional,The SHA256 hash of the parent process image file,,
+parent_process_id,bigint,optional,The process id of the parent process,,34534
+parent_process_name,string,optional,The name including file path of the parent process,,C:\Windows\explorer.exe
+process,string,recommended,alias from target_process_name,,
+src,string,recommended,alias from src_hostname,,
+src_hostname,string,recommended,The hostname of the device executing process,,
+target_process_command_line,string,optional,The command line of the target process,,
+target_process_guid,string,optional,The globally unique id of the target process,,
+target_process_hash_md5,string,optional,The MD5 hash of the target process image file,,
+target_process_hash_sha256,string,optional,The SHA256 hash of the target process image file,,
+target_process_id,bigint,optional,The process id of the target process,,
+target_process_name,string,optional,The name of the target process,,c:\Windows\explorer.exe
+target_user_id,string,optional,The unique id for for the target_user_name,,S-1-12
+target_user_name,string,optional,The target username including domain if available,,contoso\mallory
+target_user_type,string,optional,"The type of username in target_user_name. UPN is either UPN or email, Windows = contoso\mallory, DN=LDAP format, Simple=mallorypark, AWSId=56765654368","UPN, Windows, DN,Simple, AWSId",
+src_geo_region,string,optional,Region,,England
+src_hostname,string,recommended,The source device name,,MALLORY-PC
+src_interface_guid,string,optional,The GUID of the network interface used on the device,,46ad544b-eaf0-47ef-827c-266030f545a6
+src_interface_name,string,optional,The network interface used for the connection by the source device,,eth01
+src_ip_addr,string,optional,The source IP address,,10.10.10.10
+src_mac_address,string,optional,The MAC address of the network interface used for the connection or session by the source device.,,06:10:9f:eb:8f:14
+src_packets,long,optional,number of packets sent from source to destination,,
+src_vlan_id,string,optional,The VLAN id related to the source device,,110
+total_packets,long,optional,total packets sent between source and destination,,

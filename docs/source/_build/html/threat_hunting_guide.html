@@ -1,0 +1,1572 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>Threat Hunting - Sirens by Databricks</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=46bbebfe" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Sirens by Databricks</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Sirens by Databricks</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#data-ingestion">Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#enrichments">Enrichments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#transformations">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#aggregation-tables">Aggregation Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#global-configuration-files">Global Configuration files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#log-source-configuration">Log Source Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#detections">Detections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#alerts">Alerts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#action-framework">Action Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#threat-hunting-framework">Threat Hunting Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#common-information-model-schemas">Common Information Model Schemas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#functions">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#sirens-cli-reference">Sirens CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#known-limitations">Known Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#faqs">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#developers-guide">Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contributing.html">Contributing</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="modules.html">databricks</a><input class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of databricks</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l2 has-children"><a class="reference internal" href="databricks.html">databricks package</a><input class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of databricks package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l3 has-children"><a class="reference internal" href="databricks.sirens.html">databricks.sirens package</a><input class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of databricks.sirens package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.actions.html">databricks.sirens.actions package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.cjp.html">databricks.sirens.cjp package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5 has-children"><a class="reference internal" href="databricks.sirens.cjp.cjlib.html">databricks.sirens.cjp.cjlib package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp.cjlib package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.exceptions.html">databricks.sirens.cjp.cjlib.exceptions package</a></li>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.pollers.html">databricks.sirens.cjp.cjlib.pollers package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.connectors.html">databricks.sirens.connectors package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.detection.html">databricks.sirens.detection package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of databricks.sirens.detection package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.detection.alert.html">databricks.sirens.detection.alert package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.detection.rule.html">databricks.sirens.detection.rule package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.features.html">databricks.sirens.features package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.internal.html">databricks.sirens.internal package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.parsers.html">databricks.sirens.parsers package</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of databricks.sirens.parsers package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.parsers.internal.html">databricks.sirens.parsers.internal package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.udfs.html">databricks.sirens.udfs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.utils.html">databricks.sirens.utils package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.validators.html">databricks.sirens.validators package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="threat-hunting">
+<h1>Threat Hunting<a class="headerlink" href="#threat-hunting" title="Link to this heading">#</a></h1>
+<section id="threat-hunting-lifecycle-management">
+<h2>Threat Hunting Lifecycle Management.<a class="headerlink" href="#threat-hunting-lifecycle-management" title="Link to this heading">#</a></h2>
+<p class="linemarker linemarker-7">This sections describes how the threat hunting library is used in
+Sirens. It also includes examples that introduces the lifecycle
+management and functions for creating, capturing, and triaging scheduled
+and ad-hoc threat hunting activities.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<section id="what-is-the-threat-hunt-lifecycle-in-sirens">
+<h3>What is the Threat Hunt Lifecycle in Sirens?<a class="headerlink" href="#what-is-the-threat-hunt-lifecycle-in-sirens" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-17">The threat hunt library is used to manage the end-to-end workflow for
+threat hunting using sirens. It has the following components;</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="linemarker linemarker-22"><strong>Tracking:</strong> Allows you to execute scheduled hunts, and record any
+results for further analysis and tracking over time.</p>
+<p class="linemarker linemarker-25"><strong>Hunt Commands:</strong> Allows you retrieve executed hunts and manage the
+triage workflows, using annotations, marking, filtering, and risk
+scoring.</p>
+<p class="linemarker linemarker-29"><strong>Hunt Library:</strong> Allows you to configure, and package combinations of
+individual notebooks into a hunt that can be scheduled to execute. A
+hunt may be targeted at specific campaigns, actors, tactics or
+techniques, or used as simple hypotheses based hunting to create
+accurate detections.</p>
+<p class="linemarker linemarker-35"><strong>Hunt Samples:</strong> Databricks contributed notebooks and sample hunts to
+be used as inspiration and jump off points for organisational threat
+hunting activities.</p>
+<p class="linemarker linemarker-39"><strong>Risk Framework:</strong> Automatically annotate any captured results with
+with a generated risk score during scheduled execution, or add a risk
+score ad-hoc when later triaging a scheduled hunt.</p>
+<p class="linemarker linemarker-43"><strong>Hunt Workflow Tracking:</strong> Track the status of executed hunts by
+including workflow details. Assign to users, update priority, status &amp;
+severity of a hunt.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="hunt-tracking">
+<h3>Hunt Tracking<a class="headerlink" href="#hunt-tracking" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-52">Threat hunting is a speculative and iterative process, that at a very
+high level defines a hypothesis, followed by a set of search conditions
+to actively search an environment for a condition or set of conditions
+that may or may not exist. Once defined, the hunt should be ran
+regularly and tracked overtime for changes. Any significant indicators
+should be raised to an analyst and investigated appropriately.</p>
+<p class="linemarker linemarker-59">In Sirens you can track the output of all the individual search commands
+executed in a notebook, and across multiple notebooks within a defined
+hunt to keep track of hunt campaigns.</p>
+<p class="linemarker linemarker-63">Sirens threat hunt framework uses a context manager, and decorators to
+log and track your notebook activity and results. During notebook
+development you can choose which commands to capture and track as part
+of the hunt results. Sirens will capture the results dataframe and log
+the elapsed time for the cell execution to track performance metrics.</p>
+<p class="linemarker linemarker-69">The following code shows the basic flow to start, capture and complete a
+threat hunt within a notebook.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">databricks.sirens.threathunting</span> <span class="k">as</span> <span class="nn">TH</span>
+
+<span class="c1"># register the following search as an active threat hunt</span>
+<span class="n">hunt_name</span> <span class="o">=</span> <span class="s2">&quot;HNT_EXEC_T1047.000-WMIC-Usage&quot;</span>
+
+<span class="k">with</span> <span class="n">TH</span><span class="o">.</span><span class="n">ThreatHunt</span><span class="p">(</span><span class="n">hunt_name</span><span class="p">)</span> <span class="k">as</span> <span class="n">hunt</span><span class="p">:</span>
+    <span class="c1"># capture the following dataframe results</span>
+    <span class="c1"># to capture the results - define a function and decorate it with</span>
+    <span class="c1"># the capture_output() decorator</span>
+    <span class="nd">@hunt</span><span class="o">.</span><span class="n">capture_ouput</span><span class="p">(</span><span class="n">command_name</span><span class="o">=</span><span class="s1">&#39;analytic_1&#39;</span><span class="p">,</span> <span class="n">description</span><span class="s1">&#39;a description&#39;</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">analytic_1</span><span class="p">():</span>
+        <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">select</span><span class="p">(</span><span class="o">&lt;</span><span class="n">some_filter</span><span class="o">&gt;</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">analytic_1</span><span class="p">()</span>
+
+<span class="c1"># register the hunt as finished in the hunt index.</span>
+<span class="n">hunt</span><span class="o">.</span><span class="n">end</span><span class="p">()</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p class="linemarker linemarker-99">You must call <code class="docutils literal notranslate"><span class="pre">object.end()</span></code> - to update the status in the
+hunt index.</p>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<ul class="simple">
+<li><p class="linemarker linemarker-104">Each time you want to capture results from searches, redefine the
+context manager with the same hunt name,.</p></li>
+<li><p class="linemarker linemarker-106">It is a good practice to create a markdown cell above your code to
+tell other analysts what the search is intended for, and any
+technical analysis and context required. To effectively track results
+later, we recommend you name the markdown with a command name
+(analytic_1, analytic_2) etc.</p></li>
+<li><p class="linemarker linemarker-111">Each time you use the capture_output decorator, capture the
+command_name, and description to be able to easily refer back to the
+original notebook cells.</p></li>
+</ul>
+<p class="linemarker linemarker-115">::: See a sample notebook in notebooks/samples/threathunting.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="hunt-tracking-status-and-state">
+<h3>Hunt Tracking Status and State<a class="headerlink" href="#hunt-tracking-status-and-state" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-123">As analytic commands execute they maintain a current status and state,
+and register their progress in the threathunt_index table. Long running
+or failed hunts can be tracked by using the <code class="docutils literal notranslate"><span class="pre">list_executed_hunts()</span></code>
+function and searching for <code class="docutils literal notranslate"><span class="pre">status</span> <span class="pre">=</span> <span class="pre">‘started’</span></code> and
+<code class="docutils literal notranslate"><span class="pre">state</span> <span class="pre">=‘</span> <span class="pre">something’</span></code>. When an executing hunt is between cells or is
+executed uncaptured code blocks, the hunt is said to be in a <code class="docutils literal notranslate"><span class="pre">paused</span></code>
+state.</p>
+<p class="linemarker linemarker-131">Hunts that have ran successfully will be in a status of <code class="docutils literal notranslate"><span class="pre">finished</span></code> and
+a state of <code class="docutils literal notranslate"><span class="pre">finished</span></code>.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="hunt-commands">
+<h3>Hunt Commands<a class="headerlink" href="#hunt-commands" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-140">These are python functions packaged together that allow you to gain
+information about the threat hunt library, register risk scores against
+users and devices, and triage executed threat hunts. Examples include,
+marking, filtering, annotating and visualising result sets. See the
+[functions section] for a detailed breakdown of each function available.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="hunt-library">
+<h3>Hunt Library<a class="headerlink" href="#hunt-library" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-152">The hunt library defines a threat hunt to be executed. It includes an
+ordered list of notebooks to be executed, and custom definable keys that
+can be used in chained notebooks to define custom logic. For example,
+the database and table the notebook should read, or a set of conditions
+for branched logic.</p>
+<p class="linemarker linemarker-158">Campaigns, hunt types, hunt datasources, attack frameworks such as MITRE
+ATT&amp;CK and Lockheed Kill Chain stages can be tracked in the hunt library
+using custom tags and attacks keys.</p>
+<p class="linemarker linemarker-162">See configuring a threat hunt for full details.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="hunt-samples">
+<h3>Hunt Samples<a class="headerlink" href="#hunt-samples" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-170">Located in the notebooks directory of the Sirens repository, are a
+number of sample notebooks that can be executed as a standalone ad-hoc
+hunt, a configured hunt based on configuration in the hunt library, or
+as part of a chained series of notebooks configured in the hunt library.
+The notebooks often make use of public datasets, and are available as
+inspiration or a jump off point for integration into an organisation
+with the appropriate data collection.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="risk-framework">
+<h3>Risk Framework<a class="headerlink" href="#risk-framework" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-184">The risk framework allows you to track risk objects (either a user or a
+device), as part of threat hunting activity. Either during the execution
+of a scheduled hunt, or as part of analyst triage process you apply
+commands <code class="docutils literal notranslate"><span class="pre">add_risk_score</span></code> or <code class="docutils literal notranslate"><span class="pre">write_risk_score_from_df</span></code> to mark a
+working data frame and later write all annotated rows to the risk table.
+See Risk Framework section for details on how this works.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="hunt-workflow-tracking">
+<h3>Hunt Workflow Tracking<a class="headerlink" href="#hunt-workflow-tracking" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-197">Scheduled and executed threat hunts register their execution to the
+<code class="docutils literal notranslate"><span class="pre">threathunt_index</span></code> and <code class="docutils literal notranslate"><span class="pre">threathunt_results</span></code> delta tables. By
+default, each index record has a <code class="docutils literal notranslate"><span class="pre">_workflow_status</span></code> column to help
+manage the overall lifecycle of the hunt.</p>
+<p class="linemarker linemarker-202">See Workflows Section for more details.</p>
+<hr class="docutils" />
+</section>
+</section>
+<section id="threat-hunting-functions">
+<span id="id1"></span><h2>Threat Hunting Functions<a class="headerlink" href="#threat-hunting-functions" title="Link to this heading">#</a></h2>
+<p class="linemarker linemarker-210">Hunting functions provide the interface to read, view, execute, and
+write hunt results. To use functions import the threathunting framework
+using;</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">databricks.sirens.threathunting</span> <span class="k">as</span> <span class="nn">TH</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<section id="list-hunt-library-overview">
+<h3>list_hunt_library overview<a class="headerlink" href="#list-hunt-library-overview" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-223">The sirens <code class="docutils literal notranslate"><span class="pre">list_hunt_library</span></code> command lists defined threat hunts
+located in the <code class="docutils literal notranslate"><span class="pre">conf/threathunting</span></code> directory.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<section id="syntax">
+<h4>Syntax<a class="headerlink" href="#syntax" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">list_hunt_library</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="required-arguments">
+<h4>Required arguments<a class="headerlink" href="#required-arguments" title="Link to this heading">#</a></h4>
+<p class="linemarker linemarker-238">None</p>
+</section>
+<section id="optional-arguments">
+<h4>Optional arguments<a class="headerlink" href="#optional-arguments" title="Link to this heading">#</a></h4>
+<dl>
+<dt><strong>OutputFormat</strong></dt><dd><p class="linemarker linemarker-244"><strong>Syntax:</strong> OutputFormat=asJson | asDataFrame | asObject</p>
+<p class="linemarker linemarker-246"><strong>Description:</strong> Describes the desired output format</p>
+<p class="linemarker linemarker-248"><strong>Default:</strong> asDataFrame</p>
+</dd>
+</dl>
+</section>
+<section id="examples">
+<h4>Examples<a class="headerlink" href="#examples" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">list_hunt_library</span><span class="p">(</span><span class="n">outputFormat</span><span class="o">=</span><span class="n">OutputFormat</span><span class="o">.</span><span class="n">asJson</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="list-hunt-library-by-name-overview">
+<h3>list_hunt_library_by_name overview<a class="headerlink" href="#list-hunt-library-by-name-overview" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-262">Given a specific hunt name, return high level information about it.</p>
+<section id="id2">
+<h4>Syntax<a class="headerlink" href="#id2" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">list_hunt_library_by_name</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="required-arguments-1">
+<span id="id3"></span><h4>Required arguments<a class="headerlink" href="#required-arguments-1" title="Link to this heading">#</a></h4>
+<dl>
+<dt><strong>hunt_name:</strong></dt><dd><p class="linemarker linemarker-277"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-279"><strong>Description:</strong> Specify the name of a hunt defined in the threat_hunting library configuration</p>
+</dd>
+</dl>
+</section>
+<section id="optional-arguments-1">
+<span id="id4"></span><h4>Optional arguments<a class="headerlink" href="#optional-arguments-1" title="Link to this heading">#</a></h4>
+<dl>
+<dt><strong>OutputFormat</strong></dt><dd><p class="linemarker linemarker-287"><strong>Syntax:</strong> OutputFormat=asJson | asDataFrame | asObject</p>
+<p class="linemarker linemarker-289"><strong>Description:</strong> Describes the desired output format</p>
+<p class="linemarker linemarker-291"><strong>Default:</strong> asDataFrame</p>
+</dd>
+</dl>
+</section>
+<section id="examples-1">
+<span id="id5"></span><h4>Examples<a class="headerlink" href="#examples-1" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">list_hunt_library_by_name</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&quot;HNT_EXEC_T1047.000-WMIC-Usage&quot;</span><span class="p">,</span> <span class="n">outputFormat</span><span class="o">=</span><span class="n">OutputFormat</span><span class="o">.</span><span class="n">asJson</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="add-row-numbers-overview">
+<h3>add_row_numbers overview<a class="headerlink" href="#add-row-numbers-overview" title="Link to this heading">#</a></h3>
+<section id="id6">
+<h4>syntax<a class="headerlink" href="#id6" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">add_row_numbers</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="required-arguments-2">
+<span id="id7"></span><h4>Required arguments<a class="headerlink" href="#required-arguments-2" title="Link to this heading">#</a></h4>
+<dl>
+<dt>df:</dt><dd><p class="linemarker linemarker-320"><strong>Syntax:</strong> &lt;DataFrame&gt;</p>
+<p class="linemarker linemarker-322"><strong>Description:</strong> Incoming DataFrame to add numbers to</p>
+</dd>
+</dl>
+</section>
+<section id="optional-arguments-2">
+<span id="id8"></span><h4>Optional arguments<a class="headerlink" href="#optional-arguments-2" title="Link to this heading">#</a></h4>
+<dl>
+<dt>time_col:</dt><dd><p class="linemarker linemarker-330"><strong>Syntax:</strong> &lt;Column&gt;</p>
+<p class="linemarker linemarker-332"><strong>Description:</strong> A DataFrame must include a time column that can be windowed over.</p>
+<p class="linemarker linemarker-334"><strong>Default:</strong> <code class="docutils literal notranslate"><span class="pre">_event_time</span></code></p>
+</dd>
+</dl>
+</section>
+<section id="examples-2">
+<span id="id9"></span><h4>Examples<a class="headerlink" href="#examples-2" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Where a DataFrame does not have the sirens _event_time column name</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">add_row_numbers</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">time_col</span><span class="o">=</span><span class="s2">&quot;eventTime&quot;</span><span class="p">)</span>
+
+<span class="c1"># If the _event_time exists</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">add_row_numbers</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="annotate-overview">
+<h3>annotate overview<a class="headerlink" href="#annotate-overview" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-354">Annotate a DataFrame row with custom key/value pairs.</p>
+<p class="linemarker linemarker-356">Can be used to identify attack tactics and techniques, leave analyst
+notes, make a suspicious, malicious or benign determination, and other
+use cases.</p>
+<section id="id10">
+<h4>syntax<a class="headerlink" href="#id10" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">annotate</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="required-arguments-3">
+<span id="id11"></span><h4>Required arguments<a class="headerlink" href="#required-arguments-3" title="Link to this heading">#</a></h4>
+<dl>
+<dt>df:</dt><dd><p class="linemarker linemarker-373"><strong>Syntax:</strong> &lt;DataFrame&gt;</p>
+<p class="linemarker linemarker-375"><strong>Description:</strong> Incoming DataFrame to add numbers to</p>
+</dd>
+<dt>row_number:</dt><dd><p class="linemarker linemarker-378"><strong>Syntax:</strong> &lt;integer&gt;</p>
+<p class="linemarker linemarker-380"><strong>Description:</strong> row number to include annotation on</p>
+</dd>
+<dt>annotation:</dt><dd><p class="linemarker linemarker-383"><strong>Syntax:</strong> &lt;dict&gt;</p>
+<p class="linemarker linemarker-385"><strong>Description:</strong> A dictionary of key/value pairs to add</p>
+</dd>
+</dl>
+</section>
+<section id="optional-arguments-3">
+<span id="id12"></span><h4>Optional arguments<a class="headerlink" href="#optional-arguments-3" title="Link to this heading">#</a></h4>
+<dl>
+<dt>overwrite_existing:</dt><dd><p class="linemarker linemarker-393"><strong>Syntax:</strong> &lt;bool&gt;</p>
+<p class="linemarker linemarker-395"><strong>Description:</strong> when supplying a duplicate key, control whether to EXCEPTION or Overwrite, defaults to EXCEPTION</p>
+</dd>
+</dl>
+</section>
+<section id="examples-3">
+<span id="id13"></span><h4>Examples<a class="headerlink" href="#examples-3" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">annotation</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;tactic&#39;</span><span class="p">:</span><span class="s1">&#39;Defense Evasion&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;technique&#39;</span><span class="p">:</span><span class="s1">&#39;T1134&#39;</span><span class="p">,</span>
+              <span class="s1">&#39;technique_name&#39;</span><span class="p">:</span><span class="s1">&#39;Access Token Manipulation&#39;</span><span class="p">}</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">annotate</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">annotation</span><span class="o">=</span><span class="n">annotation</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="mark-overview">
+<h3>mark overview<a class="headerlink" href="#mark-overview" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-414">Mark a row as ‘interesting’.</p>
+<p class="linemarker linemarker-416">Highlight a row of interest, to make identification easier whilst
+triaging results sets. Creates a new column <code class="docutils literal notranslate"><span class="pre">_marked</span></code>. Once a row is
+marked, the value of the cell is set to <code class="docutils literal notranslate"><span class="pre">*</span></code> .</p>
+<section id="id14">
+<h4>syntax<a class="headerlink" href="#id14" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">mark</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="required-arguments-4">
+<span id="id15"></span><h4>Required arguments<a class="headerlink" href="#required-arguments-4" title="Link to this heading">#</a></h4>
+<dl>
+<dt>df:</dt><dd><p class="linemarker linemarker-433"><strong>Syntax:</strong> &lt;DataFrame&gt;</p>
+<p class="linemarker linemarker-435"><strong>Description:</strong> Incoming DataFrame to mark as interesting</p>
+</dd>
+<dt>rows:</dt><dd><p class="linemarker linemarker-438"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-440"><strong>Description:</strong> either as single integer, a range, or comma list. (example ‘1, 3,4 7-10’)</p>
+</dd>
+</dl>
+</section>
+<section id="optional-arguments-4">
+<span id="id16"></span><h4>Optional arguments<a class="headerlink" href="#optional-arguments-4" title="Link to this heading">#</a></h4>
+<dl>
+<dt>toggle:</dt><dd><p class="linemarker linemarker-448"><strong>Syntax:</strong>: &lt;bool&gt;</p>
+<p class="linemarker linemarker-450"><strong>Description:</strong> Toggle a row ‘on’ or ‘off’</p>
+<p class="linemarker linemarker-452"><strong>Default:</strong> True</p>
+</dd>
+</dl>
+</section>
+<section id="examples-4">
+<span id="id17"></span><h4>Examples<a class="headerlink" href="#examples-4" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># mark rows 1 to 4 inclusive as inreresting</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">mark</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="s2">&quot;1-4&quot;</span><span class="p">)</span>
+
+<span class="c1"># remove interesting row 3</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">mark</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">toggle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+<span class="c1"># mark rows 1, 3 and 5 as interesting</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">mark</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">rows</span><span class="o">=</span><span class="s2">&quot;1,3,5&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="filter-marked-overview">
+<h3>filter_marked overview<a class="headerlink" href="#filter-marked-overview" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-475">Given a number of rows marked as interesting. See <code class="docutils literal notranslate"><span class="pre">mark()</span></code> - Filter
+the DataFrame down to only those marked.</p>
+<section id="id18">
+<h4>syntax<a class="headerlink" href="#id18" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">filter_marked</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="required-arguments-5">
+<span id="id19"></span><h4>Required arguments<a class="headerlink" href="#required-arguments-5" title="Link to this heading">#</a></h4>
+<dl>
+<dt>df:</dt><dd><p class="linemarker linemarker-491"><strong>Syntax:</strong> &lt;DataFrame&gt;</p>
+<p class="linemarker linemarker-493"><strong>Description:</strong> Incoming DataFrame to filter</p>
+</dd>
+</dl>
+</section>
+<section id="optional-arguments-5">
+<span id="id20"></span><h4>Optional arguments<a class="headerlink" href="#optional-arguments-5" title="Link to this heading">#</a></h4>
+<p class="linemarker linemarker-500">None</p>
+</section>
+<section id="examples-5">
+<span id="id21"></span><h4>Examples<a class="headerlink" href="#examples-5" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">filter_marked</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="list-executed-hunts-overview">
+<h3>list_executed_hunts overview<a class="headerlink" href="#list-executed-hunts-overview" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-516">List all executed threat hunts that match the filter criteria in the
+index table.</p>
+<p class="linemarker linemarker-519">Each threat hunt that executes logs its activity to the
+<code class="docutils literal notranslate"><span class="pre">threathunt_index</span></code> and <code class="docutils literal notranslate"><span class="pre">threathunt_results</span></code> table (if results are
+captured using the api). This command allows you to supply search
+criteria to search for executed hunts.</p>
+<section id="id22">
+<h4>Syntax<a class="headerlink" href="#id22" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">list_executed_hunts</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="required-arguments-6">
+<span id="id23"></span><h4>Required arguments<a class="headerlink" href="#required-arguments-6" title="Link to this heading">#</a></h4>
+<p class="linemarker linemarker-536">None</p>
+<p class="linemarker linemarker-538">Returns all executed hunts.</p>
+</section>
+<section id="optional-arguments-6">
+<span id="id24"></span><h4>Optional arguments<a class="headerlink" href="#optional-arguments-6" title="Link to this heading">#</a></h4>
+<dl>
+<dt>hunt_name:</dt><dd><p class="linemarker linemarker-546"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-548"><strong>Description:</strong> Specify the name of the hunt to be filtered from the index</p>
+</dd>
+<dt>time_start:</dt><dd><p class="linemarker linemarker-551"><strong>Syntax:</strong> &lt;time_str&gt;</p>
+<p class="linemarker linemarker-553"><strong>Description:</strong> Filter records by start time</p>
+</dd>
+<dt>time_end:</dt><dd><p class="linemarker linemarker-556"><strong>Syntax:</strong> &lt;time_str&gt;</p>
+<p class="linemarker linemarker-558"><strong>Description:</strong> Filter records by end time. Use with <code class="docutils literal notranslate"><span class="pre">time_start</span></code></p>
+<p class="linemarker linemarker-560"><strong>Default:</strong> current_time</p>
+</dd>
+<dt>run_id:</dt><dd><p class="linemarker linemarker-563"><strong>Syntax:</strong> &lt;str&gt;</p>
+<p class="linemarker linemarker-565"><strong>Description:</strong> Specify a unique id to filter results for</p>
+</dd>
+<dt>status:</dt><dd><p class="linemarker linemarker-568"><strong>Syntax:</strong> &lt;str&gt; initializing | running | finished</p>
+<p class="linemarker linemarker-570"><strong>Description:</strong> filter hunts by one of three possible statuses.</p>
+</dd>
+<dt>state:</dt><dd><p class="linemarker linemarker-573"><strong>Syntax:</strong> &lt;str&gt; initializing | active | paused | finished</p>
+<p class="linemarker linemarker-575"><strong>Description:</strong> A hunt is ‘active’ when the cell is running, paused inbetween cells (possibly executing none captured operations), and finished when the notebook completes.</p>
+</dd>
+<dt>result:</dt><dd><p class="linemarker linemarker-578"><strong>Syntax:</strong> &lt;str&gt; success | failed</p>
+<p class="linemarker linemarker-580"><strong>Description:</strong> The overall result of the hunt</p>
+</dd>
+<dt>database:</dt><dd><p class="linemarker linemarker-583"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-585"><strong>Description:</strong> If an ad-hoc database has been used</p>
+</dd>
+<dt>hunt_index:</dt><dd><p class="linemarker linemarker-588"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-590"><strong>Description:</strong> If an ad-hoc hunt_index has been used</p>
+</dd>
+<dt>hunt_table:</dt><dd><p class="linemarker linemarker-593"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-595"><strong>Description:</strong> If an ad-hoc hunt_table has been used</p>
+</dd>
+<dt>output_format:</dt><dd><p class="linemarker linemarker-598"><strong>Syntax:</strong> OutputFormat=asJson | asDataFrame | asObject</p>
+<p class="linemarker linemarker-600"><strong>Description:</strong> Describes the desired output format</p>
+<p class="linemarker linemarker-602"><strong>Default:</strong> asDataFrame</p>
+</dd>
+</dl>
+</section>
+<section id="examples-6">
+<span id="id25"></span><h4>Examples<a class="headerlink" href="#examples-6" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># return a specific run_id</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">list_executed_hunts</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">run_id</span><span class="o">=</span><span class="s2">&quot;52345-34534-23242-234234&quot;</span><span class="p">)</span>
+
+<span class="c1"># return a hunt name executed after a date</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">list_executed_hunts</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">hunt_name</span><span class="o">=</span><span class="s2">&quot;HNT_EXEC_T1047.000-WMIC-Usage&quot;</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="s2">&quot;2023-01-23 12:00:00&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="show-hunt-results-overview">
+<h3>show_hunt_results overview<a class="headerlink" href="#show-hunt-results-overview" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-622">Retrieve the commands and results of a previously executed hunt.
+Displays the HTML content about the analytic, and prints the original
+DataFrame to the cell output. Results are passed back as a python
+<code class="docutils literal notranslate"><span class="pre">Iterator</span></code> object, so the result set should be printed as such.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p class="linemarker linemarker-631">See <code class="docutils literal notranslate"><span class="pre">get_hunt_results</span></code> to retrieve DataFrames as variables
+that can be interacted with like a live notebook.</p>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<section id="syntax-1">
+<span id="id26"></span><h4>Syntax<a class="headerlink" href="#syntax-1" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">show_hunt_results</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="required-arguments-7">
+<span id="id27"></span><h4>Required arguments<a class="headerlink" href="#required-arguments-7" title="Link to this heading">#</a></h4>
+<p class="linemarker linemarker-650">None</p>
+</section>
+<section id="optional-arguments-7">
+<span id="id28"></span><h4>Optional arguments<a class="headerlink" href="#optional-arguments-7" title="Link to this heading">#</a></h4>
+<dl>
+<dt>hunt_name:</dt><dd><p class="linemarker linemarker-658"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-660"><strong>Description:</strong> Specify the name of the hunt to be filtered from the index</p>
+</dd>
+<dt>time_start:</dt><dd><p class="linemarker linemarker-663"><strong>Syntax:</strong> &lt;time_str&gt;</p>
+<p class="linemarker linemarker-665"><strong>Description:</strong> Filter records by start time</p>
+</dd>
+<dt>time_end:</dt><dd><p class="linemarker linemarker-668"><strong>Syntax:</strong> &lt;time_str&gt;</p>
+<p class="linemarker linemarker-670"><strong>Description:</strong> Filter records by end time. Use with <code class="docutils literal notranslate"><span class="pre">time_start</span></code></p>
+<p class="linemarker linemarker-672"><strong>Default:</strong> current_time</p>
+</dd>
+<dt>run_id:</dt><dd><p class="linemarker linemarker-675"><strong>Syntax:</strong> &lt;str&gt;</p>
+<p class="linemarker linemarker-677"><strong>Description:</strong> Specify a unique id to filter results for</p>
+</dd>
+<dt>command_name:</dt><dd><p class="linemarker linemarker-680"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-682"><strong>Description:</strong> search for a captured analytic command. This is the <code class="docutils literal notranslate"><span class="pre">command_name</span></code> given in <code class="docutils literal notranslate"><span class="pre">capture_output()</span></code> during a hunt.</p>
+</dd>
+<dt>database:</dt><dd><p class="linemarker linemarker-685"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-687"><strong>Description:</strong> If an ad-hoc database has been used</p>
+</dd>
+<dt>hunt_index:</dt><dd><p class="linemarker linemarker-690"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-692"><strong>Description:</strong> If an ad-hoc hunt_index has been used</p>
+</dd>
+<dt>hunt_table:</dt><dd><p class="linemarker linemarker-695"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-697"><strong>Description:</strong> If an ad-hoc hunt_table has been used</p>
+</dd>
+</dl>
+</section>
+<section id="examples-7">
+<span id="id29"></span><h4>Examples<a class="headerlink" href="#examples-7" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># return a specific run_id</span>
+<span class="k">for</span> <span class="n">html</span><span class="p">,</span> <span class="n">analytic_df</span> <span class="ow">in</span> <span class="n">show_hunt_results</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">run_id</span><span class="o">=</span><span class="s2">&quot;52345-34534-23242-234234&quot;</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">analytic_df</span><span class="p">)</span>
+
+<span class="c1"># return a hunt name executed after a date</span>
+<span class="k">for</span> <span class="n">html</span><span class="p">,</span> <span class="n">analytic_df</span> <span class="ow">in</span> <span class="n">show_hunt_results</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">df</span><span class="p">,</span> <span class="n">hunt_name</span><span class="o">=</span><span class="s2">&quot;HNT_EXEC_T1047.000-WMIC-Usage&quot;</span><span class="p">,</span> <span class="n">start_time</span><span class="o">=</span><span class="s2">&quot;2023-01-23 12:00:00&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">html</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">analytic_df</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="get-hunt-results-overview">
+<h3>get_hunt_results overview<a class="headerlink" href="#get-hunt-results-overview" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-721">Closely related to <code class="docutils literal notranslate"><span class="pre">show_hunt_results</span></code> command. This command retrieves
+a previously executed hunts results as the DataFrames were captured at
+execution using the <code class="docutils literal notranslate"><span class="pre">capture_output</span></code> command decorator.</p>
+<p class="linemarker linemarker-725">The command returns a list of DataFrame(s) which can then be manually
+assigned to a variable and interacted with just like if you were running
+the original command live time.</p>
+<section id="id30">
+<h4>Syntax<a class="headerlink" href="#id30" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">list_of_analytics</span> <span class="o">=</span> <span class="n">get_hunt_results</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="required-arguments-8">
+<span id="id31"></span><h4>Required arguments<a class="headerlink" href="#required-arguments-8" title="Link to this heading">#</a></h4>
+<p class="linemarker linemarker-741">None</p>
+</section>
+<section id="optional-arguments-8">
+<span id="id32"></span><h4>Optional arguments<a class="headerlink" href="#optional-arguments-8" title="Link to this heading">#</a></h4>
+<dl>
+<dt>hunt_name:</dt><dd><p class="linemarker linemarker-749"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-751"><strong>Description:</strong> Specify the name of the hunt to be filtered from the index</p>
+</dd>
+<dt>time_start:</dt><dd><p class="linemarker linemarker-754"><strong>Syntax:</strong> &lt;time_str&gt;</p>
+<p class="linemarker linemarker-756"><strong>Description:</strong> Filter records by start time</p>
+</dd>
+<dt>time_end:</dt><dd><p class="linemarker linemarker-759"><strong>Syntax:</strong> &lt;time_str&gt;</p>
+<p class="linemarker linemarker-761"><strong>Description:</strong> Filter records by end time. Use with <code class="docutils literal notranslate"><span class="pre">time_start</span></code></p>
+<p class="linemarker linemarker-763"><strong>Default:</strong> current_time</p>
+</dd>
+<dt>run_id:</dt><dd><p class="linemarker linemarker-766"><strong>Syntax:</strong> &lt;str&gt;</p>
+<p class="linemarker linemarker-768"><strong>Description:</strong> Specify a unique id to filter results for</p>
+</dd>
+<dt>database:</dt><dd><p class="linemarker linemarker-771"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-773"><strong>Description:</strong> If an ad-hoc database has been used</p>
+</dd>
+<dt>hunt_index:</dt><dd><p class="linemarker linemarker-776"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-778"><strong>Description:</strong> If an ad-hoc hunt_index has been used</p>
+</dd>
+<dt>hunt_table:</dt><dd><p class="linemarker linemarker-781"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-783"><strong>Description:</strong> If an ad-hoc hunt_table has been used</p>
+</dd>
+</dl>
+</section>
+<section id="examples-8">
+<span id="id33"></span><h4>Examples<a class="headerlink" href="#examples-8" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">list_of_analytics</span> <span class="o">=</span> <span class="n">get_hunt_results</span><span class="p">(</span><span class="n">run_id</span><span class="o">=</span><span class="s2">&quot;21343-23423-234232&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;returned: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">list_of_analytics</span><span class="p">)</span><span class="si">}</span><span class="s2"> DataFrames&quot;</span><span class="p">)</span>
+
+<span class="n">analytic_1</span> <span class="o">=</span> <span class="n">list_of_analytics</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">display</span><span class="p">(</span><span class="n">analytic_1</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="write-hunt-index-overview">
+<h3>write_hunt_index overview<a class="headerlink" href="#write-hunt-index-overview" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-804">Write a DataFrame that is a hunt index record back to the index.</p>
+<p class="linemarker linemarker-806">When retrieving and updating a hunt records workflow or other columns,
+this command will merge the record back as an updated record.</p>
+<section id="id34">
+<h4>Syntax<a class="headerlink" href="#id34" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">write_hunt_index</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="required-arguments-9">
+<span id="id35"></span><h4>Required arguments<a class="headerlink" href="#required-arguments-9" title="Link to this heading">#</a></h4>
+<dl>
+<dt>df:</dt><dd><p class="linemarker linemarker-822"><strong>Syntax:</strong> &lt;DataFrame&gt;</p>
+<p class="linemarker linemarker-824"><strong>Description:</strong> DataFrame containing a hunt index record to be written back to the index table.</p>
+</dd>
+</dl>
+</section>
+<section id="optional-arguments-9">
+<span id="id36"></span><h4>Optional arguments<a class="headerlink" href="#optional-arguments-9" title="Link to this heading">#</a></h4>
+<dl>
+<dt>database:</dt><dd><p class="linemarker linemarker-832"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-834"><strong>Description:</strong> If an ad-hoc database has been used</p>
+</dd>
+<dt>hunt_index:</dt><dd><p class="linemarker linemarker-837"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-839"><strong>Description:</strong> If an ad-hoc hunt_index has been used</p>
+</dd>
+<dt>hunt_table:</dt><dd><p class="linemarker linemarker-842"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-844"><strong>Description:</strong> If an ad-hoc hunt_table has been used</p>
+</dd>
+</dl>
+</section>
+<section id="examples-9">
+<span id="id37"></span><h4>Examples<a class="headerlink" href="#examples-9" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">id</span><span class="o">=</span><span class="s2">&quot;12345-12345-12345&quot;</span>
+
+<span class="c1"># retrieve an index record</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">list_executed_hunts</span><span class="p">(</span><span class="n">run_id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">)</span>
+
+<span class="c1"># update assignee and status</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">assign_to_me</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">run_id</span> <span class="o">=</span> <span class="nb">id</span><span class="p">)</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">set_status</span><span class="p">(</span><span class="n">df</span><span class="p">,</span> <span class="n">status</span><span class="o">=</span><span class="n">WorkflowStatus</span><span class="o">.</span><span class="n">IN_PROGRESS</span><span class="p">)</span>
+
+<span class="c1"># save the updated DataFrame to the index table</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">write_hunt_index</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<hr class="docutils" />
+<section id="write-hunt-results-overview">
+<h3>write_hunt_results overview<a class="headerlink" href="#write-hunt-results-overview" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-871">Write a DataFrame that contains updated hunt results back to the results
+table.</p>
+<p class="linemarker linemarker-874">When the results sets of previously executed hunts are being triaged,
+you may interact and update columns such as the <code class="docutils literal notranslate"><span class="pre">_annotation</span></code> column.
+Once updated use this command to write the result set back.</p>
+<section id="id38">
+<h4>Syntax<a class="headerlink" href="#id38" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">write_hunt_index</span><span class="p">(</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="required-arguments-10">
+<span id="id39"></span><h4>Required arguments<a class="headerlink" href="#required-arguments-10" title="Link to this heading">#</a></h4>
+<dl>
+<dt>df:</dt><dd><p class="linemarker linemarker-891"><strong>Syntax:</strong> &lt;DataFrame&gt;</p>
+<p class="linemarker linemarker-893"><strong>Description:</strong> DataFrame containing a hunt result record to be written back to the results table.</p>
+</dd>
+<dt>analytic_command:</dt><dd><p class="linemarker linemarker-896"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-898"><strong>Description:</strong> The original analytic command name. This is used to identify the correct results row in the results table for a merge operation to take place.</p>
+</dd>
+</dl>
+</section>
+<section id="optional-arguments-10">
+<span id="id40"></span><h4>Optional arguments<a class="headerlink" href="#optional-arguments-10" title="Link to this heading">#</a></h4>
+<dl>
+<dt>database:</dt><dd><p class="linemarker linemarker-906"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-908"><strong>Description:</strong> If an ad-hoc database has been used</p>
+</dd>
+<dt>hunt_index:</dt><dd><p class="linemarker linemarker-911"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-913"><strong>Description:</strong> If an ad-hoc hunt_index has been used</p>
+</dd>
+<dt>hunt_table:</dt><dd><p class="linemarker linemarker-916"><strong>Syntax:</strong> &lt;string&gt;</p>
+<p class="linemarker linemarker-918"><strong>Description:</strong> If an ad-hoc hunt_table has been used</p>
+</dd>
+</dl>
+</section>
+<section id="examples-10">
+<span id="id41"></span><h4>Examples<a class="headerlink" href="#examples-10" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># retrieve the results for run_id</span>
+<span class="n">list_of_analytics</span> <span class="o">=</span> <span class="n">get_hunt_results</span><span class="p">(</span><span class="n">run_id</span><span class="o">=</span><span class="s2">&quot;21343-23423-234232&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;returned: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">list_of_analytics</span><span class="p">)</span><span class="si">}</span><span class="s2"> DataFrames&quot;</span><span class="p">)</span>
+
+<span class="c1"># assign the first analytic command</span>
+<span class="n">analytic_1</span> <span class="o">=</span> <span class="n">list_of_analytics</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">analytic_1</span> <span class="o">=</span> <span class="n">add_row_numbers</span><span class="p">(</span><span class="n">analytic_1</span><span class="p">)</span>
+
+<span class="c1"># annotate a row</span>
+<span class="n">analytic_1</span> <span class="o">=</span> <span class="n">annotate</span><span class="p">(</span><span class="n">analytic_1</span><span class="p">,</span> <span class="n">row</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">annotation</span><span class="o">=</span><span class="p">{</span><span class="s1">&#39;analyst_notes&#39;</span><span class="p">:</span><span class="s1">&#39;please schedule for device scan&#39;</span><span class="p">})</span>
+
+<span class="c1"># update the new DataFrame to the results table</span>
+<span class="n">result</span> <span class="o">=</span> <span class="n">write_hunt_results</span><span class="p">(</span><span class="n">df</span><span class="o">=</span><span class="n">analytic1</span><span class="p">,</span> <span class="n">analytic_command_name</span><span class="o">=</span><span class="s2">&quot;analytic_1&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+</section>
+</section>
+<section id="risk-framework-1">
+<span id="id42"></span><h2>Risk Framework<a class="headerlink" href="#risk-framework-1" title="Link to this heading">#</a></h2>
+<p class="linemarker linemarker-951">The risk framework is used to surface risk objects that are generating
+notable events and which may warrant further investigation. Ordinarily
+detections and threat hunts may surface events that are notable, but in
+and of themselves do not constitute a credible attack.</p>
+<p class="linemarker linemarker-956">Using a risk based approach in Sirens threat hunting and detection
+framework you can add risk modifiers to a risk object. (user or a
+device).</p>
+<p class="linemarker linemarker-960">Each risk modifier supplies a potential impact and confidence score
+which is used to calculate an overall risk score for the risk object in
+question. You can use the risk dashboard and related searches, or
+develop additional detections to surface those objects that rise above a
+predefined score within a specific time period.</p>
+<p class="linemarker linemarker-966">Additionally, you can provide custom key/value pairs to add the source,
+and context for the event(s) generating the risk modifier.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<section id="risk-tables">
+<h3>Risk Tables<a class="headerlink" href="#risk-tables" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-974">By default the risk table is stored in the database <code class="docutils literal notranslate"><span class="pre">sirens</span></code> under a
+name of <code class="docutils literal notranslate"><span class="pre">risk</span></code>. You can choose to over-ride this behaviour using the
+<code class="docutils literal notranslate"><span class="pre">sirens.config</span></code> global configuration file.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="risk-scoring-algorithm">
+<h3>Risk Scoring Algorithm<a class="headerlink" href="#risk-scoring-algorithm" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-983">When a <code class="docutils literal notranslate"><span class="pre">impact</span></code> and <code class="docutils literal notranslate"><span class="pre">confidence</span></code> scores (between 1 - 100) are
+provided, the risk framework generates a <code class="docutils literal notranslate"><span class="pre">risk_score</span></code> for the event.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="linemarker linemarker-988">It is calculated as;</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">risk_score</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="n">impact</span> <span class="o">*</span> <span class="n">confidence</span><span class="p">)</span><span class="o">/</span><span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<section id="example">
+<h4>Example:<a class="headerlink" href="#example" title="Link to this heading">#</a></h4>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">confidence</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">impact</span> <span class="o">=</span> <span class="mi">60</span>
+<span class="n">risk_score</span> <span class="o">=</span> <span class="nb">round</span><span class="p">((</span><span class="mi">60</span> <span class="o">*</span> <span class="mi">20</span><span class="p">)</span><span class="o">/</span> <span class="mi">100</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">=</span> <span class="mi">12</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+</section>
+<section id="change-the-risk-database-or-table">
+<h3>Change the Risk Database or Table<a class="headerlink" href="#change-the-risk-database-or-table" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-1010">To change the risk database and / or table name from its default. add a
+new <code class="docutils literal notranslate"><span class="pre">schema:risk</span></code> stanza to the <code class="docutils literal notranslate"><span class="pre">sirens.config</span></code> file.</p>
+<section id="id43">
+<h4>Example<a class="headerlink" href="#id43" title="Link to this heading">#</a></h4>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># example using unity catalog schema</span>
+<span class="o">[</span>schema:risk<span class="o">]</span>
+<span class="nv">schema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>sirens_schema.custom_sirens_database
+<span class="nv">risk_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>custom_risk_table_name
+
+<span class="c1"># example using the hive metastore</span>
+<span class="o">[</span>schema:risk<span class="o">]</span>
+<span class="nv">schema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>custom_sirens_database
+<span class="nv">risk_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>custom_risk_table_name
+</pre></div>
+</div>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="workflows">
+<h2>Workflows<a class="headerlink" href="#workflows" title="Link to this heading">#</a></h2>
+<p class="linemarker linemarker-1033">Executed threat hunts are registered into the <code class="docutils literal notranslate"><span class="pre">threathunt_index</span></code>
+table, and by default add a meta column, <code class="docutils literal notranslate"><span class="pre">_workflow</span></code>, that can allow
+you to assign and track the overall status of the hunt.</p>
+<p class="linemarker linemarker-1037">By default <code class="docutils literal notranslate"><span class="pre">_workflow</span></code> status is initially set to the following
+defaults;</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nv">assignee</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Unassigned&#39;</span>
+<span class="nv">severity</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Unknown&#39;</span>
+<span class="nv">priority</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;Unknown&#39;</span>
+<span class="nv">status</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s1">&#39;New&#39;</span>
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="linemarker linemarker-1049">You can choose to update the workflow on a per hunt basis (within a
+notebook), or during a subsequent triage phase once the results have
+been analysed and further understood.</p>
+<p class="linemarker linemarker-1053">See Section <a class="reference internal" href="#threat-hunting-functions"><span class="std std-ref">Threat Hunting Functions</span></a> see commands to update each
+key/value pair.</p>
+</section>
+<hr class="docutils" />
+<section id="configuring-a-threat-hunt">
+<h2>Configuring a Threat Hunt<a class="headerlink" href="#configuring-a-threat-hunt" title="Link to this heading">#</a></h2>
+<p class="linemarker linemarker-1061">To develop a threat hunt, you generate either singular hunt notebooks,
+or multiple notebooks that are then configured in the hunt library. The
+hunt library defines what order notebooks should run in, any custom
+arguments you want to pass between cascading notebooks, and any
+contextual information that pertains to the hunt such as MITRE ATT&amp;CK
+information, campaign identifiers, IOC hunt type.</p>
+<p class="linemarker linemarker-1068">The modular approach to cascading notebooks, and free form arguments
+means you can organize notebooks however you choose, and reuse notebook
+functionality between different hunts.</p>
+<p class="linemarker linemarker-1072">For instance, a single notebook may connect to a third party API, and
+collect some data. The following notebook is configured to receive the
+arguments needed to operate on the data collected into a delta table.
+Subsequent notebooks may operate as incident response playbooks,
+gathering further information if the hunt notebook identified
+interesting information.</p>
+<p class="linemarker linemarker-1079">Follow the below instructions for configuring, deploying and scheduling
+notebook based threat hunts.</p>
+<blockquote>
+<div><ol class="arabic simple">
+<li><p class="linemarker linemarker-1082">Develop the the notebook threat hunts using the threat hunt API.</p></li>
+<li><p class="linemarker linemarker-1083">Configure the hunt library to run single or chained notebooks.</p></li>
+<li><p class="linemarker linemarker-1084">Add the hunt to sirens.config</p></li>
+<li><p class="linemarker linemarker-1085">Generate notebooks to deploy</p></li>
+<li><p class="linemarker linemarker-1086">Deploy the notebooks to Databricks workflows for scheduled execution.</p></li>
+</ol>
+</div></blockquote>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<section id="develop-the-threat-hunt-notebook-s">
+<h3>1. Develop the threat hunt notebook(s)<a class="headerlink" href="#develop-the-threat-hunt-notebook-s" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-1093">Begin developing your hunt notebooks using the threat hunt template
+located in <code class="docutils literal notranslate"><span class="pre">notebooks/threat_hunting/Template</span></code>. You are free to
+customize the template as needed.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p class="linemarker linemarker-1101">Threat hunt notebooks are expected to be located in the
+<code class="docutils literal notranslate"><span class="pre">notebooks/threat_hunting</span></code> directory.</p>
+<p class="linemarker linemarker-1104">Later updates will add support for user located notebooks</p>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="linemarker linemarker-1109">In addition to the Template hunt, there is an example hunt
+<code class="docutils literal notranslate"><span class="pre">LSASS_Memory_Read_Access</span></code> located in the <code class="docutils literal notranslate"><span class="pre">notebooks/threat_hunting</span></code>
+directory.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<section id="threat-hunt-naming-convention">
+<h4>Threat hunt naming convention<a class="headerlink" href="#threat-hunt-naming-convention" title="Link to this heading">#</a></h4>
+<p class="linemarker linemarker-1119">Hunt notebooks and the library hunt name are user configurable. You
+should choose a scalable naming convention. One possible convention
+based on <a class="reference external" href="https://attack.mitre.org/#">MITRE ATT&amp;CK</a>:</p>
+<p class="linemarker linemarker-1123"><code class="docutils literal notranslate"><span class="pre">HUNT-&lt;TACTIC&gt;-&lt;TECHNIQUE&gt;-&lt;SUB_TECHNIQUE&gt;-&lt;INDEX&gt;-&lt;NAME&gt;</span></code></p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p class="linemarker linemarker-1129">Example(s):</p>
+<p class="linemarker linemarker-1131"><code class="docutils literal notranslate"><span class="pre">HUNT-TA0007-T1087-001-100-LSASS_Memory_Read_Access</span></code>
+<code class="docutils literal notranslate"><span class="pre">HUNT-Discovery-T1087-002-101-LSASS_Memory_Read_Access</span></code></p>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="configure-the-hunt-library">
+<h4>2. Configure the hunt library<a class="headerlink" href="#configure-the-hunt-library" title="Link to this heading">#</a></h4>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p class="linemarker linemarker-1143">The name of the hunt should follow your naming convention as
+described above.</p>
+<p class="linemarker linemarker-1146">This will be name you use in subsequent sections.</p>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="linemarker linemarker-1150">a.) create a new directory under <code class="docutils literal notranslate"><span class="pre">conf/threat_hunting</span></code> with the name of your hunt.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<blockquote>
+<div><p class="linemarker linemarker-1154">Example: <code class="docutils literal notranslate"><span class="pre">HUNT-TA0007-T1087-001-100-LSASS_Memory_Read_Access</span></code></p>
+</div></blockquote>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="linemarker linemarker-1158">b.) create a new file <code class="docutils literal notranslate"><span class="pre">hunt.yaml</span></code> in your hunt directory.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="linemarker linemarker-1162">An example hunt.yaml is located under <code class="docutils literal notranslate"><span class="pre">conf/threat_hunting/HNT-TA0007-T1087-001-100-LSASS_Memory_Read_Access</span></code></p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="linemarker linemarker-1166">Example:</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">meta</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">author</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Derek King</span>
+<span class="w">  </span><span class="nt">created</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">11/15/2023</span>
+<span class="w">  </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">1.0</span>
+<span class="w">  </span><span class="nt">last_updated</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">11/15/2023</span>
+<span class="nt">hunt</span><span class="p">:</span>
+<span class="w">  </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">HNT-TA0007-T10870-001-100-LSASS_Memory_Read_Access</span>
+<span class="w">  </span><span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Processes accessing Local Security Authority Subsystem Service</span>
+<span class="w">  </span><span class="nt">attacks</span><span class="p">:</span>
+<span class="w">    </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">mitre</span><span class="p">:</span>
+<span class="w">        </span><span class="nt">tactic</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">discovery</span>
+<span class="w">        </span><span class="nt">technique_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">T1087</span>
+<span class="w">        </span><span class="nt">subtechnique_id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">001</span>
+<span class="w">  </span><span class="nt">tags</span><span class="p">:</span>
+<span class="w">    </span><span class="nt">campaign</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">trickbot</span>
+<span class="w">    </span><span class="nt">hunt_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">filename</span>
+<span class="w">    </span><span class="nt">source_type</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">device_process_events</span>
+<span class="nt">notebooks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sentinel_fetch</span>
+<span class="w">    </span><span class="nt">input</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">daterange</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-24hours</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LSASS_Memory_Read_Access</span>
+<span class="w">    </span><span class="nt">input</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">table</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sirens.sentinel_hunt</span>
+<span class="w">      </span><span class="nt">custom</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">key_value_pairs</span>
+<span class="w">      </span><span class="nt">that</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">you_read_in_your_notebook</span>
+<span class="w">    </span><span class="nt">output</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">custom</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">key_value_pairs</span>
+<span class="w">      </span><span class="nt">that</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">you_read_and_use_in_your_notebook</span>
+</pre></div>
+</div>
+<p class="linemarker linemarker-1200">See section: <a class="reference internal" href="#hunt-yaml-spec"><span class="std std-ref">Hunt yaml.spec</span></a> for all key options.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+</section>
+<section id="add-the-hunt-to-sirens-config">
+<h3>3. Add the hunt to sirens.config<a class="headerlink" href="#add-the-hunt-to-sirens-config" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-1207">The hunt notebooks are deployed and scheduled once configured as part of
+the global config.</p>
+<p class="linemarker linemarker-1210">Configure your <code class="docutils literal notranslate"><span class="pre">sirens.config</span></code> file to include a new <code class="docutils literal notranslate"><span class="pre">[threat_hunt]</span></code>
+stanza with the name of the hunt.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p class="linemarker linemarker-1217">The hunt directory name <em>(under conf/threat_hunting)</em>, the
+hunt-&gt;name <em>(in hunt.yaml)</em>, and threat_hunt stanza names must all
+match.</p>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="linemarker linemarker-1223">Example:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="o">[</span>threat_hunt:HNT-TA0007-T10870-001-100-LSASS_Memory_Read_Access<span class="o">]</span>
+<span class="nv">enabled</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="nb">true</span>
+<span class="nv">schedule</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="m">01</span><span class="w"> </span>*<span class="w"> </span>*<span class="w"> </span>?
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="generate-the-hunt-notebooks">
+<h3>4. Generate the hunt notebooks<a class="headerlink" href="#generate-the-hunt-notebooks" title="Link to this heading">#</a></h3>
+<p class="linemarker linemarker-1236">For sirens to add the hunt notebooks to databricks workflows, they must
+exist in the <code class="docutils literal notranslate"><span class="pre">deploy/</span></code> directory.</p>
+<p class="linemarker linemarker-1239">run the following command from the top-level <code class="docutils literal notranslate"><span class="pre">databricks-sirens</span></code>
+directory.</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python3<span class="w"> </span>sirens.py<span class="w"> </span>generate_threat_hunts
+</pre></div>
+</div>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="deploy-the-notebooks">
+<h3>5. Deploy the notebooks<a class="headerlink" href="#deploy-the-notebooks" title="Link to this heading">#</a></h3>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<section id="auto-deployment">
+<h4>Auto deployment<a class="headerlink" href="#auto-deployment" title="Link to this heading">#</a></h4>
+<p class="linemarker linemarker-1257">Sirens is designed to be deployed using terraform. See the [deployment
+section] to deploy all deploy artifacts to databricks workflows.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+</section>
+<section id="manual-deployment">
+<h4>Manual Deployment<a class="headerlink" href="#manual-deployment" title="Link to this heading">#</a></h4>
+<p class="linemarker linemarker-1265">If you deploy and operate Sirens manually, add the notebooks to
+databricks workflows manually, in the order they should be executed,
+ensuring hunt_name is passed as key <code class="docutils literal notranslate"><span class="pre">source_type</span></code>. This key should
+then be used for each notebook to read its configuration held under the
+notebook section in <code class="docutils literal notranslate"><span class="pre">hunt.yaml</span></code></p>
+</section>
+</section>
+</section>
+<hr class="docutils" />
+<section id="change-the-hunt-database-and-table-names">
+<h2>Change the hunt database and table names<a class="headerlink" href="#change-the-hunt-database-and-table-names" title="Link to this heading">#</a></h2>
+<p class="linemarker linemarker-1276">To change the threat hunt database and/or table name from its default
+add or change a <code class="docutils literal notranslate"><span class="pre">schema:threat_hunt</span></code> stanza to the <code class="docutils literal notranslate"><span class="pre">sirens.config</span></code>
+file under the <code class="docutils literal notranslate"><span class="pre">system</span> <span class="pre">schemas</span></code> section.</p>
+<div class="line-block">
+<div class="line"><br /></div>
+</div>
+<p class="linemarker linemarker-1282">Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># example schema using a unity catalog schema</span>
+<span class="o">[</span>schema:threat_hunt<span class="o">]</span>
+<span class="nv">schema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>sirens.mycustomdatabase
+<span class="nv">index_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>my_preferred_index
+<span class="nv">results_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>my_preferred_threathunt_results
+
+<span class="c1"># example schema using the hive metastore</span>
+<span class="o">[</span>schema:threat_hunt<span class="o">]</span>
+<span class="nv">schema</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>mycustomdatabase
+<span class="nv">index_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>my_preferred_index
+<span class="nv">results_table</span><span class="w"> </span><span class="o">=</span><span class="w"> </span>my_preferred_threathunt_results
+</pre></div>
+</div>
+<hr class="docutils" />
+</section>
+<section id="hunt-yaml-spec">
+<span id="id44"></span><h2>Hunt yaml.spec<a class="headerlink" href="#hunt-yaml-spec" title="Link to this heading">#</a></h2>
+<p class="linemarker linemarker-1305">The following outlines the key/value pairs for <code class="docutils literal notranslate"><span class="pre">hunt.yaml</span></code></p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">meta</span><span class="p">:</span>
+
+<span class="nt">author</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;string&gt;</span>
+<span class="c1"># required</span>
+<span class="c1"># specifies the author of the hunt</span>
+
+<span class="nt">created</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;date&gt;</span>
+<span class="c1"># required</span>
+<span class="c1"># Creation date of the hunt config</span>
+<span class="c1"># example: 2023-01-23</span>
+
+<span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;string&gt;</span>
+<span class="c1"># required</span>
+<span class="c1"># specifies the version oof the hunt.yaml file</span>
+
+<span class="nt">last_updated</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;date&gt;</span>
+<span class="c1"># required</span>
+<span class="c1"># specifies the last time the file was updated</span>
+<span class="c1"># example: 2023-01-23</span>
+
+
+<span class="nt">hunt</span><span class="p">:</span>
+
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;string&gt;</span>
+<span class="c1"># required</span>
+<span class="c1"># specified the name of the hunt</span>
+<span class="c1"># must match the directory name its in, AND the threat_hunt stanza name</span>
+
+<span class="nt">description</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;string&gt;</span>
+<span class="c1"># required</span>
+<span class="c1"># a short description outlining the intent of the hunt</span>
+
+<span class="nt">attacks</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;list&gt;</span>
+<span class="c1"># optional</span>
+<span class="c1"># a freeform list of attack methodologies. This information will be carried</span>
+<span class="c1"># into the threat hunt index and used for reporting purposes</span>
+<span class="c1"># Example:</span>
+<span class="c1"># attacks:</span>
+<span class="c1">#   - mitre:</span>
+<span class="c1">#       tactic: discovery</span>
+<span class="c1">#       technique: T1087</span>
+<span class="c1">#       subtechnique: 001</span>
+
+<span class="nt">tags</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;dict&gt;</span>
+<span class="c1"># optional</span>
+<span class="c1"># a freeform dictionary of tags. This information will be carried into the</span>
+<span class="c1"># threat hunt index and used for reporting purposes. Use this for tracking</span>
+<span class="c1"># campaigns, hunt types, source_types etc</span>
+<span class="c1"># example:</span>
+<span class="c1"># tags:</span>
+<span class="c1">#   campaign: trickbot</span>
+<span class="c1">#   hunt_type: filename</span>
+<span class="c1">#   sourcetype: device_process_events</span>
+
+<span class="nt">notebooks</span><span class="p">:</span>
+
+<span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;string&gt;</span>
+<span class="c1"># required</span>
+<span class="c1"># the name of the notebook to execute (without an extension)</span>
+<span class="c1"># MUST be located in the notebooks/threat_hunting directory</span>
+<span class="c1"># ** NOTEBOOKS may hold custom key value pairs underneath the name: key.</span>
+<span class="c1"># if you generated hunting notebooks using the hunting Template - it will</span>
+<span class="c1"># read these key/values - which you can sebsequently use for custom logic</span>
+<span class="c1"># in the notebook itself.</span>
+<span class="c1"># Arguments like what delta table to read, a condition string to decide on</span>
+<span class="c1"># branched logic etc.</span>
+
+<span class="c1"># Example:</span>
+<span class="nt">notebooks</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sentinel_fetch</span>
+<span class="w">    </span><span class="nt">input</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">daterange</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">-24hours</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">LSASS_Memory_Read_Access</span>
+<span class="w">    </span><span class="nt">input</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">table</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">sirens.sentinel_hunt</span>
+<span class="w">      </span><span class="nt">custom</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">key_value_pairs</span>
+<span class="w">      </span><span class="nt">that</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">you_read_in_your_notebook</span>
+<span class="w">    </span><span class="nt">output</span><span class="p">:</span>
+<span class="w">      </span><span class="nt">custom</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">key_value_pairs</span>
+<span class="w">      </span><span class="nt">that</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">you_read_and_use_in_your_notebook</span>
+</pre></div>
+</div>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Derek King
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">Threat Hunting</a><ul>
+<li><a class="reference internal" href="#threat-hunting-lifecycle-management">Threat Hunting Lifecycle Management.</a><ul>
+<li><a class="reference internal" href="#what-is-the-threat-hunt-lifecycle-in-sirens">What is the Threat Hunt Lifecycle in Sirens?</a></li>
+<li><a class="reference internal" href="#hunt-tracking">Hunt Tracking</a></li>
+<li><a class="reference internal" href="#hunt-tracking-status-and-state">Hunt Tracking Status and State</a></li>
+<li><a class="reference internal" href="#hunt-commands">Hunt Commands</a></li>
+<li><a class="reference internal" href="#hunt-library">Hunt Library</a></li>
+<li><a class="reference internal" href="#hunt-samples">Hunt Samples</a></li>
+<li><a class="reference internal" href="#risk-framework">Risk Framework</a></li>
+<li><a class="reference internal" href="#hunt-workflow-tracking">Hunt Workflow Tracking</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#threat-hunting-functions">Threat Hunting Functions</a><ul>
+<li><a class="reference internal" href="#list-hunt-library-overview">list_hunt_library overview</a><ul>
+<li><a class="reference internal" href="#syntax">Syntax</a></li>
+<li><a class="reference internal" href="#required-arguments">Required arguments</a></li>
+<li><a class="reference internal" href="#optional-arguments">Optional arguments</a></li>
+<li><a class="reference internal" href="#examples">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#list-hunt-library-by-name-overview">list_hunt_library_by_name overview</a><ul>
+<li><a class="reference internal" href="#id2">Syntax</a></li>
+<li><a class="reference internal" href="#required-arguments-1">Required arguments</a></li>
+<li><a class="reference internal" href="#optional-arguments-1">Optional arguments</a></li>
+<li><a class="reference internal" href="#examples-1">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#add-row-numbers-overview">add_row_numbers overview</a><ul>
+<li><a class="reference internal" href="#id6">syntax</a></li>
+<li><a class="reference internal" href="#required-arguments-2">Required arguments</a></li>
+<li><a class="reference internal" href="#optional-arguments-2">Optional arguments</a></li>
+<li><a class="reference internal" href="#examples-2">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#annotate-overview">annotate overview</a><ul>
+<li><a class="reference internal" href="#id10">syntax</a></li>
+<li><a class="reference internal" href="#required-arguments-3">Required arguments</a></li>
+<li><a class="reference internal" href="#optional-arguments-3">Optional arguments</a></li>
+<li><a class="reference internal" href="#examples-3">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#mark-overview">mark overview</a><ul>
+<li><a class="reference internal" href="#id14">syntax</a></li>
+<li><a class="reference internal" href="#required-arguments-4">Required arguments</a></li>
+<li><a class="reference internal" href="#optional-arguments-4">Optional arguments</a></li>
+<li><a class="reference internal" href="#examples-4">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#filter-marked-overview">filter_marked overview</a><ul>
+<li><a class="reference internal" href="#id18">syntax</a></li>
+<li><a class="reference internal" href="#required-arguments-5">Required arguments</a></li>
+<li><a class="reference internal" href="#optional-arguments-5">Optional arguments</a></li>
+<li><a class="reference internal" href="#examples-5">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#list-executed-hunts-overview">list_executed_hunts overview</a><ul>
+<li><a class="reference internal" href="#id22">Syntax</a></li>
+<li><a class="reference internal" href="#required-arguments-6">Required arguments</a></li>
+<li><a class="reference internal" href="#optional-arguments-6">Optional arguments</a></li>
+<li><a class="reference internal" href="#examples-6">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#show-hunt-results-overview">show_hunt_results overview</a><ul>
+<li><a class="reference internal" href="#syntax-1">Syntax</a></li>
+<li><a class="reference internal" href="#required-arguments-7">Required arguments</a></li>
+<li><a class="reference internal" href="#optional-arguments-7">Optional arguments</a></li>
+<li><a class="reference internal" href="#examples-7">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#get-hunt-results-overview">get_hunt_results overview</a><ul>
+<li><a class="reference internal" href="#id30">Syntax</a></li>
+<li><a class="reference internal" href="#required-arguments-8">Required arguments</a></li>
+<li><a class="reference internal" href="#optional-arguments-8">Optional arguments</a></li>
+<li><a class="reference internal" href="#examples-8">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#write-hunt-index-overview">write_hunt_index overview</a><ul>
+<li><a class="reference internal" href="#id34">Syntax</a></li>
+<li><a class="reference internal" href="#required-arguments-9">Required arguments</a></li>
+<li><a class="reference internal" href="#optional-arguments-9">Optional arguments</a></li>
+<li><a class="reference internal" href="#examples-9">Examples</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#write-hunt-results-overview">write_hunt_results overview</a><ul>
+<li><a class="reference internal" href="#id38">Syntax</a></li>
+<li><a class="reference internal" href="#required-arguments-10">Required arguments</a></li>
+<li><a class="reference internal" href="#optional-arguments-10">Optional arguments</a></li>
+<li><a class="reference internal" href="#examples-10">Examples</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#risk-framework-1">Risk Framework</a><ul>
+<li><a class="reference internal" href="#risk-tables">Risk Tables</a></li>
+<li><a class="reference internal" href="#risk-scoring-algorithm">Risk Scoring Algorithm</a><ul>
+<li><a class="reference internal" href="#example">Example:</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#change-the-risk-database-or-table">Change the Risk Database or Table</a><ul>
+<li><a class="reference internal" href="#id43">Example</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#workflows">Workflows</a></li>
+<li><a class="reference internal" href="#configuring-a-threat-hunt">Configuring a Threat Hunt</a><ul>
+<li><a class="reference internal" href="#develop-the-threat-hunt-notebook-s">1. Develop the threat hunt notebook(s)</a><ul>
+<li><a class="reference internal" href="#threat-hunt-naming-convention">Threat hunt naming convention</a></li>
+<li><a class="reference internal" href="#configure-the-hunt-library">2. Configure the hunt library</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#add-the-hunt-to-sirens-config">3. Add the hunt to sirens.config</a></li>
+<li><a class="reference internal" href="#generate-the-hunt-notebooks">4. Generate the hunt notebooks</a></li>
+<li><a class="reference internal" href="#deploy-the-notebooks">5. Deploy the notebooks</a><ul>
+<li><a class="reference internal" href="#auto-deployment">Auto deployment</a></li>
+<li><a class="reference internal" href="#manual-deployment">Manual Deployment</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><a class="reference internal" href="#change-the-hunt-database-and-table-names">Change the hunt database and table names</a></li>
+<li><a class="reference internal" href="#hunt-yaml-spec">Hunt yaml.spec</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>

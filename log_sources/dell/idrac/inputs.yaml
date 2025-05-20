@@ -1,0 +1,67 @@
+config:
+  version: 1.0
+  updated: 2025-01-27
+  author: Garrett R Peternel
+  description: Integrated Dell Remote Access Controller (https://www.dell.com/support/manuals/en-us/idrac-service-module/ism_security_configuration_guide/logging-format?guid=guid-f27316de-e65b-4885-8f4e-9bffd7572b6d&lang=en-us)
+input:
+  source: dell
+  sourcetype: idrac
+  parser: generic_text
+  rawPath: s3://<path_to_dir>/ # change me [required]
+  connector:
+    name: autoloader  # json|kafka|csv|txt|autoloader [required]
+    options:
+      cloudFiles.format: text
+  streamType: streaming # batch|streaming [required]
+transforms:
+  bronze:
+    meta:
+      timestamp_column: value
+      timestamp_regex: '(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6})([+-]\d{2}:\d{2})'
+      timestamp_regex_group: 1
+      host_column: value
+      host_regex: '(?<=\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d{6,9}[+-]\d{2}:\d{2}\s)(\S+)'
+      host_regex_group: 1
+  silver:
+    meta:
+      source_column_name: value
+      source_column_regex: >
+        ^<(\d+)>(\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}\.\d+)([+-]\d{2}:\d{2})\s(\S+)\s(.*)
+      mappings:
+        - name: priority_value
+          index: 1
+          type: integer
+        - name: record_string
+          index: 5
+          type: string
+      post_transforms:
+        - name: severity
+          action: add
+          expression: >
+            regexp_extract(record_string, 'Severity:\\s*(\\w+)', 1)
+        - name: category
+          action: add
+          expression: >
+            regexp_extract(record_string, 'Category:\\s*(\\w+)', 1)
+        - name: message_id
+          action: add
+          expression: >
+            regexp_extract(record_string, 'MessageID:\\s*([^\\s,]+)', 1)
+        - name: message
+          action: add
+          expression: >
+            regexp_extract(record_string, 'Message:\\s*(.+)', 1)
+        - name: ip_addr
+          action: add
+          expression: >
+            regexp_extract(record_string, 'from (\\d+\\.\\d+\\.\\d+\\.\\d+)', 1)
+        - name: block_duration
+          action: add
+          expression: >
+            regexp_extract(record_string, 'for (\\d+) seconds', 1)
+          type: integer
+        - name: port
+          action: add
+          expression: >
+            regexp_extract(record_string, 'Port (\\d+)', 1)
+          type: integer

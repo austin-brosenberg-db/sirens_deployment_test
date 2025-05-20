@@ -1,0 +1,1075 @@
+<!doctype html>
+<html class="no-js" lang="en" data-content_root="./">
+  <head><meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width,initial-scale=1"/>
+    <meta name="color-scheme" content="light dark"><meta name="viewport" content="width=device-width, initial-scale=1" />
+<link rel="index" title="Index" href="genindex.html" /><link rel="search" title="Search" href="search.html" /><link rel="prev" title="databricks.sirens.utils package" href="databricks.sirens.utils.html" />
+
+    <!-- Generated with Sphinx 7.2.6 and Furo 2023.09.10 -->
+        <title>databricks.sirens.validators package - Sirens by Databricks</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=fa44fd50" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo.css?v=135e06be" />
+    <link rel="stylesheet" type="text/css" href="_static/styles/furo-extensions.css?v=36a5483c" />
+    <link rel="stylesheet" type="text/css" href="_static/custom.css?v=46bbebfe" />
+    
+    
+
+
+<style>
+  body {
+    --color-code-background: #eeffcc;
+  --color-code-foreground: black;
+  
+  }
+  @media not print {
+    body[data-theme="dark"] {
+      --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+    }
+    @media (prefers-color-scheme: dark) {
+      body:not([data-theme="light"]) {
+        --color-code-background: #202020;
+  --color-code-foreground: #d0d0d0;
+  
+      }
+    }
+  }
+</style></head>
+  <body>
+    
+    <script>
+      document.body.dataset.theme = localStorage.getItem("theme") || "auto";
+    </script>
+    
+
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  <symbol id="svg-toc" viewBox="0 0 24 24">
+    <title>Contents</title>
+    <svg stroke="currentColor" fill="currentColor" stroke-width="0" viewBox="0 0 1024 1024">
+      <path d="M408 442h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8zm-8 204c0 4.4 3.6 8 8 8h480c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8H408c-4.4 0-8 3.6-8 8v56zm504-486H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zm0 632H120c-4.4 0-8 3.6-8 8v56c0 4.4 3.6 8 8 8h784c4.4 0 8-3.6 8-8v-56c0-4.4-3.6-8-8-8zM115.4 518.9L271.7 642c5.8 4.6 14.4.5 14.4-6.9V388.9c0-7.4-8.5-11.5-14.4-6.9L115.4 505.1a8.74 8.74 0 0 0 0 13.8z"/>
+    </svg>
+  </symbol>
+  <symbol id="svg-menu" viewBox="0 0 24 24">
+    <title>Menu</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-menu">
+      <line x1="3" y1="12" x2="21" y2="12"></line>
+      <line x1="3" y1="6" x2="21" y2="6"></line>
+      <line x1="3" y1="18" x2="21" y2="18"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-arrow-right" viewBox="0 0 24 24">
+    <title>Expand</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="feather-chevron-right">
+      <polyline points="9 18 15 12 9 6"></polyline>
+    </svg>
+  </symbol>
+  <symbol id="svg-sun" viewBox="0 0 24 24">
+    <title>Light mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="feather-sun">
+      <circle cx="12" cy="12" r="5"></circle>
+      <line x1="12" y1="1" x2="12" y2="3"></line>
+      <line x1="12" y1="21" x2="12" y2="23"></line>
+      <line x1="4.22" y1="4.22" x2="5.64" y2="5.64"></line>
+      <line x1="18.36" y1="18.36" x2="19.78" y2="19.78"></line>
+      <line x1="1" y1="12" x2="3" y2="12"></line>
+      <line x1="21" y1="12" x2="23" y2="12"></line>
+      <line x1="4.22" y1="19.78" x2="5.64" y2="18.36"></line>
+      <line x1="18.36" y1="5.64" x2="19.78" y2="4.22"></line>
+    </svg>
+  </symbol>
+  <symbol id="svg-moon" viewBox="0 0 24 24">
+    <title>Dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-moon">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+      <path d="M12 3c.132 0 .263 0 .393 0a7.5 7.5 0 0 0 7.92 12.446a9 9 0 1 1 -8.313 -12.454z" />
+    </svg>
+  </symbol>
+  <symbol id="svg-sun-half" viewBox="0 0 24 24">
+    <title>Auto light/dark mode</title>
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" class="icon-tabler-shadow">
+      <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+      <circle cx="12" cy="12" r="9" />
+      <path d="M13 12h5" />
+      <path d="M13 15h4" />
+      <path d="M13 18h1" />
+      <path d="M13 9h4" />
+      <path d="M13 6h1" />
+    </svg>
+  </symbol>
+</svg>
+
+<input type="checkbox" class="sidebar-toggle" name="__navigation" id="__navigation">
+<input type="checkbox" class="sidebar-toggle" name="__toc" id="__toc">
+<label class="overlay sidebar-overlay" for="__navigation">
+  <div class="visually-hidden">Hide navigation sidebar</div>
+</label>
+<label class="overlay toc-overlay" for="__toc">
+  <div class="visually-hidden">Hide table of contents sidebar</div>
+</label>
+
+
+
+<div class="page">
+  <header class="mobile-header">
+    <div class="header-left">
+      <label class="nav-overlay-icon" for="__navigation">
+        <div class="visually-hidden">Toggle site navigation sidebar</div>
+        <i class="icon"><svg><use href="#svg-menu"></use></svg></i>
+      </label>
+    </div>
+    <div class="header-center">
+      <a href="index.html"><div class="brand">Sirens by Databricks</div></a>
+    </div>
+    <div class="header-right">
+      <div class="theme-toggle-container theme-toggle-header">
+        <button class="theme-toggle">
+          <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+          <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+          <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+          <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+        </button>
+      </div>
+      <label class="toc-overlay-icon toc-header-icon" for="__toc">
+        <div class="visually-hidden">Toggle table of contents sidebar</div>
+        <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+      </label>
+    </div>
+  </header>
+  <aside class="sidebar-drawer">
+    <div class="sidebar-container">
+      
+      <div class="sidebar-sticky"><a class="sidebar-brand" href="index.html">
+  
+  
+  <span class="sidebar-brand-text">Sirens by Databricks</span>
+  
+</a><form class="sidebar-search-container" method="get" action="search.html" role="search">
+  <input class="sidebar-search" placeholder="Search" name="q" aria-label="Search">
+  <input type="hidden" name="check_keywords" value="yes">
+  <input type="hidden" name="area" value="default">
+</form>
+<div id="searchbox"></div><div class="sidebar-scroll"><div class="sidebar-tree">
+  <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html">Introduction</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#installation">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#data-ingestion">Data Ingestion</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#enrichments">Enrichments</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#transformations">Transformations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#aggregation-tables">Aggregation Tables</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#global-configuration-files">Global Configuration files</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#log-source-configuration">Log Source Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#detections">Detections</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#alerts">Alerts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#action-framework">Action Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#threat-hunting-framework">Threat Hunting Framework</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#common-information-model-schemas">Common Information Model Schemas</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#functions">Functions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#sirens-cli-reference">Sirens CLI Reference</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#known-limitations">Known Limitations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#faqs">FAQs</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#troubleshooting">Troubleshooting</a></li>
+<li class="toctree-l1"><a class="reference internal" href="sirens_user_guide.html#developers-guide">Developers Guide</a></li>
+<li class="toctree-l1"><a class="reference internal" href="Contributing.html">Contributing</a></li>
+<li class="toctree-l1 current has-children"><a class="reference internal" href="modules.html">databricks</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" role="switch" type="checkbox"/><label for="toctree-checkbox-1"><div class="visually-hidden">Toggle navigation of databricks</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l2 current has-children"><a class="reference internal" href="databricks.html">databricks package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-2" name="toctree-checkbox-2" role="switch" type="checkbox"/><label for="toctree-checkbox-2"><div class="visually-hidden">Toggle navigation of databricks package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l3 current has-children"><a class="reference internal" href="databricks.sirens.html">databricks.sirens package</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-3" name="toctree-checkbox-3" role="switch" type="checkbox"/><label for="toctree-checkbox-3"><div class="visually-hidden">Toggle navigation of databricks.sirens package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul class="current">
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.actions.html">databricks.sirens.actions package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.cjp.html">databricks.sirens.cjp package</a><input class="toctree-checkbox" id="toctree-checkbox-4" name="toctree-checkbox-4" role="switch" type="checkbox"/><label for="toctree-checkbox-4"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5 has-children"><a class="reference internal" href="databricks.sirens.cjp.cjlib.html">databricks.sirens.cjp.cjlib package</a><input class="toctree-checkbox" id="toctree-checkbox-5" name="toctree-checkbox-5" role="switch" type="checkbox"/><label for="toctree-checkbox-5"><div class="visually-hidden">Toggle navigation of databricks.sirens.cjp.cjlib package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.exceptions.html">databricks.sirens.cjp.cjlib.exceptions package</a></li>
+<li class="toctree-l6"><a class="reference internal" href="databricks.sirens.cjp.cjlib.pollers.html">databricks.sirens.cjp.cjlib.pollers package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.connectors.html">databricks.sirens.connectors package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.detection.html">databricks.sirens.detection package</a><input class="toctree-checkbox" id="toctree-checkbox-6" name="toctree-checkbox-6" role="switch" type="checkbox"/><label for="toctree-checkbox-6"><div class="visually-hidden">Toggle navigation of databricks.sirens.detection package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.detection.alert.html">databricks.sirens.detection.alert package</a></li>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.detection.rule.html">databricks.sirens.detection.rule package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.features.html">databricks.sirens.features package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.internal.html">databricks.sirens.internal package</a></li>
+<li class="toctree-l4 has-children"><a class="reference internal" href="databricks.sirens.parsers.html">databricks.sirens.parsers package</a><input class="toctree-checkbox" id="toctree-checkbox-7" name="toctree-checkbox-7" role="switch" type="checkbox"/><label for="toctree-checkbox-7"><div class="visually-hidden">Toggle navigation of databricks.sirens.parsers package</div><i class="icon"><svg><use href="#svg-arrow-right"></use></svg></i></label><ul>
+<li class="toctree-l5"><a class="reference internal" href="databricks.sirens.parsers.internal.html">databricks.sirens.parsers.internal package</a></li>
+</ul>
+</li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.udfs.html">databricks.sirens.udfs package</a></li>
+<li class="toctree-l4"><a class="reference internal" href="databricks.sirens.utils.html">databricks.sirens.utils package</a></li>
+<li class="toctree-l4 current current-page"><a class="current reference internal" href="#">databricks.sirens.validators package</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+</div>
+</div>
+
+      </div>
+      
+    </div>
+  </aside>
+  <div class="main">
+    <div class="content">
+      <div class="article-container">
+        <a href="#" class="back-to-top muted-link">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8v12z"></path>
+          </svg>
+          <span>Back to top</span>
+        </a>
+        <div class="content-icon-container">
+          
+<div class="theme-toggle-container theme-toggle-content">
+            <button class="theme-toggle">
+              <div class="visually-hidden">Toggle Light / Dark / Auto color theme</div>
+              <svg class="theme-icon-when-auto"><use href="#svg-sun-half"></use></svg>
+              <svg class="theme-icon-when-dark"><use href="#svg-moon"></use></svg>
+              <svg class="theme-icon-when-light"><use href="#svg-sun"></use></svg>
+            </button>
+          </div>
+          <label class="toc-overlay-icon toc-content-icon" for="__toc">
+            <div class="visually-hidden">Toggle table of contents sidebar</div>
+            <i class="icon"><svg><use href="#svg-toc"></use></svg></i>
+          </label>
+        </div>
+        <article role="main">
+          <section id="databricks-sirens-validators-package">
+<h1>databricks.sirens.validators package<a class="headerlink" href="#databricks-sirens-validators-package" title="Link to this heading">#</a></h1>
+<section id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Link to this heading">#</a></h2>
+</section>
+<section id="module-databricks.sirens.validators.enrichments">
+<span id="databricks-sirens-validators-enrichments-module"></span><h2>databricks.sirens.validators.enrichments module<a class="headerlink" href="#module-databricks.sirens.validators.enrichments" title="Link to this heading">#</a></h2>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.Filters">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.enrichments.</span></span><span class="sig-name descname"><span class="pre">Filters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">prefilter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">postfilter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">output_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.enrichments.Filters" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.Filters.output_columns">
+<span class="sig-name descname"><span class="pre">output_columns</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><span class="pre">str</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.enrichments.Filters.output_columns" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.Filters.postfilter">
+<span class="sig-name descname"><span class="pre">postfilter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.enrichments.Filters.postfilter" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.Filters.prefilter">
+<span class="sig-name descname"><span class="pre">prefilter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.enrichments.Filters.prefilter" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.Model">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.enrichments.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">__root__</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#databricks.sirens.validators.enrichments.ModelItem" title="databricks.sirens.validators.enrichments.ModelItem"><span class="pre">ModelItem</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.enrichments.Model" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.ModelItem">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.enrichments.</span></span><span class="sig-name descname"><span class="pre">ModelItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">broadcast</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">join_expr</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filters</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.enrichments.Filters" title="databricks.sirens.validators.enrichments.Filters"><span class="pre">Filters</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.enrichments.ModelItem" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.ModelItem.broadcast">
+<span class="sig-name descname"><span class="pre">broadcast</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.enrichments.ModelItem.broadcast" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.ModelItem.file">
+<span class="sig-name descname"><span class="pre">file</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.enrichments.ModelItem.file" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.ModelItem.filters">
+<span class="sig-name descname"><span class="pre">filters</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.enrichments.Filters" title="databricks.sirens.validators.enrichments.Filters"><span class="pre">Filters</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.enrichments.ModelItem.filters" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.ModelItem.join_expr">
+<span class="sig-name descname"><span class="pre">join_expr</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.enrichments.ModelItem.join_expr" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.ModelItem.join_type">
+<span class="sig-name descname"><span class="pre">join_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.enrichments.ModelItem.join_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.ModelItem.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.enrichments.ModelItem.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.ModelItem.source_column">
+<span class="sig-name descname"><span class="pre">source_column</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.enrichments.ModelItem.source_column" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.ModelItem.table">
+<span class="sig-name descname"><span class="pre">table</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.enrichments.ModelItem.table" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.ModelItem.target_column">
+<span class="sig-name descname"><span class="pre">target_column</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.enrichments.ModelItem.target_column" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.validators.enrichments.start">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.enrichments.</span></span><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.enrichments.start" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-databricks.sirens.validators.inputs">
+<span id="databricks-sirens-validators-inputs-module"></span><h2>databricks.sirens.validators.inputs module<a class="headerlink" href="#module-databricks.sirens.validators.inputs" title="Link to this heading">#</a></h2>
+<p class="linemarker linemarker-1">Given an inputs.yaml file validate the syntax, keys/values.</p>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.AggregateItem">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">AggregateItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregation_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">stream_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'batch'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'streaming'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">save_mode</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'append'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'complete'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">groupby</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">agg_columns</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">window_duration</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">wait_for_late_data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start_time</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.AggregateItem" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.AggregateItem.agg_columns">
+<span class="sig-name descname"><span class="pre">agg_columns</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.AggregateItem.agg_columns" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.AggregateItem.aggregation_name">
+<span class="sig-name descname"><span class="pre">aggregation_name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.AggregateItem.aggregation_name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.AggregateItem.check_aggregate_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_aggregate_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.AggregateItem.check_aggregate_config" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.AggregateItem.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.AggregateItem.filter" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.AggregateItem.groupby">
+<span class="sig-name descname"><span class="pre">groupby</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.AggregateItem.groupby" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.AggregateItem.save_mode">
+<span class="sig-name descname"><span class="pre">save_mode</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'append'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'complete'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.AggregateItem.save_mode" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.AggregateItem.source_table">
+<span class="sig-name descname"><span class="pre">source_table</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.AggregateItem.source_table" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.AggregateItem.start_time">
+<span class="sig-name descname"><span class="pre">start_time</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.AggregateItem.start_time" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.AggregateItem.stream_type">
+<span class="sig-name descname"><span class="pre">stream_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'batch'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'streaming'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.AggregateItem.stream_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.AggregateItem.target_table">
+<span class="sig-name descname"><span class="pre">target_table</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.AggregateItem.target_table" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.AggregateItem.wait_for_late_data">
+<span class="sig-name descname"><span class="pre">wait_for_late_data</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.AggregateItem.wait_for_late_data" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.AggregateItem.window_duration">
+<span class="sig-name descname"><span class="pre">window_duration</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.AggregateItem.window_duration" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Bronze">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">Bronze</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">meta</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.inputs.Meta" title="databricks.sirens.validators.inputs.Meta"><span class="pre">Meta</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">table_config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.inputs.TableConfig" title="databricks.sirens.validators.inputs.TableConfig"><span class="pre">TableConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.Bronze" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Bronze.meta">
+<span class="sig-name descname"><span class="pre">meta</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.Meta" title="databricks.sirens.validators.inputs.Meta"><span class="pre">Meta</span></a></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Bronze.meta" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Bronze.table_config">
+<span class="sig-name descname"><span class="pre">table_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.TableConfig" title="databricks.sirens.validators.inputs.TableConfig"><span class="pre">TableConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Bronze.table_config" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.CIMFields">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">CIMFields</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">dvc_hostname</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.inputs.DvcHostname" title="databricks.sirens.validators.inputs.DvcHostname"><span class="pre">DvcHostname</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.inputs.EventType" title="databricks.sirens.validators.inputs.EventType"><span class="pre">EventType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_sub_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.inputs.EventSubType" title="databricks.sirens.validators.inputs.EventSubType"><span class="pre">EventSubType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_result</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.inputs.EventResult" title="databricks.sirens.validators.inputs.EventResult"><span class="pre">EventResult</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.CIMFields" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.CIMFields.dvc_hostname">
+<span class="sig-name descname"><span class="pre">dvc_hostname</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.DvcHostname" title="databricks.sirens.validators.inputs.DvcHostname"><span class="pre">DvcHostname</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.CIMFields.dvc_hostname" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.CIMFields.event_result">
+<span class="sig-name descname"><span class="pre">event_result</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.EventResult" title="databricks.sirens.validators.inputs.EventResult"><span class="pre">EventResult</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.CIMFields.event_result" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.CIMFields.event_sub_type">
+<span class="sig-name descname"><span class="pre">event_sub_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.EventSubType" title="databricks.sirens.validators.inputs.EventSubType"><span class="pre">EventSubType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.CIMFields.event_sub_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.CIMFields.event_type">
+<span class="sig-name descname"><span class="pre">event_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.EventType" title="databricks.sirens.validators.inputs.EventType"><span class="pre">EventType</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.CIMFields.event_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Config">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">Config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">float</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">updated</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">author</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.Config" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Config.author">
+<span class="sig-name descname"><span class="pre">author</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Config.author" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Config.description">
+<span class="sig-name descname"><span class="pre">description</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Config.description" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Config.updated">
+<span class="sig-name descname"><span class="pre">updated</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Config.updated" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Config.version">
+<span class="sig-name descname"><span class="pre">version</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">float</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Config.version" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Connector">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">Connector</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'json'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kafka'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'csv'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'txt'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'autoloader'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'okta_api'</span></span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">options</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Any</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.Connector" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Connector.name">
+<span class="sig-name descname"><span class="pre">name</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'json'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'kafka'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'csv'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'txt'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'autoloader'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'okta_api'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Connector.name" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Connector.options">
+<span class="sig-name descname"><span class="pre">options</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Any</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Connector.options" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.DvcHostname">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">DvcHostname</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.DvcHostname" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.DvcHostname.action">
+<span class="sig-name descname"><span class="pre">action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.DvcHostname.action" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.DvcHostname.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.DvcHostname.value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventResult">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">EventResult</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.EventResult" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventResult.action">
+<span class="sig-name descname"><span class="pre">action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventResult.action" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventResult.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventResult.type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventResult.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventResult.value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventSubType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">EventSubType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.EventSubType" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventSubType.action">
+<span class="sig-name descname"><span class="pre">action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventSubType.action" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventSubType.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventSubType.value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventType">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">EventType</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">action</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">value</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.EventType" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventType.action">
+<span class="sig-name descname"><span class="pre">action</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventType.action" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventType.type">
+<span class="sig-name descname"><span class="pre">type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventType.type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventType.value">
+<span class="sig-name descname"><span class="pre">value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventType.value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventTypeItem">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">EventTypeItem</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#databricks.sirens.validators.inputs.CIMFields" title="databricks.sirens.validators.inputs.CIMFields"><span class="pre">CIMFields</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.EventTypeItem" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventTypeItem.Config">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Config</span></span><a class="headerlink" href="#databricks.sirens.validators.inputs.EventTypeItem.Config" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventTypeItem.Config.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'fields_value':</span> <span class="pre">'fields'}</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventTypeItem.Config.fields" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventTypeItem.fields_value">
+<span class="sig-name descname"><span class="pre">fields_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#databricks.sirens.validators.inputs.CIMFields" title="databricks.sirens.validators.inputs.CIMFields"><span class="pre">CIMFields</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventTypeItem.fields_value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventTypeItem.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventTypeItem.filter" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventTypeItem.target_table">
+<span class="sig-name descname"><span class="pre">target_table</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventTypeItem.target_table" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventTypeItem1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">EventTypeItem1</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">target_table</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">filter</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">fields</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#databricks.sirens.validators.inputs.Field1" title="databricks.sirens.validators.inputs.Field1"><span class="pre">Field1</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.EventTypeItem1" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventTypeItem1.Config">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">Config</span></span><a class="headerlink" href="#databricks.sirens.validators.inputs.EventTypeItem1.Config" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">object</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventTypeItem1.Config.fields">
+<span class="sig-name descname"><span class="pre">fields</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">{'fields_value':</span> <span class="pre">'fields'}</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventTypeItem1.Config.fields" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventTypeItem1.fields_value">
+<span class="sig-name descname"><span class="pre">fields_value</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#databricks.sirens.validators.inputs.Field1" title="databricks.sirens.validators.inputs.Field1"><span class="pre">Field1</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventTypeItem1.fields_value" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventTypeItem1.filter">
+<span class="sig-name descname"><span class="pre">filter</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventTypeItem1.filter" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.EventTypeItem1.target_table">
+<span class="sig-name descname"><span class="pre">target_table</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.EventTypeItem1.target_table" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Field1">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">Field1</span></span><a class="headerlink" href="#databricks.sirens.validators.inputs.Field1" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Gold">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">Gold</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">aggregate</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem" title="databricks.sirens.validators.inputs.AggregateItem"><span class="pre">AggregateItem</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.Gold" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Gold.aggregate">
+<span class="sig-name descname"><span class="pre">aggregate</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem" title="databricks.sirens.validators.inputs.AggregateItem"><span class="pre">AggregateItem</span></a><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Gold.aggregate" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Input">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">Input</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sourcetype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">parser</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rawPath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rawSchemaFile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">rawSchemaHintsFile</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">connector</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.inputs.Connector" title="databricks.sirens.validators.inputs.Connector"><span class="pre">Connector</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">host_rawpath_segment</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">streamType</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'batch'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'streaming'</span></span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.Input" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Input.check_input_options">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_input_options</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.Input.check_input_options" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Input.connector">
+<span class="sig-name descname"><span class="pre">connector</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.Connector" title="databricks.sirens.validators.inputs.Connector"><span class="pre">Connector</span></a></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Input.connector" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Input.host">
+<span class="sig-name descname"><span class="pre">host</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Input.host" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Input.host_rawpath_segment">
+<span class="sig-name descname"><span class="pre">host_rawpath_segment</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Input.host_rawpath_segment" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Input.parser">
+<span class="sig-name descname"><span class="pre">parser</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Input.parser" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Input.rawPath">
+<span class="sig-name descname"><span class="pre">rawPath</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Input.rawPath" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Input.rawSchemaFile">
+<span class="sig-name descname"><span class="pre">rawSchemaFile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Input.rawSchemaFile" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Input.rawSchemaHintsFile">
+<span class="sig-name descname"><span class="pre">rawSchemaHintsFile</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Input.rawSchemaHintsFile" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Input.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Input.source" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Input.sourcetype">
+<span class="sig-name descname"><span class="pre">sourcetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Input.sourcetype" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Input.streamType">
+<span class="sig-name descname"><span class="pre">streamType</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'batch'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'streaming'</span></span><span class="p"><span class="pre">]</span></span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Input.streamType" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Meta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">Meta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_column</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_regex</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">timestamp_format</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sourcetype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.Meta" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Meta.check_regex_and_format_not_configured">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_regex_and_format_not_configured</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.Meta.check_regex_and_format_not_configured" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Meta.source">
+<span class="sig-name descname"><span class="pre">source</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Meta.source" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Meta.sourcetype">
+<span class="sig-name descname"><span class="pre">sourcetype</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Meta.sourcetype" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Meta.timestamp_column">
+<span class="sig-name descname"><span class="pre">timestamp_column</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Meta.timestamp_column" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Meta.timestamp_format">
+<span class="sig-name descname"><span class="pre">timestamp_format</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Meta.timestamp_format" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Meta.timestamp_regex">
+<span class="sig-name descname"><span class="pre">timestamp_regex</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">str</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Meta.timestamp_regex" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Model">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">Model</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">config</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.inputs.Config" title="databricks.sirens.validators.inputs.Config"><span class="pre">Config</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">input</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.inputs.Input" title="databricks.sirens.validators.inputs.Input"><span class="pre">Input</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">transforms</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.inputs.Transforms" title="databricks.sirens.validators.inputs.Transforms"><span class="pre">Transforms</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.Model" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Model.config">
+<span class="sig-name descname"><span class="pre">config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.Config" title="databricks.sirens.validators.inputs.Config"><span class="pre">Config</span></a></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Model.config" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Model.input">
+<span class="sig-name descname"><span class="pre">input</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.Input" title="databricks.sirens.validators.inputs.Input"><span class="pre">Input</span></a></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Model.input" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Model.transforms">
+<span class="sig-name descname"><span class="pre">transforms</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.Transforms" title="databricks.sirens.validators.inputs.Transforms"><span class="pre">Transforms</span></a></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Model.transforms" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Silver">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">Silver</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">event_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem" title="databricks.sirens.validators.inputs.EventTypeItem"><span class="pre">EventTypeItem</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.Silver" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Silver.event_type">
+<span class="sig-name descname"><span class="pre">event_type</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">List</span><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem" title="databricks.sirens.validators.inputs.EventTypeItem"><span class="pre">EventTypeItem</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Silver.event_type" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Silver.meta">
+<span class="sig-name descname"><span class="pre">meta</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.Meta" title="databricks.sirens.validators.inputs.Meta"><span class="pre">Meta</span></a></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Silver.meta" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Silver.table_config">
+<span class="sig-name descname"><span class="pre">table_config</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.TableConfig" title="databricks.sirens.validators.inputs.TableConfig"><span class="pre">TableConfig</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Silver.table_config" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.TableConfig">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">TableConfig</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">partition_cols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zorder_cols</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">optimize_write</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">auto_compact</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.TableConfig" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.TableConfig.auto_compact">
+<span class="sig-name descname"><span class="pre">auto_compact</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.TableConfig.auto_compact" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.TableConfig.check_table_config">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">check_table_config</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">values</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.TableConfig.check_table_config" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.TableConfig.optimize_write">
+<span class="sig-name descname"><span class="pre">optimize_write</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">bool</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.TableConfig.optimize_write" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.TableConfig.partition_cols">
+<span class="sig-name descname"><span class="pre">partition_cols</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.TableConfig.partition_cols" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.TableConfig.zorder_cols">
+<span class="sig-name descname"><span class="pre">zorder_cols</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="pre">list</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.TableConfig.zorder_cols" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Transforms">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">Transforms</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bronze</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.inputs.Bronze" title="databricks.sirens.validators.inputs.Bronze"><span class="pre">Bronze</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">silver</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.inputs.Silver" title="databricks.sirens.validators.inputs.Silver"><span class="pre">Silver</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">gold</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#databricks.sirens.validators.inputs.Gold" title="databricks.sirens.validators.inputs.Gold"><span class="pre">Gold</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.Transforms" title="Link to this definition">#</a></dt>
+<dd><p class="linemarker linemarker-1">Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">BaseModel</span></code></p>
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Transforms.bronze">
+<span class="sig-name descname"><span class="pre">bronze</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.Bronze" title="databricks.sirens.validators.inputs.Bronze"><span class="pre">Bronze</span></a></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Transforms.bronze" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Transforms.gold">
+<span class="sig-name descname"><span class="pre">gold</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.Gold" title="databricks.sirens.validators.inputs.Gold"><span class="pre">Gold</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Transforms.gold" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.Transforms.silver">
+<span class="sig-name descname"><span class="pre">silver</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="#databricks.sirens.validators.inputs.Silver" title="databricks.sirens.validators.inputs.Silver"><span class="pre">Silver</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">None</span></em><a class="headerlink" href="#databricks.sirens.validators.inputs.Transforms.silver" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="databricks.sirens.validators.inputs.start">
+<span class="sig-prename descclassname"><span class="pre">databricks.sirens.validators.inputs.</span></span><span class="sig-name descname"><span class="pre">start</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">self</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">file</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#databricks.sirens.validators.inputs.start" title="Link to this definition">#</a></dt>
+<dd></dd></dl>
+
+</section>
+<section id="module-databricks.sirens.validators">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-databricks.sirens.validators" title="Link to this heading">#</a></h2>
+</section>
+</section>
+
+        </article>
+      </div>
+      <footer>
+        
+        <div class="related-pages">
+          
+          <a class="prev-page" href="databricks.sirens.utils.html">
+              <svg class="furo-related-icon"><use href="#svg-arrow-right"></use></svg>
+              <div class="page-info">
+                <div class="context">
+                  <span>Previous</span>
+                </div>
+                
+                <div class="title">databricks.sirens.utils package</div>
+                
+              </div>
+            </a>
+        </div>
+        <div class="bottom-of-page">
+          <div class="left-details">
+            <div class="copyright">
+                Copyright &#169; 2022, Derek King
+            </div>
+            Made with <a href="https://www.sphinx-doc.org/">Sphinx</a> and <a class="muted-link" href="https://pradyunsg.me">@pradyunsg</a>'s
+            
+            <a href="https://github.com/pradyunsg/furo">Furo</a>
+            
+          </div>
+          <div class="right-details">
+            
+          </div>
+        </div>
+        
+      </footer>
+    </div>
+    <aside class="toc-drawer">
+      
+      
+      <div class="toc-sticky toc-scroll">
+        <div class="toc-title-container">
+          <span class="toc-title">
+            On this page
+          </span>
+        </div>
+        <div class="toc-tree-container">
+          <div class="toc-tree">
+            <ul>
+<li><a class="reference internal" href="#">databricks.sirens.validators package</a><ul>
+<li><a class="reference internal" href="#submodules">Submodules</a></li>
+<li><a class="reference internal" href="#module-databricks.sirens.validators.enrichments">databricks.sirens.validators.enrichments module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.Filters"><code class="docutils literal notranslate"><span class="pre">Filters</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.Filters.output_columns"><code class="docutils literal notranslate"><span class="pre">Filters.output_columns</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.Filters.postfilter"><code class="docutils literal notranslate"><span class="pre">Filters.postfilter</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.Filters.prefilter"><code class="docutils literal notranslate"><span class="pre">Filters.prefilter</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.Model"><code class="docutils literal notranslate"><span class="pre">Model</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.ModelItem"><code class="docutils literal notranslate"><span class="pre">ModelItem</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.ModelItem.broadcast"><code class="docutils literal notranslate"><span class="pre">ModelItem.broadcast</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.ModelItem.file"><code class="docutils literal notranslate"><span class="pre">ModelItem.file</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.ModelItem.filters"><code class="docutils literal notranslate"><span class="pre">ModelItem.filters</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.ModelItem.join_expr"><code class="docutils literal notranslate"><span class="pre">ModelItem.join_expr</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.ModelItem.join_type"><code class="docutils literal notranslate"><span class="pre">ModelItem.join_type</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.ModelItem.name"><code class="docutils literal notranslate"><span class="pre">ModelItem.name</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.ModelItem.source_column"><code class="docutils literal notranslate"><span class="pre">ModelItem.source_column</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.ModelItem.table"><code class="docutils literal notranslate"><span class="pre">ModelItem.table</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.ModelItem.target_column"><code class="docutils literal notranslate"><span class="pre">ModelItem.target_column</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.enrichments.start"><code class="docutils literal notranslate"><span class="pre">start()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.validators.inputs">databricks.sirens.validators.inputs module</a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem"><code class="docutils literal notranslate"><span class="pre">AggregateItem</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem.agg_columns"><code class="docutils literal notranslate"><span class="pre">AggregateItem.agg_columns</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem.aggregation_name"><code class="docutils literal notranslate"><span class="pre">AggregateItem.aggregation_name</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem.check_aggregate_config"><code class="docutils literal notranslate"><span class="pre">AggregateItem.check_aggregate_config()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem.filter"><code class="docutils literal notranslate"><span class="pre">AggregateItem.filter</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem.groupby"><code class="docutils literal notranslate"><span class="pre">AggregateItem.groupby</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem.save_mode"><code class="docutils literal notranslate"><span class="pre">AggregateItem.save_mode</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem.source_table"><code class="docutils literal notranslate"><span class="pre">AggregateItem.source_table</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem.start_time"><code class="docutils literal notranslate"><span class="pre">AggregateItem.start_time</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem.stream_type"><code class="docutils literal notranslate"><span class="pre">AggregateItem.stream_type</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem.target_table"><code class="docutils literal notranslate"><span class="pre">AggregateItem.target_table</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem.wait_for_late_data"><code class="docutils literal notranslate"><span class="pre">AggregateItem.wait_for_late_data</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.AggregateItem.window_duration"><code class="docutils literal notranslate"><span class="pre">AggregateItem.window_duration</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Bronze"><code class="docutils literal notranslate"><span class="pre">Bronze</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Bronze.meta"><code class="docutils literal notranslate"><span class="pre">Bronze.meta</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Bronze.table_config"><code class="docutils literal notranslate"><span class="pre">Bronze.table_config</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.CIMFields"><code class="docutils literal notranslate"><span class="pre">CIMFields</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.CIMFields.dvc_hostname"><code class="docutils literal notranslate"><span class="pre">CIMFields.dvc_hostname</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.CIMFields.event_result"><code class="docutils literal notranslate"><span class="pre">CIMFields.event_result</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.CIMFields.event_sub_type"><code class="docutils literal notranslate"><span class="pre">CIMFields.event_sub_type</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.CIMFields.event_type"><code class="docutils literal notranslate"><span class="pre">CIMFields.event_type</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Config"><code class="docutils literal notranslate"><span class="pre">Config</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Config.author"><code class="docutils literal notranslate"><span class="pre">Config.author</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Config.description"><code class="docutils literal notranslate"><span class="pre">Config.description</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Config.updated"><code class="docutils literal notranslate"><span class="pre">Config.updated</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Config.version"><code class="docutils literal notranslate"><span class="pre">Config.version</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Connector"><code class="docutils literal notranslate"><span class="pre">Connector</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Connector.name"><code class="docutils literal notranslate"><span class="pre">Connector.name</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Connector.options"><code class="docutils literal notranslate"><span class="pre">Connector.options</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.DvcHostname"><code class="docutils literal notranslate"><span class="pre">DvcHostname</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.DvcHostname.action"><code class="docutils literal notranslate"><span class="pre">DvcHostname.action</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.DvcHostname.value"><code class="docutils literal notranslate"><span class="pre">DvcHostname.value</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventResult"><code class="docutils literal notranslate"><span class="pre">EventResult</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventResult.action"><code class="docutils literal notranslate"><span class="pre">EventResult.action</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventResult.type"><code class="docutils literal notranslate"><span class="pre">EventResult.type</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventResult.value"><code class="docutils literal notranslate"><span class="pre">EventResult.value</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventSubType"><code class="docutils literal notranslate"><span class="pre">EventSubType</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventSubType.action"><code class="docutils literal notranslate"><span class="pre">EventSubType.action</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventSubType.value"><code class="docutils literal notranslate"><span class="pre">EventSubType.value</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventType"><code class="docutils literal notranslate"><span class="pre">EventType</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventType.action"><code class="docutils literal notranslate"><span class="pre">EventType.action</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventType.type"><code class="docutils literal notranslate"><span class="pre">EventType.type</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventType.value"><code class="docutils literal notranslate"><span class="pre">EventType.value</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem"><code class="docutils literal notranslate"><span class="pre">EventTypeItem</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem.Config"><code class="docutils literal notranslate"><span class="pre">EventTypeItem.Config</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem.Config.fields"><code class="docutils literal notranslate"><span class="pre">EventTypeItem.Config.fields</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem.fields_value"><code class="docutils literal notranslate"><span class="pre">EventTypeItem.fields_value</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem.filter"><code class="docutils literal notranslate"><span class="pre">EventTypeItem.filter</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem.target_table"><code class="docutils literal notranslate"><span class="pre">EventTypeItem.target_table</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem1"><code class="docutils literal notranslate"><span class="pre">EventTypeItem1</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem1.Config"><code class="docutils literal notranslate"><span class="pre">EventTypeItem1.Config</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem1.Config.fields"><code class="docutils literal notranslate"><span class="pre">EventTypeItem1.Config.fields</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem1.fields_value"><code class="docutils literal notranslate"><span class="pre">EventTypeItem1.fields_value</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem1.filter"><code class="docutils literal notranslate"><span class="pre">EventTypeItem1.filter</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.EventTypeItem1.target_table"><code class="docutils literal notranslate"><span class="pre">EventTypeItem1.target_table</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Field1"><code class="docutils literal notranslate"><span class="pre">Field1</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Gold"><code class="docutils literal notranslate"><span class="pre">Gold</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Gold.aggregate"><code class="docutils literal notranslate"><span class="pre">Gold.aggregate</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Input"><code class="docutils literal notranslate"><span class="pre">Input</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Input.check_input_options"><code class="docutils literal notranslate"><span class="pre">Input.check_input_options()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Input.connector"><code class="docutils literal notranslate"><span class="pre">Input.connector</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Input.host"><code class="docutils literal notranslate"><span class="pre">Input.host</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Input.host_rawpath_segment"><code class="docutils literal notranslate"><span class="pre">Input.host_rawpath_segment</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Input.parser"><code class="docutils literal notranslate"><span class="pre">Input.parser</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Input.rawPath"><code class="docutils literal notranslate"><span class="pre">Input.rawPath</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Input.rawSchemaFile"><code class="docutils literal notranslate"><span class="pre">Input.rawSchemaFile</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Input.rawSchemaHintsFile"><code class="docutils literal notranslate"><span class="pre">Input.rawSchemaHintsFile</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Input.source"><code class="docutils literal notranslate"><span class="pre">Input.source</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Input.sourcetype"><code class="docutils literal notranslate"><span class="pre">Input.sourcetype</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Input.streamType"><code class="docutils literal notranslate"><span class="pre">Input.streamType</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Meta"><code class="docutils literal notranslate"><span class="pre">Meta</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Meta.check_regex_and_format_not_configured"><code class="docutils literal notranslate"><span class="pre">Meta.check_regex_and_format_not_configured()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Meta.source"><code class="docutils literal notranslate"><span class="pre">Meta.source</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Meta.sourcetype"><code class="docutils literal notranslate"><span class="pre">Meta.sourcetype</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Meta.timestamp_column"><code class="docutils literal notranslate"><span class="pre">Meta.timestamp_column</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Meta.timestamp_format"><code class="docutils literal notranslate"><span class="pre">Meta.timestamp_format</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Meta.timestamp_regex"><code class="docutils literal notranslate"><span class="pre">Meta.timestamp_regex</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Model"><code class="docutils literal notranslate"><span class="pre">Model</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Model.config"><code class="docutils literal notranslate"><span class="pre">Model.config</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Model.input"><code class="docutils literal notranslate"><span class="pre">Model.input</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Model.transforms"><code class="docutils literal notranslate"><span class="pre">Model.transforms</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Silver"><code class="docutils literal notranslate"><span class="pre">Silver</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Silver.event_type"><code class="docutils literal notranslate"><span class="pre">Silver.event_type</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Silver.meta"><code class="docutils literal notranslate"><span class="pre">Silver.meta</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Silver.table_config"><code class="docutils literal notranslate"><span class="pre">Silver.table_config</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.TableConfig"><code class="docutils literal notranslate"><span class="pre">TableConfig</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.TableConfig.auto_compact"><code class="docutils literal notranslate"><span class="pre">TableConfig.auto_compact</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.TableConfig.check_table_config"><code class="docutils literal notranslate"><span class="pre">TableConfig.check_table_config()</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.TableConfig.optimize_write"><code class="docutils literal notranslate"><span class="pre">TableConfig.optimize_write</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.TableConfig.partition_cols"><code class="docutils literal notranslate"><span class="pre">TableConfig.partition_cols</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.TableConfig.zorder_cols"><code class="docutils literal notranslate"><span class="pre">TableConfig.zorder_cols</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Transforms"><code class="docutils literal notranslate"><span class="pre">Transforms</span></code></a><ul>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Transforms.bronze"><code class="docutils literal notranslate"><span class="pre">Transforms.bronze</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Transforms.gold"><code class="docutils literal notranslate"><span class="pre">Transforms.gold</span></code></a></li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.Transforms.silver"><code class="docutils literal notranslate"><span class="pre">Transforms.silver</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#databricks.sirens.validators.inputs.start"><code class="docutils literal notranslate"><span class="pre">start()</span></code></a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#module-databricks.sirens.validators">Module contents</a></li>
+</ul>
+</li>
+</ul>
+
+          </div>
+        </div>
+      </div>
+      
+      
+    </aside>
+  </div>
+</div><script src="_static/documentation_options.js?v=8d563738"></script>
+    <script src="_static/doctools.js?v=888ff710"></script>
+    <script src="_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="_static/scripts/furo.js?v=32e29ea5"></script>
+    </body>
+</html>

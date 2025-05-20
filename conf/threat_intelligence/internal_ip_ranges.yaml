@@ -1,0 +1,10 @@
+- ip_prefix: '83.219.76.120/30'
+  provider: 'Databricks Office'
+  service: 'ISP1'
+  type: 4
+  region: 'Amsterdam Office'
+- ip_prefix: '83.219.72.100/30'
+  provider: 'Databricks Office'
+  service: 'ISP2'
+  type: 4
+  region: 'Amsterdam Office'

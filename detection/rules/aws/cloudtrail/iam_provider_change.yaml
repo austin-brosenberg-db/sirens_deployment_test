@@ -1,0 +1,60 @@
+name: iam_provider_change
+summary: IAM provider change - <recipientAccountId> - <eventName>
+severity: medium
+source: cloudtrail
+sourceDetails: 
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <timestamp>
+actor:
+  type: USER
+  domain: userIdentity.accountId
+  id: userIdentity.arn
+  role: 
+  beliefCompromised: 0.5
+target:
+  type: INFRASTRUCTURE
+  domain: recipientAccountId
+  id: 
+  role: 
+  beliefCompromised: 0.5
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: DEFENSE_EVASION
+    techniqueId: T1562
+    technique: Impair Defenses
+observables:
+  ipAddresses:
+  - '[ipAddress]'
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  aws_account: <userIdentity.arn>
+  who: <userIdentity.arn> at <sourceIPAddress>
+filter: |-
+  eventName in ('CreateOpenIDConnectProvider',
+  'CreateSAMLProvider',
+  'DeleteOpenIDConnectProvider',
+  'DeleteSAMLProvider',
+  'UpdateOpenIDConnectProviderThumbprint',
+  'UpdateSAMLProvider')
+  AND userIdentity.userName not like 'HCVaultRole%'
+test_cases:
+- test_name: expected hit
+  expected_result: true
+  expected_summary: IAM provider change - 1234567890 - CreateOpenIDConnectProvider
+  expected_severity: medium
+  # expected_context: {}
+  test_input: 
+    {
+        "eventName": "CreateOpenIDConnectProvider",
+        "userIdentity": {
+          "userName": "", 
+          "arn": "arn:aws:iam::123456789012:user/Alice"
+        },
+        "recipientAccountId": "1234567890",
+        "sourceIPAddress": "1.2.3.4",
+        "timestamp": "2022-01-01 00:00:00",
+    }

@@ -1,0 +1,211 @@
+config:
+  version: 1.1
+  updated: 2025-03-13
+  author: Garrett R Peternel
+  description: Azure Active Directory User Risk Events [https://learn.microsoft.com/en-us/azure/azure-monitor/reference/tables/aaduserriskevents]
+input:
+  source: azure
+  sourcetype: aad_userriskevents
+  parser: azure_aad
+  rawPath: s3://<path_to_dir>/ # change me [required]
+  rawSchemaFile: schema.json
+  host: AzureAD
+  connector:
+    name: autoloader
+    options:
+      multiline: True
+      cloudFiles.format: json
+      cloudFiles.rescuedDataColumn: _rescued_data
+  streamType: streaming
+schemas:
+  bronze: 
+    name: DB.azure_aad_userriskevents_bronze
+    checkpointLocation: s3://<path_to_dir>/ # <db_checkpoint_location>/<table_name>/_checkpoints/<optional: source>/<optional: source_type>
+  silver: 
+    name: DB.azure_aad_userriskevents_silver
+    checkpointLocation: s3://<path_to_dir>/ # <db_checkpoint_location>/<table_name>/_checkpoints/<optional: source>/<optional: source_type>
+  normalized: 
+    name: DB.authentication
+    checkpointLocation: s3://<path_to_dir>/ # <db_checkpoint_location>/<table_name>/_checkpoints/<optional: source>/<optional: source_type>
+  normalized: 
+    name: DB.user_management
+    checkpointLocation: s3://<path_to_dir>/ # <db_checkpoint_location>/<table_name>/_checkpoints/<optional: source>/<optional: source_type>
+transforms:
+  bronze:
+    meta:
+      timestamp_column: TimeGenerated
+      timestamp_format: yyyy-MM-dd'T'HH:mm:ss.SSS'Z'
+  silver:
+      event_type:
+       - target_table: authentication
+         filter: RiskDetail == "adminConfirmedSigninSafe" or RiskDetail == "aiConfirmedSigninSafe" or RiskDetail == "userPassedMFADrivenByRiskBasedPolicy" or RiskDetail == "adminConfirmedSigninCompromised"
+         fields:
+          - _event_date:
+              action: copy
+          - _event_time:
+              action: copy
+          - _sourcetype:
+              action: copy
+          - _source:
+              action: copy
+          - dvc_hostname:
+              action: copy
+          - event_type:
+              action: add
+              type: literal
+              value: Logon
+          - event_sub_type:
+              action: alias
+              value: RiskDetail
+          - event_message:
+              action: alias
+              value: RiskDetail
+          - event_result:
+              action: add
+              type: expression
+              value: case when RiskState = 'none' then 'Success' when RiskState = 'confirmedSafe' then 'Success' when RiskState = 'dismissed' then 'Success' when RiskState = 'remediated' then 'Partial' when RiskState = 'atRisk' then 'Partial' when RiskState = 'confirmedCompromised' then 'Failure' else 'UNKNOWN' end
+          - event_schema_file:
+              action: add
+              type: literal
+              value: authentication_v0.1
+          - event_severity:
+              action: add
+              type: expression
+              value: case when RiskLevel = 'low' then 'Informational' when RiskLevel = 'none' then 'Informational' when RiskLevel = 'medium' then 'Medium' when RiskLevel = 'high' then 'High' else 'UNKNOWN' end
+          - event_original_severity:
+              action: alias
+              value: RiskLevel
+          - http_user_agent:
+              action: add
+              type: expression
+              value: filter(additional_info_kv, x-> x.Key = 'userAgent')[0].Value
+          - src:
+              action: alias
+              value: IpAddress
+          - src_domain:
+              action: alias
+              value: Source
+          - src_ip_addr:
+              action: alias
+              value: IpAddress
+          - src_geo_country:
+              action: alias
+              value: Location_countryOrRegion
+          - src_geo_city:
+              action: alias
+              value: Location_city
+          - src_geo_region:
+              action: alias
+              value: Location_state
+          - src_geo_lon:
+              action: alias
+              value: Location_geoCoordinates_longitude
+          - src_geo_lat:
+              action: alias
+              value: Location_geoCoordinates_latitude
+          - target_user_id:
+              action: alias
+              value: UserId
+          - target_user_name:
+              action: alias
+              value: UserDisplayName
+          - logon_guid:
+              action: alias
+              value: Id
+          - logon_type:
+              action: alias
+              value: TokenIssuerType
+          - login_id:
+              action: alias
+              value: Id
+          - user:
+              action: alias
+              value: UserDisplayName
+          - email_addr:
+              action: alias
+              value: UserPrincipalName
+          - event_product:
+              action: add
+              type: literal
+              value: azureAD
+          - event_vendor:
+              action: add
+              type: literal
+              value: azure
+       - target_table: user_management
+         filter: RiskDetail == "adminGeneratedTemporaryPassword" or RiskDetail == "userPerformedSecuredPasswordChange" or RiskDetail == "userPerformedSecuredPasswordReset" or RiskDetail == "adminDismissedAllRiskForUser" or RiskDetail == "adminConfirmedUserCompromised"
+         fields:
+          - _event_date:
+              action: copy
+          - _event_time:
+              action: copy
+          - _sourcetype:
+              action: copy
+          - _source:
+              action: copy
+          - dvc_hostname:
+              action: copy
+          - event_type:
+              action: add
+              type: expression
+              value: case when RiskDetail = 'adminGeneratedTemporaryPassword' then 'PasswordReset' when RiskDetail = 'userPerformedSecuredPasswordChange' then 'PasswordChange' when RiskDetail = 'userPerformedSecuredPasswordReset' then 'PasswordReset' when RiskDetail = 'adminDismissedAllRiskForUser' then 'UserModified' when RiskDetail = 'adminConfirmedUserCompromised' then 'UserModified' else 'Other' end
+          - event_message:
+              action: alias
+              value: RiskDetail
+          - event_result:
+              action: add
+              type: expression
+              value: case when RiskState = 'none' then 'Success' when RiskState = 'confirmedSafe' then 'Success' when RiskState = 'dismissed' then 'Success' when RiskState = 'remediated' then 'Partial' when RiskState = 'atRisk' then 'Partial' when RiskState = 'confirmedCompromised' then 'Failure' else 'UNKNOWN' end
+          - event_schema_file:
+              action: add
+              type: literal
+              value: user_management_v0.1
+          - event_severity:
+              action: add
+              type: expression
+              value: case when RiskLevel = 'low' then 'Informational' when RiskLevel = 'none' then 'Informational' when RiskLevel = 'medium' then 'Medium' when RiskLevel = 'high' then 'High' else 'UNKNOWN' end
+          - event_original_severity:
+              action: alias
+              value: RiskLevel
+          - actor_user_type:
+              action: add
+              type: expression
+              value: case when RiskDetail = 'adminGeneratedTemporaryPassword' then 'Admin' when RiskDetail = 'userPerformedSecuredPasswordChange' then 'User' when RiskDetail = 'userPerformedSecuredPasswordReset' then 'User' when RiskDetail = 'adminDismissedAllRiskForUser' then 'Admin' when RiskDetail = 'adminConfirmedUserCompromised' then 'Admin' else 'Other' end
+          - user:
+              action: alias
+              value: UserDisplayName
+          - email_addr:
+              action: alias
+              value: UserPrincipalName
+          - event_product:
+              action: add
+              type: literal
+              value: azureAD
+          - event_vendor:
+              action: add
+              type: literal
+              value: azure
+          - src:
+              action: alias
+              value: IpAddress
+          - src_domain:
+              action: alias
+              value: Source
+          - src_ip_addr:
+              action: alias
+              value: IpAddress
+          - src_geo_country:
+              action: alias
+              value: Location_countryOrRegion
+          - src_geo_city:
+              action: alias
+              value: Location_city
+          - src_geo_region:
+              action: alias
+              value: Location_state
+          - src_geo_lon:
+              action: alias
+              value: Location_geoCoordinates_longitude
+          - src_geo_lat:
+              action: alias
+              value: Location_geoCoordinates_latitude

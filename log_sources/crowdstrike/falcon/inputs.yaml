@@ -1,0 +1,513 @@
+config:
+  version: 1.0
+  updated: 2023-08-23
+  author: Alex Ott, Derek King, Li Yu, Allison Chau
+  description: Crowdstrike Falcon logs
+input:
+  source: crowdstrike
+  sourcetype: falcon
+  parser: crowdstrike
+  rawPath: LocalPath://crowdstrike/falcon/samples/
+  connector:
+    name: autoloader  # json|kafka|csv|txt [required]
+    options:
+      cloudFiles.format: text
+      cloudFiles.includeExistingFiles: true
+  streamType: streaming # batch|streaming [required]
+transforms:
+  bronze:
+    meta:
+      host_column: host
+      table_config:
+        partition_cols:
+          - event_name
+  silver:
+    meta:
+      event_names: # If not specified, all event type s
+        - DnsRequest
+        - SuspiciousDnsRequest
+        - CriticalFileAccessed
+        - CriticalFileModified
+        - NetworkListenIP4
+        - UserLogon
+        - UserLogoff
+        - UserLogonFailed
+        - UserLogonFailed2
+        - NetworkConnectIP4
+        - NetworkReceiveAcceptIP4
+        - SyntheticProcessRollup2
+        - SuspiciousRegAsepUpdate
+    event_type:
+      - target_table: authentication
+        filter: (event_name in ('UserLogon', 'UserLogoff', 'UserLogonFailed', 'UserLogonFailed2'))
+        fields:
+         - _event_date:
+            action: copy
+         - _event_time:
+            action: copy
+         - _sourcetype:
+            action: copy
+         - _source:
+            action: copy
+         - dvc_hostname:
+            action: copy
+         - dest:
+            action: add
+            type: expression
+            value: coalesce(LogonServer, dvc_hostname)
+         - dest_hostname:
+            action: alias
+            value: LogonServer
+         - dest_ip_addr:
+            action: add
+            type: expression
+            value: dvc_hostname
+         - event_product:
+            action: add
+            type: literal
+            value: Falcon
+         - event_result:
+            action: add
+            type: expression
+            value: case when event_name ilike '%failed%' then 'Failure' else 'Success' end 
+         - event_severity:
+            action: add
+            type: literal
+            value: Informational
+         - event_sub_type:
+            action: add
+            type: expression
+            value: case when event_name == 'UserLogoff' then NULL else LogonType end
+         - event_type:
+            action: alias
+            value: event_name
+         - event_vendor:
+            action: add
+            type: literal
+            value: Crowdstrike
+         - logon_target:
+            action: alias
+            value: LogonServer
+         - src:
+            action: add
+            type: expression
+            value: ClientComputerName
+         - src_hostname:
+            action: add
+            type: expression
+            value: ClientComputerName
+         - src_ip_addr:
+            action: alias
+            value: RemoteAddressIP4
+         - target_domain:
+            action: alias
+            value: LogonDomain
+         - target_hostname:
+            action: alias
+            value: LogonServer
+         - target_ip_addr:
+            action: add
+            type: expression
+            value: dvc_hostname
+         - target_session_id:
+            action: alias
+            value: SessionProcessId
+         - user:
+            action: add
+            type: expression
+            value: coalesce(UserName, UserPrincipal)
+
+      - target_table: DNS
+        filter: (event_name in ('DnsRequest', 'SuspiciousDnsRequest'))
+        fields:
+         - _event_date:
+            action: copy
+         - _event_time:
+            action: copy
+         - _sourcetype:
+            action: copy
+         - _source:
+            action: copy
+         - dvc_hostname:
+            action: copy
+         - dest:
+            action: alias
+            value: RespondingDnsServer
+         - dest_host_name:
+            action: alias
+            value: RespondingDnsServer
+         - dest_ip_addr:
+            action: alias
+            value: RespondingDnsServer
+         - dest_port:
+            action: alias
+            value: LocalPort
+         - dns_query:
+            action: alias
+            value: DomainName
+         - dns_query_type:
+            action: alias
+            value: RequestType
+         - dns_query_type_name:
+            action: alias
+            value: RequestType
+         - dns_response_answers:
+            action: add
+            type: expression
+            value: struct(IP4Records, IP6Records, CNAMERecords)
+         - dns_response_code:
+            action: alias
+            value: DnsResponseType
+         - dns_response_name:
+            action: add
+            type: expression
+            value: struct(IP4Records, IP6Records, CNAMERecords)
+         - event_message:
+            action: add
+            type: expression
+            value: struct(IP4Records, IP6Records, CNAMERecords)
+         - event_result:
+            action: add
+            type: expression
+            value: case when QueryStatus = '0' then 'Success' when IsNull(QueryStatus) then 'Unknown' else 'Failure' end
+         - event_type:
+            action: add
+            type: literal
+            value: "Query"
+         - process:
+            action: add
+            type: expression
+            value: coalesce(SourceProcessId, TargetProcessId, ContextProcessId)
+         - src:
+            action: alias
+            value: aip
+         - src_ip_addr:
+            action: alias
+            value: aip
+
+      - target_table: File
+        filter: (event_name = 'CriticalFileAccessed' OR event_name = 'CriticalFileModified' OR event_name = 'DirectoryCreate' OR event_name = 'NewScriptWritten' OR event_name = 'ExecutableDeleted' OR event_name = 'WebScriptFileWritten' OR event_name = 'NewExecutableWritten' OR event_name = 'FileOpenInfo' OR event_name = 'PeFileWritten' OR event_name = 'GzipFileWritten' OR event_name = 'FileDeleteInfo' OR event_name = 'LnkFileWritten' OR event_name = 'TarFileWritten' OR event_name = 'EmailFileWritten' OR event_name = 'MsiFileWritten' OR event_name = 'MSPptxFileWritten' OR event_name = 'DmpFileWritten' OR event_name in ('event_name','JavaClassFileWritten','ZipFileWritten','PeFileWritten','GzipFileWritten','MSDocxFileWritten','PngFileWritten','EmailArchiveFileWritten','TiffFileWritten','OleFileWritten','ELFFileWritten','WebScriptFileWritten','JarFileWritten','RtfFileWritten','JpegFileWritten','GenericFileWritten','MachOFileWritten','SevenZipFileWritten','PdfFileWritten','LnkFileWritten','BmpFileWritten','GifFileWritten','OoxmlFileWritten','EseFileWritten','PythonFileWritten','MSXlsxFileWritten','CabFileWritten','EmailFileWritten','TarFileWritten','MsiFileWritten','MSPptxFileWritten','DmpFileWritten'))
+        fields:
+         - _event_date:
+            action: copy
+         - _event_time:
+            action: copy
+         - _sourcetype:
+            action: copy
+         - _source:
+            action: copy
+         - acting_process_command_line:
+            action: alias
+            value: CommandLine
+         - acting_process_guid:
+            action: add
+            type: expression
+            value: coalesce(SessionProcessId, RawProcessId, TargetProcessId, SourceProcessId, ContextProcessId, ProcessGroupId, ParentProcessId)
+         - acting_process_id:
+            action: add
+            type: expression
+            value: coalesce(SessionProcessId, RawProcessId, TargetProcessId, SourceProcessId, ContextProcessId, ProcessGroupId, ParentProcessId)
+         - acting_process_name:
+            action: add
+            type: expression
+            value: coalesce(SessionProcessId, RawProcessId, TargetProcessId, SourceProcessId, ContextProcessId, ProcessGroupId, ParentProcessId)
+         - actor_user_name:
+            action: alias
+            value: UserName
+         - event_result:
+            action: add
+            type: literal
+            value: Success
+         - event_severity:
+            action: add
+            type: literal
+            value: Informational
+         - event_type:
+            action: alias
+            value: event_name
+         - process:
+            action: alias
+            value: CommandLine
+         - src_file_hash_sha256:
+            action: alias
+            value: SHA256HashData
+         - src_ip_addr:
+            action: alias
+            value: aip
+         - target_file_hash_sha1:
+            action: alias
+            value: SHA1HashData
+         - target_file_hash_md5:
+            action: alias
+            value: MD5HashData
+         - target_file_hash_sha256:
+            action: alias
+            value: TargetSHA256HashData
+         - target_file_name:
+            action: alias
+            value: TargetFileName
+         - dest:
+            action: alias
+            value: dvc_hostname
+         - src:
+            action: alias
+            value: aip
+
+      - target_table: Network
+        filter: (event_name in ('NetworkConnectIP4', 'NetworkListenIP4', 'NetworkCloseIP4'))
+        fields:
+         - _event_date:
+            action: copy
+         - _event_time:
+            action: copy
+         - _sourcetype:
+            action: copy
+         - _source:
+            action: copy
+         - dest:
+            action: add
+            type: expression
+            value: case when ConnectionDirection = 0 then LocalAddressIP4 when ConnectionDirection = 1 then RemoteAddressIP4 when ConnectionDirection = 2 then RemoteAddressIP4 end
+         - dest_domain:
+            action: alias
+            value: DomainName
+         - dest_hostname:
+            action: alias
+            value: dvc_hostname
+         - dest_ip_addr:
+            action: add
+            type: expression
+            value: case when ConnectionDirection = 0 then LocalAddressIP4 when ConnectionDirection = 1 then RemoteAddressIP4 when ConnectionDirection = 2 then RemoteAddressIP4 end
+         - dvc_hostname:
+            action: alias
+            value: dvc_hostname
+         - event_message:
+            action: alias
+            value: EventOrigin
+         - event_result:
+            action: add
+            type: literal
+            value: Success
+         - event_severity:
+            action: add
+            type: literal
+            value: Informational
+         - event_type:
+            action: alias
+            value: event_name
+         - network_protocol:
+            action: alias
+            value: Protocol
+         - src:
+            action: add
+            type: expression
+            value: case when ConnectionDirection = 1 then LocalAddressIP4 when ConnectionDirection = 0 then RemoteAddressIP4 when ConnectionDirection = 2 then LocalAddressIP4 end
+         - src_domain:
+            action: alias
+            value: DomainName
+         - src_hostname:
+            action: add
+            type: expression
+            value: case when ConnectionDirection = 1 then LocalAddressIP4 when ConnectionDirection = 0 then RemoteAddressIP4 when ConnectionDirection = 2 then LocalAddressIP4 end
+         - src_ip_addr:
+            action: add
+            type: expression
+            value: case when ConnectionDirection = 1 then LocalAddressIP4 when ConnectionDirection = 0 then RemoteAddressIP4 when ConnectionDirection = 2 then LocalAddressIP4 end
+         - uid:
+            action: alias
+            value: id
+
+      - target_table: Process
+        filter: (event_name = 'ProcessRollup2' OR event_name = 'EndOfProcess' OR event_name = 'TerminateProcess' OR event_name = 'ProcessInjection' OR event_name = 'SyntheticProcessRollup2')
+        fields:
+         - _event_date:
+            action: copy
+         - _event_time:
+            action: copy
+         - _sourcetype:
+            action: copy
+         - _source:
+            action: copy
+         - acting_process_command_line:
+            action: alias
+            value: CommandLine
+         - acting_process_name:
+            action: alias
+            value: ImageFileName
+         - actor_user_name:
+            action: alias
+            value: UserName
+         - actor_user_type:
+            action: add
+            type: expression
+            value: case when cast(UserIsAdmin as boolean) then 'Admin' else 'User' end
+         - dest:
+            action: alias
+            value: dvc_hostname
+         - dest_hostname:
+            action: alias
+            value: ClientComputerName
+         - dvc_hostname:
+            action: alias
+            value: dvc_hostname
+         - event_result:
+            action: add
+            type: literal
+            value: Success
+         - event_severity:
+            action: add
+            type: literal
+            value: Informational
+         - event_type:
+            action: alias
+            value: event_name
+         - process:
+            action: alias
+            value: CommandLine
+         - src:
+            action: alias
+            value: dvc_hostname
+         - src_hostname:
+            action: alias
+            value: ClientComputerName
+         - target_process_command_line:
+            action: alias
+            value: CommandLine
+         - target_process_id:
+            action: alias
+            value: TargetProcessId
+
+      - target_table: Registry
+        filter: (event_name = 'RegSystemConfigValueUpdate' OR event_name = 'SuspiciousRegAsepUpdate')
+        fields:
+         - _event_date:
+            action: copy
+         - _event_time:
+            action: copy
+         - _sourcetype:
+            action: copy
+         - _source:
+            action: copy
+         - dest:
+            action: alias
+            value: dvc_hostname
+         - dvc_hostname:
+            action: copy
+         - event_message:
+            action: alias
+            value: event_name
+         - event_result:
+            action: add
+            type: literal
+            value: Success
+         - event_schema_file:
+            action: add
+            type: literal
+            value: registry_v1.0.0
+         - event_severity:
+            action: add
+            type: expression
+            value: case when event_name = 'RegSystemValueUpdate' then 'Informational' when event_name = 'SuspiciousRegAsepUpdate' then 'High' end
+         - event_type:
+            action: add
+            type: expression
+            value: case when event_name = 'RegSystemValueUpdate' then 'RegistryValueSet' when event_name = 'SuspiciousRegAsepUpdate' then 'RegistryValueSet' end
+         - hash:
+            action: alias
+            value: TargetSHA256HashData
+         - hash_type:
+            action: add
+            type: expression
+            value: case when isnotnull(TargetSHA256HashData) then 'SHA256' else NULL end
+         - process:
+            action: alias
+            value: ImageFileName
+         - registry_key:
+            action: alias
+            value: RegObjectName
+         - registry_value:
+            action: alias
+            value: RegValueName
+         - registry_value_data:
+            action: alias
+            value: RegStringValue
+         - src:
+            action: alias
+            value: dvc_hostname
+         - target_file_hash_sha256:
+            action: alias
+            value: TargetSHA256HashData
+
+      - target_table: WMI
+        filter: (event_name = 'WmiCreateProcess' OR event_name = 'SensitiveWmiQuery')
+        fields:
+         - _event_date:
+            action: copy
+         - _event_time:
+            action: copy
+         - _sourcetype:
+            action: copy
+         - _source:
+            action: copy
+         - acting_app_id:
+            action: alias
+            value: TargetProcessId
+         - dest:
+            action: alias
+            value: dvc_hostname
+         - dest_domain:
+            action: alias
+            value: DomainName
+         - dest_hostname:
+            action: alias
+            value: ClientComputerName
+         - dest_ip_addr:
+            action: alias
+            value: dvc_hostname
+         - dvc_hostname:
+            action: copy
+         - event_message:
+            action: add
+            type: expression
+            value: case when event_name = 'WmiCreateProcess' then 'Wmi Process Created' when event_name = 'SensitiveWmiQuery' then 'Sensitive Wmi Query' end
+         - event_result:
+            action: add
+            type: literal
+            value: Success
+         - event_schema_file:
+            action: add
+            type: literal
+            value: wmi_v0.1.1
+         - event_severity:
+            action: add
+            type: literal
+            value: Informational
+         - event_type:
+            action: alias
+            value: event_name
+         - src:
+            action: alias
+            value: ClientComputerName
+         - src_domain:
+            action: alias
+            value: DomainName
+         - src_hostname:
+            action: alias
+            value: ClientComputerName
+         - src_ip_addr:
+            action: alias
+            value: dvc_hostname
+         - src_user_name:
+            action: alias
+            value: UserName
+         - user:
+            action: alias
+            value: UserName
+
+
+
+
+# TODOs: for silver:
+# Decide about partitioning & ZOrdering of the silver table.
+# Does it make sense to partition by event_name again (it will help for downstream consumers) & then ZOrder by event_time, etc.?
+# We also need to decide about data skipping for some columns, like reorder timestamps, etc.

@@ -1,0 +1,7 @@
+name: slack
+connection:
+  token:
+    scope: slack
+    key: sirt-app
+  max_timeout: 10
+  retries: 3

@@ -1,0 +1,152 @@
+config:
+  version: 1.0
+  updated: 2024-09-02
+  author: Alex Ott
+  description: AWS Web Application Firewall (WAF) logs
+input:
+  source: aws
+  sourcetype: wafv2
+  parser: generic_json
+  rawPath: <path_to_aws_waf_data>
+  rawSchemaFile: schema.json # only needed for non-autoloader sources
+  connector:
+    name: json  # json|kafka|csv|txt [required]
+    options:
+      #cloudFiles.format: text
+      #cloudFiles.includeExistingFiles: true
+  streamType: streaming
+transforms:
+  bronze:
+    meta:
+      timestamp_column: timestamp
+      timestamp_column_type: long_milliseconds
+      host_column: webaclId
+      table_config:
+        partition_cols:
+          - _event_date
+  silver:
+    meta:
+      use_snake_case: true
+    event_type:
+      - target_table: web
+        fields:
+        - _event_date:
+            action: copy
+        - _event_time:
+            action: copy
+        - _source:
+            action: copy
+        - _sourcetype:
+            action: copy
+        - dest:
+            action: add
+            type: expression
+            value: get(filter(http_request.headers, x -> x.name == 'Host'), 0).value
+        - dest_host:
+            action: add
+            type: expression
+            value: get(filter(http_request.headers, x -> x.name == 'Host'), 0).value
+        - dest_ip_address:
+            action: add
+            type: expression
+            value: get(filter(http_request.headers, x -> x.name == 'Host'), 0).value
+        - event_result:
+            action: alias
+            value: action
+        - event_schema_file:
+            action: add
+            type: literal
+            value: web
+        - event_severity:
+            action: add 
+            type: literal
+            value: Informational
+        - event_type:
+            action: add
+            type: literal
+            value: HTTP Session
+        - http_request_method:
+            action: add
+            type: expression
+            value: get(filter(http_request.headers, x -> x.name == 'httpMethod'), 0).value
+        - http_user_agent:
+            action: add
+            type: expression
+            value: get(filter(http_request.headers, x -> x.name == 'User-Agent'), 0).value
+        - http_version:
+            action: add
+            type: expression
+            value: get(filter(http_request.headers, x -> x.name == 'httpVersion'), 0).value
+        - src:
+            action: add
+            type: expression
+            value: get(filter(http_request.headers, x -> x.name == 'clientIp'), 0).value
+        - src_ip_addr:
+            action: add
+            type: expression
+            value: get(filter(http_request.headers, x -> x.name == 'clientIp'), 0).value
+        - uid:
+            action: alias
+            value: http_request.requestId
+        - uri:
+            action: alias
+            value: http_request.uri
+      - target_table: network
+        fields:
+        - _source:
+            action: copy
+        - _sourcetype:
+            action: copy
+        - _event_time:
+            action: copy
+        - _event_date:
+            action: copy
+        - dest:
+            action: add
+            type: expression
+            value: get(filter(http_request.headers, x -> x.name == 'Host'), 0).value
+        - dest_geo_country:
+            action: alias
+            value: http_request.country
+        - dest_hostname:
+            action: add
+            type: expression
+            value: get(filter(http_request.headers, x -> x.name == 'Host'), 0).value
+        - dest_ip_addr:
+            action: add
+            type: expression
+            value: get(filter(http_request.headers, x -> x.name == 'Host'), 0).value
+        - event_result:
+            action: alias
+            value: action
+        - event_schema_file:
+            action: add
+            type: literal
+            value: network
+        - event_severity:
+            action: add
+            type: literal
+            value: Informational
+        - event_type:
+            action: add
+            type: literal
+            value: Network Session
+        - network_application:
+            action: add
+            type: literal
+            value: 'tcp'
+        - network_session_id:
+            action: add
+            type: expression
+            value: concat_ws("-", get(filter(http_request.headers, x -> x.name == 'clientIp'), 0).value, "0", get(filter(http_request.headers, x -> x.name == 'Host'), 0).value, "0")
+        - src:
+            action: add
+            type: expression
+            value: get(filter(http_request.headers, x -> x.name == 'clientIp'), 0).value
+        - src_ip_addr:
+            action: add
+            type: expression
+            value: get(filter(http_request.headers, x -> x.name == 'clientIp'), 0).value
+        - uid:
+            action: alias
+            value: http_request.requestId

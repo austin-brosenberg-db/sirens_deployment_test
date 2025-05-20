@@ -1,0 +1,52 @@
+name: rds_restored_db_publicly_accessible
+summary: AWS RDS restored DB is public accessible
+severity: high
+source: cloudtrail
+sourceDetails: 
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <timestamp>
+actor:
+  type: USER
+  domain: userIdentity.accountId
+  id: userIdentity.arn
+  role: 
+  beliefCompromised: 0.5
+target:
+  type: INFRASTRUCTURE
+  domain: recipientAccountId
+  id: 
+  role: 
+  beliefCompromised: 0.5
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: COLLECTION
+    techniqueId: T1530
+    technique: Data from Cloud Storage
+observables:
+  ipAddresses:
+  - '[ipAddress]'
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+filter: |-
+  eventSource = 'rds.amazonaws.com'
+  AND eventName = 'RestoreDBInstanceFromDBSnapshot'
+  AND responseElements.publiclyAccessible is true
+test_cases:
+- test_name: expected hit
+  expected_result: true
+  expected_summary: AWS RDS restored DB is public accessible
+  expected_severity: high
+  # expected_context: {}
+  test_input: 
+    {
+        "eventSource": "rds.amazonaws.com",
+        "eventName": "RestoreDBInstanceFromDBSnapshot",
+        "responseElements": {
+          "publiclyAccessible": true
+        },
+        "timestamp": "2022-01-01 00:00:00"
+    }

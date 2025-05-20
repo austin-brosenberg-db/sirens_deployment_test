@@ -1,0 +1,16 @@
+test_cases:
+  - name: corelight_dpd
+    connector: json
+    sample: dpd_sample.json
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, entries
+        expected_values:
+          - _event_date: '2022-08-09'
+          - _sourcetype: 'corelight_dpd'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, id.resp_h, analyzer, _write_ts, failure_reason, id.orig.h, ts, proto, id.orig_p, _path, id.resp_p, uid, _system_name
+        expected_values:
+          - analyzer: 'HTTP'
+          - proto: 'tcp'
+          - id.resp_p: '80'

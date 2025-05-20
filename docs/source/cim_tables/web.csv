@@ -1,0 +1,57 @@
+FieldName,Data Type,Type,Description,Allowed Values,Example
+_event_date,date,mandatory,The date of the original event,,2022-11-28
+_event_time,timestamp,mandatory,The timestamp of the original event,,
+_source,string,mandatory,The source of the data ingested,,"aws, checkpoint"
+_sourcetype,string,mandatory,The sourcetype of data ingested,,"cloud_trail, opsec_lea"
+dest,string,recommended,alias from dest_host,,
+dest_host,string,recommended,The http server connected to,,webserver.com
+dvc_hostname,string,mandatory,The device sending the data,,"fw-1, proxy-sg-1"
+event_message,string,recommended,Details of the event either from the record or generated,,
+event_result,string,recommended,The result of the event reported. Normalised to one of the examples,"Success, Failure",
+event_schema_file,string,optional,The version of CIM model used to create this dataset. Literal string assigned by the data engineer,,web_v0.1.1
+event_severity,string,recommended,"The severity of the event, normalized to one of example","Informational, Low, Medium, High",
+event_type,string,recommended,Describes the operation reported by the event,,
+file_content_type,string,optional,The content type for file uploads,,application/octet-stream
+file_hash_md5,string,optional,md5 hash for file uploads,,
+file_hash_sha256,string,optional,sha256 hash for file uploads,,
+file_hash_type,string,optional,type of hash in the hash field,,"md5, sha256"
+file_name,string,optional,for file uploads,,
+file_size,string,optional,The file size in bytes of a file upload,,199
+hash,string,optional,alias from best available of file_hash_md5 or file_hash_256,,
+http_content_type,string,optional,The http response content type,,text/html; charset=ISO-8859-4
+http_referrer,string,optional,The http referrer header,,https://en.wikipedia/wiki/AJR_(band)
+http_request_length,bigint,optional,The size in bytes of the request packet,,201
+http_request_method,string,recommended,The http method,,"GET,POST, HEAD, PUT, DELETE, CONNECT, OPTIONS, TRACE, PATH"
+http_response_length,bigint,optional,The size in bytes of the response packet,,1023
+http_status_code,integer,recommended,The http status code,,200
+http_user_agent,string,optional,The http user agent header,,Mozilla/5.0 (platform; rv:geckoversion) Gecko/geckotrail Firefox/firefoxversion
+http_version,string,optional,The version of http request,,1.1
+src,string,optional,alias from src_ip_addr,,
+src_ip_addr,string,optional,The ip address of the web request,,2.34.43.122
+threat_category,string,optional,category of the threat identified in the web session,,
+threat_id,string,optional,id of the threat identified in the web session,,
+threat_name,string,optional,name of the threat identified in the web session,,
+threat_risk_level,string,optional,numeric risk level identified in the web session,,
+uid,string,optional,A unique value that links web to other sources such as the network connection,,
+url,string,,The full HTTP request URL,,https://www.google.com/search?q=evil+actors&rlz=1C5GCEM
+url_category,string,optional,The content category if supplied by web proxy,,"gambling, adult, social"
+src,string,recommended,alias from src_hostname,,
+src_hostname,string,recommended,The hostname of the device executing process,,
+target_process_command_line,string,optional,The command line of the target process,,
+target_process_guid,string,optional,The globally unique id of the target process,,
+target_process_hash_md5,string,optional,The MD5 hash of the target process image file,,
+target_process_hash_sha256,string,optional,The SHA256 hash of the target process image file,,
+target_process_id,bigint,optional,The process id of the target process,,
+target_process_name,string,optional,The name of the target process,,c:\Windows\explorer.exe
+target_user_id,string,optional,The unique id for for the target_user_name,,S-1-12
+target_user_name,string,optional,The target username including domain if available,,contoso\mallory
+target_user_type,string,optional,"The type of username in target_user_name. UPN is either UPN or email, Windows = contoso\mallory, DN=LDAP format, Simple=mallorypark, AWSId=56765654368","UPN, Windows, DN,Simple, AWSId",
+src_geo_region,string,optional,Region,,England
+src_hostname,string,recommended,The source device name,,MALLORY-PC
+src_interface_guid,string,optional,The GUID of the network interface used on the device,,46ad544b-eaf0-47ef-827c-266030f545a6
+src_interface_name,string,optional,The network interface used for the connection by the source device,,eth01
+src_ip_addr,string,optional,The source IP address,,10.10.10.10
+src_mac_address,string,optional,The MAC address of the network interface used for the connection or session by the source device.,,06:10:9f:eb:8f:14
+src_packets,long,optional,number of packets sent from source to destination,,
+src_vlan_id,string,optional,The VLAN id related to the source device,,110
+total_packets,long,optional,total packets sent between source and destination,,

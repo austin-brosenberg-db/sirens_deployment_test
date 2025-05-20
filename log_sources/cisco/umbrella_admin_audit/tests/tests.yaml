@@ -1,0 +1,15 @@
+test_cases:
+  - name: cisco_umbrella_admin_audit
+    connector: txt
+    sample: cisco_umbrella_admin_audit_logs.txt
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time,  _source, _source_file, _sourcetype, dvc_hostname, value
+        expected_values:
+          - _source: 'cisco'
+          - _sourcetype: 'umbrella_admin_audit'
+      silver:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, id, timestamp, email, user, type, action, logged_in_from, before, after
+        expected_values:
+          - dvc_hostname: 'umbrella'
+          - type: 'logexportconfigurations'

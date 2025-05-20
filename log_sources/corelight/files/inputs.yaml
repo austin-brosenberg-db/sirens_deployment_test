@@ -1,0 +1,164 @@
+config:
+  version: 1.0
+  updated: 2023-02-13
+  author: Derek King
+  description: Corelight Logs
+input:
+  source: corelight
+  sourcetype: json_streaming_files
+  parser: corelight
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/corelight_json/json_streaming_files.log
+  connector:
+    name: json
+    options:
+  streamType: batch
+transforms:
+  bronze:
+    sourcetype: corelight_files
+    meta:
+      timestamp_column: "entries.ts"
+      timestamp_column_type: timestamp
+      host_column: "entries._system_name"
+  silver:
+    event_type:
+      - target_table: file
+        filter: _sourcetype = "corelight_files"
+        fields:
+        - event_type:
+            action: add
+            type: literal
+            value: FileCreated
+        - event_message:
+            action: add
+            type: literal
+            value: HTTP Transfer
+        - event_result:
+            action: add
+            type: expression
+            value: case when lower(timedout) == "false" then "Success" else "Failure" end 
+        - event_schema_file:
+            action: add
+            type: literal
+            value: files
+        - event_severity:
+            action: add
+            type: literal
+            value: Informational
+        - acting_process_command_line:
+            action: add
+            type: literal
+            value: None
+        - acting_process_guid:
+            action: add
+            type: literal
+            value: None
+        - acting_process_id:
+            action: add
+            type: literal
+            value: None
+        - acting_process_name:
+            action: add
+            type: literal
+            value: None
+        - acting_user_id:
+            action: add
+            type: literal
+            value: None
+        - acting_user_name:
+            action: add
+            type: literal
+            value: None
+        - dest_hostname:
+            action: add
+            type: literal
+            value: None
+        - file_source:
+            action: alias
+            value: source
+        - hash:
+            action: alias
+            value: sha1
+        - hash_type:
+            action: add
+            type: literal
+            value: sha1
+        - http_user_agent:
+            action: add
+            type: literal
+            value: None
+        - process:
+            action: alias
+            value: source
+        - src_file_creation_time:
+            action: alias
+            value: ts
+        - src_file_extension:
+            action: add
+            type: literal
+            value: None
+        - src_file_hash_md5:
+            action: alias
+            value: md5
+        - src_file_hash_sha256:
+            action: add
+            type: literal
+            value: None
+        - src_file_mime_type:
+            action: add
+            type: literal
+            value: None
+        - src_file_name:
+            action: alias
+            value: filename
+        - src_file_path:
+            action: add
+            type: literal
+            value: None
+        - src_hostname:
+            action: add
+            type: literal
+            value: None
+        - src_ip_addr:
+            action: add
+            type: expression
+            value: regexp_extract(tx_hosts, '\\\[\"(\\\d+\.\\\d+\.\\\d+\.\\\d+)\"')
+        - target_file_creation_time:
+            action: alias
+            value: ts
+        - target_file_extension:
+            action: add
+            type: literal
+            value: None
+        - target_file_hash_md5:
+            action: add
+            type: literal
+            value: None
+        - target_file_hash_sha1:
+            action: alias
+            value: sha1
+        - target_file_hash_sha256:
+            action: add
+            type: literal
+            value: None
+        - target_file_name:
+            action: alias
+            value: filename
+        - target_file_path:
+            action: add
+            type: literal
+            value: None
+        - target_file_size:
+            action: alias
+            value: seen_bytes
+        -  user:
+            action: add
+            type: literal
+            value: None
+        - dest:
+            action: add
+            type: expression
+            value: regexp_extract(rx_hosts, '\\\[\"(\\\d+\.\\\d+\.\\\d+\.\\\d+)\"')
+        - src:
+            action: add
+            type: expression
+            value: regexp_extract(tx_hosts, '\\\[\"(\\\d+\.\\\d+\.\\\d+\.\\\d+)\"')

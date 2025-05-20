@@ -1,0 +1,68 @@
+name: suspicious_activity_reported_by_user
+summary: <actor.alternateId> reported suspicious activity on <oktaURL>
+severity: high
+source: okta
+sourceDetails: <oktaURL>
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <published>
+actor:
+  type: UNDEFINED
+  domain: <oktaURL>
+  id: 
+  beliefCompromised: 0.0
+target:
+  type: USER
+  domain: <oktaURL>
+  id: <actor.alternateId>
+  beliefCompromised: 0.5
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: 
+    techniqueId: 
+    technique: 
+    subtechniqueId: 
+    subtechnique: 
+observables:
+  ipAddresses:
+  - <client.ipAddress>
+  domains: []
+  fileHashes: []
+  urls: []
+context:
+  Okta URL: <oktaURL>
+  UserAgent: <client.userAgent.rawUserAgent>
+  eventType: <eventType>
+  externalSessionId: <authenticationContext.externalSessionId>
+  ipAddress: <client.ipAddress>
+  who: <actor.alternateId>
+filter: |-
+  eventType = 'user.account.report_suspicious_activity_by_enduser'
+test_cases:
+- test_name: 'expected hit'
+  expected_result: true
+  expected_summary: 'first.last@example.com reported suspicious activity on okta.example.com'
+  expected_severity: high
+  expected_context: 
+    {
+      "Okta URL": "okta.example.com",
+      "UserAgent": "OktaVerify",
+      "eventType": "user.account.report_suspicious_activity_by_enduser",
+      "externalSessionId": "xyz",
+      "ipAddress": "1.2.3.4",
+      "who": "first.last@example.com"
+    }
+  test_input: 
+    {
+        'actor': { 'alternateId': 'first.last@example.com'},
+        'eventType': 'user.account.report_suspicious_activity_by_enduser',
+        'oktaURL': 'okta.example.com',
+        'authenticationContext': {'externalSessionId': 'xyz'},
+        'debugContext': {'debugData': 'dataz'},
+        'client': {
+          'userAgent': {'rawUserAgent': 'OktaVerify'},
+          'ipAddress': '1.2.3.4'
+        },
+        'published': '2022-01-01'
+    }

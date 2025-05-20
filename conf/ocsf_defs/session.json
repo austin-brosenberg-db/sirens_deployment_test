@@ -1,0 +1,176 @@
+{
+    "name": "session",
+    "version": "0.1",
+    "description": "describes details about an authenticated session. e.g. Session Creation Time, Session Issuer.",
+    "fields": [
+        {
+            "name": "uid_alt",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The alternate unique identifier of the session.",
+            "example": ""
+        },
+        {
+            "name": "count",
+            "datatype": "integer",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The number of identical sessions spawned from the same source IP, destination IP, application, and content/threat type seen over a period of time.",
+            "example": ""
+        },
+        {
+            "name": "created_time",
+            "datatype": "long",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The time when the session was created.",
+            "example": ""
+        },
+        {
+            "name": "expiration_reason",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The reason which triggered the session expiration.",
+            "example": ""
+        },
+        {
+            "name": "expiration_time",
+            "datatype": "timestamp",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The session expiration time.",
+            "example": ""
+        },
+        {
+            "name": "issuer",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The identifier of the session issuer.",
+            "example": ""
+        },
+        {
+            "name": "is_mfa",
+            "datatype": "integer",
+            "allowed_values": [
+                0, 1
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "Indicates whether Multi Factor Authentication was used during authentication.",
+            "example": ""
+        },
+        {
+            "name": "is_remote",
+            "datatype": "integer",
+            "allowed_values": [
+                0, 1
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The indication of whether the session is remote.",
+            "example": ""
+        },
+        {
+            "name": "terminal",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The Pseudo Terminal associated with the session.",
+            "example": ""
+        },
+        {
+            "name": "uuid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The universally unique identifier of the session.",
+            "example": ""
+        },
+        {
+            "name": "uid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique identifier of the session.",
+            "example": ""
+        },
+        {
+            "name": "credential_uid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique identifier of the user's credential.",
+            "example": ""
+        },
+        {
+            "name": "is_vpn",
+            "datatype": "integer",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The indication of whether the session is a VPN session.",
+            "example": ""
+        }
+    ]
+}

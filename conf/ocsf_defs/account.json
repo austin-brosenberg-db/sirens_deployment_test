@@ -1,0 +1,72 @@
+{
+    "name": "account",
+    "version": "0.1",
+    "description": "contains details about the account that initiated or performed a specific activity within a system or application.",
+    "fields": [
+        {
+            "name": "labels",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The list of labels/tags associated to the account.",
+            "example": ""
+        },
+        {
+            "name": "name",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The name of the account",
+            "example": ""
+        },
+        {
+            "name": "type",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "optional",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The account type, normalized to the caption of 'account_type_id'.",
+            "example": ""
+        },
+        {
+            "name": "type_id",
+            "datatype": "integer",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The normalized account type identifier.",
+            "example": ""
+        },
+        {
+            "name": "uid",
+            "datatype": "string",
+            "allowed_values": [
+                ""
+            ],
+            "type": "recommended",
+            "ispartition": false,
+            "isbloom": false,
+            "iszorder": false,
+            "description": "The unique identifier of the account",
+            "example": ""
+        }
+    ]
+}

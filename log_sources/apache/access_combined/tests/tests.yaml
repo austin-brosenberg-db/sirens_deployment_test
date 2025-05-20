@@ -1,0 +1,25 @@
+test_cases:
+  - name: access_combined
+    connector: txt
+    sample: sample.txt
+    transforms:
+      bronze:
+        expected_columns: _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname, value
+        expected_values:
+          - _source: 'apache'
+          - _sourcetype: 'access_combined'
+      silver:
+        expected_columns: _event_date,_event_time,_ingest_time,_source,_source_file,_sourcetype,dvc_hostname,value,host,user,method,path,version,code,size,referer,agent,query_parameters
+        expected_values:
+          - code: 403
+          - size: 3630
+          - method: 'GET'
+          - path: '/'
+          - user: '-'
+          - version: 'HTTP/1.1'
+      normalized:
+        web:
+          expected_columns: _event_date, _event_time, _source, _sourcetype
+        expected_values:
+          - _source: 'apache'
+          - _sourcetype: 'access_combined'

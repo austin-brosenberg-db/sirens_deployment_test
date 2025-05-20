@@ -1,0 +1,56 @@
+name: xss
+summary: Possible XSS
+severity: medium
+source: access_combined
+sourceDetails: 
+alertClass: ALERT
+ruleVersion: 1
+eventTime: <_event_time>
+actor:
+  type: USER
+  domain: <referer>
+  id: <referer>
+  beliefCompromised: 0.1
+target:
+  type: USER
+  domain: <host>
+  id: <user>
+  beliefCompromised: 0.2
+attacks:
+- mitre:
+    taxonomy: ENTERPRISE
+    tactic: INITIAL_ACCESS
+    techniqueId: T1189
+    technique: Drive-by Compromise
+    subtechniqueId: 
+    subtechnique: 
+observables:
+  ipAddresses:
+  - <host>
+  domains: []
+  fileHashes: []
+  urls:
+  - <path>
+context:
+  who: <user> at <host>
+  path: <path>
+  code: <code>
+filter: |-
+  exists(query_parameters, x -> 
+   lower(x) rlike '(?:\<[\\\\\/]?(?:script))|(?:javascript\\:)'
+  )
+test_cases:
+- test_name: expected hit
+  expected_result: true
+  expected_summary: Possible XSS
+  # expected_context: {}
+  test_input:
+    {
+        "path": "/path/to/file?input=1%3Cscript%3Ealert%28%27xss%27%29%3C%2Fscript%3E",
+        "query_parameters": [ "input=1<script>alert('xss')</script>" ],
+        "_event_time": "2022-01-01 00:00:00",
+        "user": "-",
+        "host": "192.168.1.100",
+        "referer": "http://192.168.1.1/foo.html",
+        "code": 200    
+    }

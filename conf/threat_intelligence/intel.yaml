@@ -1,0 +1,405 @@
+feeds:
+  - source_name: intelligence
+    ingest_notebook: intel_enrichment
+    collector:
+      name: intel_staging
+  - source_name: disposable-email-domains
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/disposable-email-domains/disposable-email-domains/master/disposable_email_blocklist.conf
+    context:
+      type: domain
+      indicator_type: disposable_email_domain
+      tags:
+  - source_name: freemail_disposable-email-domains
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/dpup/freemail/main/data/disposable.txt
+    context:
+      type: domain
+      indicator_type: disposable_email_domain
+      tags: 
+  - source_name: freemail_free-email-domains
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/dpup/freemail/main/data/free.txt
+    context:
+      type: domain
+      indicator_type: free_email_domain
+      tags: 
+  - source_name: talos_ip_blacklist
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://www.talosintelligence.com/documents/ip-blacklist
+    context:
+      type: ip
+      indicator_type: scan_ip
+      tags: 
+  - source_name: maltrail-dynamic_domain
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/stamparm/maltrail/master/trails/static/suspicious/dynamic_domain.txt
+    context:
+      type: domain
+      indicator_type: dyndns_domain
+      tags:
+  - source_name: maltrail-parking_site
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/stamparm/maltrail/master/trails/static/suspicious/parking_site.txt
+        match_pattern: r'^(?P<indicator>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s*$'
+    context:
+      type: ip
+      indicator_type: parking_ip
+      tags:
+  - source_name: maltrail-ipinfo
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/stamparm/maltrail/master/trails/static/suspicious/ipinfo.txt
+        match_pattern: r"^(?P<indicator>[a-zA-Z0-9\.\-]+)\s*.*$"
+    context:
+      type: domain
+      indicator_type: ipinfo_domain
+      tags:
+  - source_name: maltrail-ipinfo
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/stamparm/maltrail/master/trails/static/suspicious/ipinfo.txt
+        match_pattern: r"^(?P<indicator>[a-zA-Z0-9\.\-]+)\s*.*$"
+    context:
+      type: domain
+      indicator_type: ipinfo_domain
+      tags:
+  - source_name: cinscore-ci_badguys
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: http://cinsscore.com/list/ci-badguys.txt
+    context:
+      type: ip
+      indicator_type: scan_ip
+      tags:
+  - source_name: blocklist_de_ssh
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://lists.blocklist.de/lists/ssh.txt
+    context:
+      type: ip
+      indicator_type: ssh_ip
+      tags: ssh
+  - source_name: blocklist_de_mail
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://lists.blocklist.de/lists/mail.txt
+    context:
+      type: spam_ip
+      indicator_type: spam_ip
+      tags: mail
+  - source_name: blocklist_de_imap
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://lists.blocklist.de/lists/imap.txt
+    context:
+      type: spam_ip
+      indicator_type: spam_ip
+      tags: imap
+  - source_name: blocklist_de_apache
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://lists.blocklist.de/lists/apache.txt
+    context:
+      type: scan_ip
+      indicator_type: scan_ip
+      tags: apache
+  - source_name: blocklist_de_ftp
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://lists.blocklist.de/lists/ftp.txt
+    context:
+      type: ip
+      indicator_type: scan_ip
+      tags: ftp
+  - source_name: blocklist_de_sip
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://lists.blocklist.de/lists/sip.txt
+    context:
+      type: ip
+      indicator_type: scan_ip
+      tags: sip
+  - source_name: blocklist_de_bots
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://lists.blocklist.de/lists/bots.txt
+    context:
+      type: ip
+      indicator_type: bot_ip
+      tags: bots
+  - source_name: blocklist_de_ircbot
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://lists.blocklist.de/lists/ircbot.txt
+    context:
+      type: ip
+      indicator_type: bot_ip
+      tags: ircbot
+  - source_name: blocklist_de_bruteforcelogin
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://lists.blocklist.de/lists/bruteforcelogin.txt
+    context:
+      type: ip
+      indicator_type: brute_ip
+      tags: bruteforcelogin
+  - source_name: binarydefense
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://www.binarydefense.com/banlist.txt
+    context:
+      type: ip
+      indicator_type: scan_ip
+      tags:
+  - source_name: dan-me-uk_toe_exit_nodes
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://www.dan.me.uk/torlist/?exit
+    context:
+      type: ip
+      indicator_type: tor_ip
+      tags: tor_exit_node
+  - source_name: zerodot-coin_blocker_lists
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://gitlab.com/ZeroDot1/CoinBlockerLists/-/raw/master/list.txt
+    context:
+      type: domain
+      indicator_type: coinmining_domain
+      tags: coinmining
+  - source_name: Neo23x0_c2_domains
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/Neo23x0/signature-base/master/iocs/c2-iocs.txt
+        ignore_pattern: r"^(#.*|\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})"
+    context:
+      type: domain
+      indicator_type: c2_domain
+      tags: c2
+  - source_name: rutgers_attackers
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: http://report.rutgers.edu/DROP/attackers
+    context:
+      type: ip
+      indicator_type: brute_ip
+  - source_name: Neo23x0_hash_iocs
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/Neo23x0/signature-base/master/iocs/hash-iocs.txt
+        match_pattern: r"^(?P<indicator>[a-fA-F0-9]{32});(?P<tags>.*)$"
+    context:
+      type: md5
+      indicator_type: mal_md5
+  - source_name: charles-the-haleys_ssh_brute_force
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://charles.the-haleys.org/ssh_dico_attack_with_timestamps.php?days=1
+        match_pattern: '^ALL : (?P<indicator>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}) #.*'
+    context:
+      type: ip
+      indicator_type: ssh_ip
+  - source_name: danger-rulez_brute_force_ips
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://danger.rulez.sk/projects/bruteforceblocker/blist.php
+        match_pattern: r'^(?P<indicator>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\s+#.*'
+    context:
+      type: ip
+      indicator_type: brute_ip
+  - source_name: infobloxopen_threat_intelligence
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/infobloxopen/threat-intelligence/main/combined_malicious_indicators.csv
+        match_pattern: r'^"(?P<type>domain)","(?P<indicator>[^"]+)","(?P<tags>[^"]+)",".*$'
+    context:
+      type: domain
+      indicator_type: mal_ip
+  - source_name: drb-ra_c2_domains
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/drb-ra/C2IntelFeeds/master/feeds/domainC2s-30day-filter-abused.csv
+        match_pattern: r'^(?P<indicator>[^,]+),(?P<tags>.*)$'
+    context:
+      type: domain
+      indicator_type: c2_domain
+  - source_name: drb-ra_c2_ips
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/drb-ra/C2IntelFeeds/master/feeds/IPC2s-30day.csv
+        match_pattern: r'^(?P<indicator>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}),(?P<tags>.*)$'
+    context:
+      type: ip
+      indicator_type: c2_ip     
+  - source_name: drb-ra_vpn_ips
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/drb-ra/C2IntelFeeds/master/vpn/NordVPNIPs.csv
+        match_pattern: r'^(?P<indicator>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}),(?P<tags>.*)$'
+    context:
+      type: ip
+      indicator_type: vpn_ip
+  - source_name: alienvault_ip_reputation
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: http://reputation.alienvault.com/reputation.data
+        match_pattern: r'^(?P<indicator>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})#\d+#\d+#(?P<tags>[^#]+)#.*$'
+    context:
+      type: ip
+      indicator_type: mal_ip
+  - source_name: abusech_sslbl
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://sslbl.abuse.ch/blacklist/sslipblacklist.csv
+        match_pattern: r'^(?P<first_seen>\d{4}-\d{2}-\d{2} \d{2}:\d{2}:\d{2}),(?P<indicator>\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}),(?P<dst_port>\d+)$'
+    context:
+      type: ip
+      indicator_type: c2_ip
+  - source_name: magicsword-io_malicious_hash
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/magicsword-io/LOLDrivers/main/detections/hashes/samples_malicious.sha256
+        match_pattern: r'^(?P<indicator>[a-fA-F0-9]{64})$'
+    context:
+      type: sha256
+      indicator_type: mal_sha256
+      tags: driver, malicious
+  - source_name: magicsword-io_vulnerable_hash
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/magicsword-io/LOLDrivers/main/detections/hashes/samples_vulnerable.sha256
+        match_pattern: r'^(?P<indicator>[a-fA-F0-9]{64})$'
+    context:
+      type: sha256
+      indicator_type: mal_sha256
+      tags: driver, vulnerable
+  - source_name: public_suffix_list
+    ingest_notebook: simple_ingest
+    collector:
+      name: simple_collector
+      options:
+        url: https://raw.githubusercontent.com/publicsuffix/list/master/public_suffix_list.dat
+        ignore_pattern: r"^//.*$"
+    context:
+      type: domain
+      indicator_type: etld_domain
+      tags: benign
+  - source_name: abusech
+    ingest_notebook: abusech_ingest
+    collector:
+      name: abusech_collector
+    context:
+      type: domain
+      indicator_type: free_email_domain
+      tags:
+  - source_name: cloud_ranges
+    collector:
+      name: cloud_ranges_collector
+  - source_name: cve
+    collector:
+      name: cve_collector
+  - source_name: eset_malware
+    ingest_notebook: eset_malware_ingest
+    collector:
+      name: eset_malware_collector
+  - source_name: itisac
+    ingest_notebook: itisac_ingest
+    collector:
+      name: itisac_collector
+      options:
+        token:
+          scope: it-isac
+          api_key: user_api_key
+          api_secret: user_api_secret
+  - source_name: misp_warnings
+    ingest_notebook: misp_warninglists_ingest
+    collector:
+      name: misp_warninglists_collector
+  - source_name: phishtank
+    ingest_notebook: phishtank_ingest
+    collector:
+      name: phishtank_collector
+  - source_name: private_intelligence
+    ingest_notebook: private_intelligence_ingest
+    collector:
+      name: private_intelligence_collector
+  - source_name: tranco
+    ingest_notebook: tranco_ingest
+    collector:
+      name: tranco_collector 
+    

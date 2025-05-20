@@ -1,0 +1,12 @@
+test_cases:
+  - name: httpreq
+    connector: json
+    sample: samples.json
+    transforms:
+      bronze:
+        expected_columns: CacheCacheStatus, CacheResponseBytes, ClientASN, ClientCountry, ClientDeviceType, ClientIP, ClientIPClass, ClientMTLSAuthCertFingerprint, ClientMTLSAuthStatus, ClientRegionCode, ClientRequestBytes, ClientRequestHost, ClientRequestMethod, ClientRequestPath, ClientRequestProtocol, ClientRequestReferer, ClientRequestScheme, ClientRequestSource, ClientRequestURI, ClientRequestUserAgent, ClientSSLProtocol, EdgeColoCode, EdgeEndTimestamp, EdgePathingOp, EdgePathingSrc, EdgePathingStatus, EdgeResponseBytes, EdgeResponseContentType, EdgeResponseStatus, EdgeServerIP, EdgeStartTimestamp, OriginIP, OriginResponseDurationMs, OriginResponseHTTPLastModified, OriginResponseStatus, OriginSSLProtocol, ParentRayID, RayID, SecurityAction, SecurityActions, SecurityRuleDescription, SecurityRuleID, SecurityRuleIDs, SecuritySources, WAFAttackScore, WAFRCEAttackScore, WAFSQLiAttackScore, WAFXSSAttackScore, WorkerStatus, WorkerSubrequest, ZoneName, _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname
+        expected_values:
+          - _source: 'cloudflare'
+          - _sourcetype: 'httpreq'
+      silver:
+        expected_columns: CacheCacheStatus, CacheResponseBytes, ClientASN, ClientCountry, ClientDeviceType, ClientIP, ClientIPClass, ClientMTLSAuthCertFingerprint, ClientMTLSAuthStatus, ClientRegionCode, ClientRequestBytes, ClientRequestHost, ClientRequestMethod, ClientRequestPath, ClientRequestProtocol, ClientRequestReferer, ClientRequestScheme, ClientRequestSource, ClientRequestURI, ClientRequestUserAgent, ClientSSLProtocol, EdgeColoCode, EdgeEndTimestamp, EdgePathingOp, EdgePathingSrc, EdgePathingStatus, EdgeResponseBytes, EdgeResponseContentType, EdgeResponseStatus, EdgeServerIP, EdgeStartTimestamp, OriginIP, OriginResponseDurationMs, OriginResponseHTTPLastModified, OriginResponseStatus, OriginSSLProtocol, ParentRayID, RayID, SecurityAction, SecurityActions, SecurityRuleDescription, SecurityRuleID, SecurityRuleIDs, SecuritySources, WAFAttackScore, WAFRCEAttackScore, WAFSQLiAttackScore, WAFXSSAttackScore, WorkerStatus, WorkerSubrequest, ZoneName, _event_date, _event_time, _ingest_time, _source, _source_file, _sourcetype, dvc_hostname

@@ -1,0 +1,17 @@
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-725007: SSL session with client Internet:156.1.1.901/58239 to 22.2.2.772/443 terminated
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-113005: AAA user authentication Rejected : reason = AAA failure : server = 111.2.2.666 : user = ***** : user IP = 13.37.1.888
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-725007: SSL session with client DDT-YH9-Gray-Outside:8.888.8.8/56001 to 999.9.9.9/443 terminated
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-725001: Starting SSL handshake with client Internet:1.2.666.61/52163 to 1.4.555.7/443 for TLS session
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-725016: Device selects trust-point FDREKM_GoR for client Internet:1.2.14.678/52163 to Internet:188.234.3.888/443
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-725007: SSL session with client FWK-TT6-Fada-Eastside:5.34.999.123/60281 to PSN-CORE:1.1.555.6/443 terminated
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-725001: Starting SSL handshake with client Internet:2.1.2.666/49985 to 1.2.12.778/443 for TLS session
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-725016: Device selects trust-point FDREKM_GoR for client Internet:5.34.999.123/60281 to 1.2.12.778/443
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-725001: Starting SSL handshake with client Internet:213.109.702.166/59797 to Internet:11.2.12.778/443 for TLS session
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-725016: Device selects trust-point FDREKM_GoR for client Internet:5.34.999.723/60281 to 1.2.12.978/443
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-113005: AAA user authentication Rejected : reason = AAA failure : server = 1.2.2.600 : user = ***** : user IP = 1.2.12.780
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-725002: Device completed SSL handshake with client Internet:5.34.9.723/60281 to 1.2.12.778/443 for TLSv1.2 session
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-725007: SSL session denied with client eth0:7777:0:0:123::2/50 to eth1:9999:00:00:10::200/12345 denying
+<166>Jun 13 2024 17:37:38 firepower : %FTD-6-725007: SSL session failed with src 7777:0:0:1::2/50 dst 9999:0:0:1::2/12345 failing
+<166>Jun 13 2024 17:37:38 firepower : %FTD-3-305006: regular translation created failed for aaaa src Guest-ID:999.99.99.999 dst Internet:000.00.00.000 (type 3, code 3)
+<166>Jun 13 2024 17:37:38 firepower : %FTD-3-305006: regular translation created failed for bbbb src Guest-ID:888.88.88.888 dst Internet:111.11.11.111 (type 3, code 3)
+<166>Jun 13 2024 17:37:38 firepower : %FTD-3-305006: regular translation created failed for cccc src Guest-ID:777.77.77.777 dst Internet:222.22.22.222 (type 3, code 3)

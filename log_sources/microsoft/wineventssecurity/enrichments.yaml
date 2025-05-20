@@ -1,0 +1,42 @@
+# - name: windows_actions
+#   file: windows_actions
+#   source_column: Type
+# - name: windows_apps
+#   file: windows_apps
+#   source_column: <EventCode,Source_Network_Address,Target_Server_Name,Logon_Type> # this one may be custom... - depending on the eventcode - different fields will exist in the data - prob a toSilver() problem
+- name: windows_eventtypes
+  file: windows_eventtypes
+  source_column: EventType # Level
+  target_column: Description
+  join_type: udf
+- name: windows_logontypes
+  file: windows_logontypes
+  source_column: LogonType
+  target_column: Description
+  join_type: udf
+- name: windows_privileges
+  file: windows_privileges
+  source_column: privilege_id
+  target_column: privilege
+  join_type: udf
+- name: windows_severities
+  file: windows_severities
+  source_column: Type
+  target_column: severity
+  join_type: udf
+- name: windows_signatures_860
+  file: windows_signatures_860
+  source_column: signature_id
+  target_column: signature
+  join_type: udf
+- name: windows_signatures_substatus_850
+  file: windows_signatures_substatus_850
+  source_column: Sub_Status
+  target_column: signature
+  join_type: udf
+- name: windows_tokenelevationtypes
+  file: windows_tokenelevationtypes
+  source_column: token
+  target_column: description
+  join_type: udf
+  

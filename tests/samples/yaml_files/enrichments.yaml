@@ -1,0 +1,6 @@
+- name: iana_ports
+  table: iana
+  source_column: http_port
+- name: http_codes
+  table: codes
+  source_column: code

@@ -1,0 +1,91 @@
+config:
+  version: 1.0
+  updated: 2022-10-24
+  author: derek.king@databricks.com
+  description: process zeek files_log in json format
+input:
+  source: zeek
+  sourcetype: files_json
+  parser: zeek
+  rawPath: s3://deking-cyberops/CyberOps/dev/data_engineering/ingest_sources/zeek/files_json
+  host: syslog_host_1
+  connector:
+    name: json
+    options:
+  streamType: batch
+transforms:
+    bronze:
+      meta:
+        timestamp_column: ts
+        timestamp_column_type: timestamp
+    silver:
+      event_type:
+       - target_table: file
+         filter: _source == 'zeek' and _sourcetype == 'files_json'
+         fields:
+          - _event_date:
+              action: copy
+          - _event_time:
+              action: copy
+          - event_type:
+              action: add
+              type: literal
+              value: FileTransmitted
+          - event_message:
+              action: add
+              type: literal
+              value: FileTransmitted
+          - event_result:
+              action: add
+              type: literal
+              value: Success
+          - event_schema_file:
+              action: add
+              type: literal
+              value: File_v1.0
+          - dest_hostname:
+              action: add
+              type: expression
+              value: element_at(rx_hosts, 1)
+          - dest:
+              action: add
+              type: expression
+              value: element_at(rx_hosts, 1)
+          - file_identifier:
+              action: alias
+              value: fuid
+          - src_file_mime_type:
+              action: alias
+              value: mime_type
+          - file_source:
+              action: alias
+              value: source
+          - target_file_size:
+              action: alias
+              value: total_bytes
+          - src_hostname:
+              action: add
+              type: expression
+              value: element_at(tx_hosts, 1)
+          - src:
+              action: add
+              type: expression
+              value: element_at(tx_hosts, 1)
+          - uid:
+              action: copy
+          - target_file_name:
+              action: alias
+              value: filename
+          - target_file_hash_md5:
+              action: add
+              type: literal
+              value: 'null'
+          - target_file_hash_sha1:
+              action: add
+              type: literal
+              value: 'null'
+          - target_file_hash_sha256:
+              action: add
+              type: literal
+              value: 'null'
+
