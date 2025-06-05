@@ -5,7 +5,7 @@ import inquirer
 import configparser
 from databricks.sdk import WorkspaceClient
 from databricks.sdk.core import Config as DBSDKConfig
-from databricks.sdk.errors.platform import PermissionDenied
+from databricks.sdk.errors.platform import PermissionDenied, ResourceAlreadyExists
 from databricks.sdk.service.sql import State
 from databricks.sdk.service.workspace import ImportFormat
 
@@ -86,8 +86,8 @@ class DeploymentSetup:
 
         # Workspace config
         logger.info("[Workspace Config]")
-        default_host_name = self._get_default_hostname()
-        workspace_name = inquirer.text("Enter a name for your workspace", default=default_host_name)
+        default_workspace_name = self._get_default_workspace_name()
+        workspace_name = inquirer.text("Enter a name for your workspace", default=default_workspace_name)
         workspace_section = f"workspace:{workspace_name}"
         cloud_service_provider = inquirer.list_input("Enter the cloud service provider for your workspace",
             choices=["aws", "azure", "gcp"],
@@ -171,14 +171,20 @@ class DeploymentSetup:
 
         remote_path = f"{lib_dir}/{wheel_name}"
         with open(f"dist/{wheel_name}", "rb") as wheel:
-            self.w.workspace.upload(remote_path, wheel, format=ImportFormat.RAW)
-            logger.info("Upload successful.")
-
+            try:
+                self.w.workspace.upload(remote_path, wheel, format=ImportFormat.RAW)
+                logger.info("Upload successful.")
+            except ResourceAlreadyExists:
+                resp = inquirer.list_input("Wheel file already exists. Overwrite?", choices=["yes", "no"])
+                if (resp == "yes"):
+                    wheel.seek(0)
+                    self.w.workspace.upload(remote_path, wheel, format=ImportFormat.RAW, overwrite=True)
+                    logger.info("Upload successful.")
 
     def _check_databricks_connection(self, dbHost):
         try:
             logger.info("Testing Databricks connection...")
-            self.w.clusters.list_zones()
+            self.w.current_user.me()
         except TimeoutError:
             logger.error(f"Could not reach Databricks host: {dbHost}")
             sys.exit(1)
@@ -202,11 +208,10 @@ class DeploymentSetup:
     def _validate_num(self, answers, current):
         return current.isnumeric()
 
-    def _get_default_hostname(self):
-        default_host_name = self.dbHost.replace("https://","").replace(".cloud.databricks.com","")
+    def _get_default_workspace_name(self):
         import re
-        default_host_name = re.sub(r'/$', '', default_host_name)
-        return default_host_name
+        default_workspace_name = re.sub(r'https://([^.]+)\..+$', r'\1', self.dbHost)
+        return default_workspace_name
 
     def _add_config_section(self, section):
         try:

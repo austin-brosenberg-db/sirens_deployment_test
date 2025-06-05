@@ -1,6 +1,6 @@
 # Databricks notebook source
 # DBTITLE 1,Install Sirens on the DLT cluster
-# MAGIC %pip install pyyaml inflection {spark.conf.get('sirens_wheel', '')} --force-reinstall
+# MAGIC %pip install pyyaml inflection {spark.conf.get('sirens_wheel', '')}
 
 # COMMAND ----------
 # DBTITLE 1,Set working directory to Sirens home
@@ -43,7 +43,7 @@ dlt_name = source+"_"+sourcetype
 dataSourceObj = DataSource(spark, database, source, sourcetype)
 config = dataSourceObj.read()
 
-input_config = dataSourceObj["input"].copy()
+input_config = dataSourceObj.data_source_config.copy()
 input_config["dlt_read"] = True
 read_method = BaseUtils.get_read_method(spark, input_config)
 

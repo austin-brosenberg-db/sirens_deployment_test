@@ -1,6 +1,6 @@
 # Databricks notebook source
 # DBTITLE 1,Install Sirens on the DLT cluster
-# MAGIC %pip install pyyaml inflection {spark.conf.get('sirens_wheel', '')} --force-reinstall
+# MAGIC %pip install pyyaml inflection {spark.conf.get('sirens_wheel', '')}
 
 # COMMAND ----------
 # DBTITLE 1,Set working directory to Sirens home
@@ -54,7 +54,7 @@ table_properties = {conf: str(table_config[key]) for conf,key in [
 ] if table_config.get(key)}
 table_properties["pipelines.autoOptimize.zOrderCols"] = ",".join(table_config.get("zorder_cols", []))
 
-input_config = dataSourceObj["input"].copy()
+input_config = dataSourceObj.data_source_config.copy()
 input_config["dlt_read"] = True
 read_method = BaseUtils.get_read_method(spark, input_config)
 

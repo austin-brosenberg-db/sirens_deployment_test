@@ -391,6 +391,12 @@ enabled = false
 source = microsoft
 sourcetype = sysmon
 schedule = 0 0 13 * * ?
+
+[input:microsoft:wineventssecurity]
+enabled = false
+source = microsoft
+sourcetype = wineventssecurity
+schedule = 0 0 13 * * ?
 # -----------------------
 # 
 # bluecoat Inputs
